@@ -1,8 +1,7 @@
 package main.br.com.ronanjunior.linketinder.model
 
-class Candidato {
+class Candidato extends Pessoa {
     String cpf;
     Integer idade;
-    String descricaoPessoal;
     List<String> competencias;
 }
