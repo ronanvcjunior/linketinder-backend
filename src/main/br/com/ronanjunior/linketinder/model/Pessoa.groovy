@@ -6,4 +6,5 @@ class Pessoa {
     String pais;
     String estado;
     String cep;
+    String descricao;
 }
