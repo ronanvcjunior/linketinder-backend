@@ -1,18 +1,18 @@
-package test.br.com.ronanjunior.linketinder.repository
+package test.br.com.ronanjunior.linketinder.controller
 
 import main.br.com.ronanjunior.linketinder.model.Candidato
-import main.br.com.ronanjunior.linketinder.repository.CandidatoRepository
+import main.br.com.ronanjunior.linketinder.controller.CandidatoController
 import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 
-class CandidatoRepositoryTeste {
-    static CandidatoRepository candidatoRepository;
+class CandidatoControllerTeste {
+    static CandidatoController candidatoRepository;
 
     @BeforeClass
     static void instanciaCandidatoRepository() {
-        candidatoRepository = new CandidatoRepository();
+        candidatoRepository = new CandidatoController();
     }
 
     @Test
