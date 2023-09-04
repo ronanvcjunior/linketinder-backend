@@ -15,12 +15,15 @@ class TerminalInterativoViewTeste {
     static TerminalInterativoView terminalInterativoView;
     static ByteArrayOutputStream outputStream;
     static PrintStream originalOut;
+    static ByteArrayInputStream inputStream;
+    static InputStream originalSystemIn;
 
     @BeforeClass
     static void setUp() {
         terminalInterativoView = new TerminalInterativoView();
         outputStream = new ByteArrayOutputStream();
         originalOut = System.out;
+        originalSystemIn = System.in;
     }
 
     @Before
@@ -32,6 +35,7 @@ class TerminalInterativoViewTeste {
     public void restoreStreams() {
         outputStream.reset();
         System.setOut(originalOut);
+        System.setIn(originalSystemIn);
     }
 
     @Test
@@ -67,5 +71,19 @@ class TerminalInterativoViewTeste {
         //Then:
         String resultadoOutput = outputStream;
         assertEquals(expectativaOutput, resultadoOutput);
+    }
+
+    @Test
+    public void testeRetornarComando() {
+        //Given:
+        String expectativaOutput = "candidato listar";
+        String input = "${expectativaOutput}\n";
+        inputStream = new ByteArrayInputStream(input.getBytes());
+        terminalInterativoView.setScanner(new Scanner(inputStream));
+        //When:
+        String comandoEsperado = terminalInterativoView.retornarComando();
+
+        //Then:
+        assertEquals(expectativaOutput, comandoEsperado);
     }
 }

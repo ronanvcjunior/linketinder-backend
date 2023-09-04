@@ -1,6 +1,8 @@
 package main.br.com.ronanjunior.linketinder.view
 
 class TerminalInterativoView {
+    Scanner scanner = new Scanner(System.in);
+
     void exibirAjuda() {
         print   "Opções disponíveis:\n" +
                 " - ajuda: Mostra todas as opções disponíveis\n" +
@@ -16,5 +18,12 @@ class TerminalInterativoView {
         print   "Opção inválida\n" +
                 " digite ajuda, para mostrar todas as opções disponíveis\n" +
                 "\n";
+    }
+
+    String retornarComando() {
+        print ">>> ";
+        String comando = scanner.nextLine();
+
+        return comando;
     }
 }
