@@ -1,4 +1,4 @@
-package test.br.com.ronanjunior.linketinder.model
+package test.br.com.ronanjunior.linketinder.view
 
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
