@@ -3,7 +3,8 @@ package test.br.com.ronanjunior.linketinder.view
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
 import main.br.com.ronanjunior.linketinder.view.CandidatoView
-import org.junit.AfterClass
+import org.junit.After
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -12,19 +13,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 class CandidatoViewTeste {
     static CandidatoView candidatoView;
     static ByteArrayOutputStream outputStream;
+    static PrintStream originalOut;
+    static ByteArrayInputStream inputStream;
     static InputStream originalSystemIn;
-    static ByteArrayInputStream byteArrayInputStream;
 
     @BeforeClass
     static void setUp() {
         candidatoView = new CandidatoView();
         outputStream = new ByteArrayOutputStream();
-        System.setOut(new PrintStream((outputStream)));
+        originalOut = System.out;
         originalSystemIn = System.in;
     }
 
-    @AfterClass
-    static void tearDown() {
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outputStream));
+    }
+
+    @After
+    public void restoreStreams() {
+        outputStream.reset();
+        System.setOut(originalOut);
         System.setIn(originalSystemIn);
     }
 
@@ -86,9 +95,9 @@ class CandidatoViewTeste {
                 "${candidato.cep}\n" +
                 "${candidato.competencias[0].nome}\n\n" +
                 "${candidato.descricao}\n";
-        byteArrayInputStream = new ByteArrayInputStream(input.getBytes());
+        inputStream = new ByteArrayInputStream(input.getBytes());
 
-        candidatoView.setScanner(new Scanner(byteArrayInputStream));
+        candidatoView.setScanner(new Scanner(inputStream));
         candidatoView.setCompetenciasCadastradas([new Competencia(nome: candidato.competencias[0].nome)]);
 
         //When:
@@ -105,6 +114,8 @@ class CandidatoViewTeste {
         assertEquals(candidato.descricao, candidatoResultado.descricao);
         assertEquals(candidato.competencias, candidatoResultado.competencias);
         assertEquals(candidato, candidatoResultado);
+
+        System.setIn(originalSystemIn);
     }
 
     @Test
@@ -133,9 +144,9 @@ class CandidatoViewTeste {
                 "${nomeCompetenciaQueNaoPertenceListaCompetencias}\n" +
                 "${candidato.competencias[1].nome}\n\n" +
                 "${candidato.descricao}\n";
-        byteArrayInputStream = new ByteArrayInputStream(input.getBytes());
+        inputStream = new ByteArrayInputStream(input.getBytes());
 
-        candidatoView.setScanner(new Scanner(byteArrayInputStream));
+        candidatoView.setScanner(new Scanner(inputStream));
         candidatoView.setCompetenciasCadastradas([new Competencia(nome: candidato.competencias[0].nome), new Competencia(nome: candidato.competencias[1].nome)]);
 
         //When:
