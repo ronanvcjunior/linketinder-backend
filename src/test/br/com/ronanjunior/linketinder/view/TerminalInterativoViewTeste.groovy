@@ -37,16 +37,32 @@ class TerminalInterativoViewTeste {
     @Test
     public void testeExibirAjuda() {
         //Given:
-        String expectativaOutput =  "Opções disponíveis:" +
-                                    " - ajuda: Mostra todas as opções disponíveis" +
-                                    " - candidato cadastrar: Para cadastrar um novo candidato" +
-                                    " - candidato listar: Mostra todos os candidatos" +
-                                    " - empresa cadastrar: Para cadastrar uma nova empresa" +
-                                    " - empresa listar: Mostra todas as empresas" +
-                                    "\n";
+        String expectativaOutput =  "Opções disponíveis:\n" +
+                " - ajuda: Mostra todas as opções disponíveis\n" +
+                " - candidato cadastrar: Para cadastrar um novo candidato\n" +
+                " - candidato listar: Mostra todos os candidatos\n" +
+                " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
+                " - empresa listar: Mostra todas as empresas\n" +
+                " - sair: Para sair do programa\n" +
+                "\n";
 
         //When:
         terminalInterativoView.exibirAjuda();
+
+        //Then:
+        String resultadoOutput = outputStream;
+        assertEquals(expectativaOutput, resultadoOutput);
+    }
+
+    @Test
+    public void testeExibirOpcaoInvalida() {
+        //Given:
+        String expectativaOutput =  "Opção inválida\n" +
+                " digite 'ajuda', para mostrar todas as opções disponíveis\n" +
+                "\n";
+
+        //When:
+        terminalInterativoView.exibirOpcaoInvalida();
 
         //Then:
         String resultadoOutput = outputStream;
