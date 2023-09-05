@@ -54,7 +54,8 @@ class CandidatoView {
             if (competenciasCadastradas.contains(competencia)) {
                 competencias.add(competencia);
             } else {
-                println("a competência ${nomeCompetencia} não está presente na lista de competências");
+                println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
+                        "${competenciasCadastradas}";
             }
 
         }

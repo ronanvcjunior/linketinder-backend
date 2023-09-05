@@ -50,7 +50,8 @@ class EmpresaView {
             if (competenciasCadastradas.contains(competencia)) {
                 competenciasEsperadas.add(competencia);
             } else {
-                println("a competência ${nomeCompetencia} não está presente na lista de competências");
+                println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
+                        "${competenciasCadastradas}";
             }
 
         }
