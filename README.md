@@ -1,5 +1,7 @@
 # Linketinder Backend (MVP)
 
+Autor: Ronan Vieira do Carmo Junior
+
 Use o comando abaixo para executar o Linketinder:
 
 ```bash
