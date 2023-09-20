@@ -74,3 +74,6 @@ eclipse
 Thumbs.db
 
 lib/
+
+# Dependency directory
+node_modules
