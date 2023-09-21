@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
+const webpack = require("webpack");
 const path = require("path");
 
 module.exports = {
@@ -9,7 +9,8 @@ module.exports = {
     cadastroCandidato: "./src/pages/cadastroCandidato.ts",
     cadastroEmpresa: "./src/pages/cadastroEmpresa.ts",
     perfilCandidato: "./src/pages/perfilCandidato.ts",
-    perfilEmpresa: "./src/pages/perfilEmpresa.ts"
+    perfilEmpresa: "./src/pages/perfilEmpresa.ts",
+    cadastroVaga: "./src/pages/cadastroVaga.ts"
   },
   output: {
     filename: "[name].[contenthash].js",
@@ -32,6 +33,10 @@ module.exports = {
         use: [
           "style-loader", "css-loader"
         ]
+      },
+      {
+        test:/\.html$/,
+        use: "html-loader"
       }
     ]
   },
@@ -70,6 +75,20 @@ module.exports = {
       chunks: ["perfilEmpresa"],
       inject: "body",
       publicPath: "/linketinder-backend/frontend/dist/"
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/cadastroVaga.html",
+      filename: "cadastroVaga.html",
+      chunks: ["cadastroVaga"],
+      inject: "body",
+      publicPath: "/linketinder-backend/frontend/dist/"
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
     })
-  ]
+  ],
+  optimization: {
+    usedExports: true
+  }
 };
