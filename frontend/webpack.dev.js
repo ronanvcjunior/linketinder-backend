@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const webpack = require('webpack');
 
 module.exports = {
   mode: "development",
@@ -9,7 +10,8 @@ module.exports = {
     cadastroCandidato: "./src/pages/cadastroCandidato.ts",
     cadastroEmpresa: "./src/pages/cadastroEmpresa.ts",
     perfilCandidato: "./src/pages/perfilCandidato.ts",
-    perfilEmpresa: "./src/pages/perfilEmpresa.ts"
+    perfilEmpresa: "./src/pages/perfilEmpresa.ts",
+    cadastroVaga: "./src/pages/cadastroVaga.ts"
   },
   output: {
     filename: "[name].[contenthash].js"
@@ -29,6 +31,10 @@ module.exports = {
         use: [
           "style-loader", "css-loader"
         ]
+      },
+      {
+        test:/\.html$/,
+        use: "html-loader"
       }
     ]
   },
@@ -43,25 +49,35 @@ module.exports = {
       template: "./public/cadastroCandidato.html",
       filename: "cadastroCandidato.html",
       chunks: ["cadastroCandidato"],
-      inject: "body",
+      inject: "body"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroEmpresa.html",
       filename: "cadastroEmpresa.html",
       chunks: ["cadastroEmpresa"],
-      inject: "body",
+      inject: "body"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilCandidato.html",
       filename: "perfilCandidato.html",
       chunks: ["perfilCandidato"],
-      inject: "body",
+      inject: "body"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilEmpresa.html",
       filename: "perfilEmpresa.html",
       chunks: ["perfilEmpresa"],
-      inject: "body",
+      inject: "body"
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/cadastroVaga.html",
+      filename: "cadastroVaga.html",
+      chunks: ["cadastroVaga"],
+      inject: "body"
+    }),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
     })
   ],
   devServer: {

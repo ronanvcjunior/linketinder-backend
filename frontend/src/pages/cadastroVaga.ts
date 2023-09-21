@@ -8,11 +8,11 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Cadastro from "../components/Cadastro";
-import cadastroCandidatoView from "../view/cadastroCandidadoView.html";
+import cadastroVagaView from "../view/cadastroVagaView.html";
 
 library.add(faBars);
 dom.watch();
 
 new Navbar('navbar-container', false);
-new Cadastro("content-container", cadastroCandidatoView);
+new Cadastro("content-container", cadastroVagaView);
 new Footer('footer-container');

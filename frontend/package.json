@@ -7,17 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "webpack serve --config webpack.dev.js",
     "build:prod": "webpack --config webpack.prod.js"
-
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.4.2",
-    "@fortawesome/free-brands-svg-icons": "^6.4.2",
-    "@fortawesome/free-regular-svg-icons": "^6.4.2",
-    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@types/jquery": "^3.5.19",
+    "@types/select2": "^4.0.58",
     "css-loader": "^6.8.1",
+    "html-loader": "^4.2.0",
     "html-webpack-plugin": "^5.5.3",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
@@ -25,5 +23,13 @@
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "jquery": "^3.7.1",
+    "select2": "^4.1.0-rc.0"
   }
 }
