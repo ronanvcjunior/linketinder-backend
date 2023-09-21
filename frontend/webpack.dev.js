@@ -11,7 +11,8 @@ module.exports = {
     cadastroEmpresa: "./src/pages/cadastroEmpresa.ts",
     perfilCandidato: "./src/pages/perfilCandidato.ts",
     perfilEmpresa: "./src/pages/perfilEmpresa.ts",
-    cadastroVaga: "./src/pages/cadastroVaga.ts"
+    cadastroVaga: "./src/pages/cadastroVaga.ts",
+    vagaDetalhes: "./src/pages/vagaDetalhes.ts"
   },
   output: {
     filename: "[name].[contenthash].js"
@@ -73,6 +74,12 @@ module.exports = {
       template: "./public/cadastroVaga.html",
       filename: "cadastroVaga.html",
       chunks: ["cadastroVaga"],
+      inject: "body"
+    }),
+    new HtmlWebpackPlugin({
+      template: "./public/vagaDetalhes.html",
+      filename: "vagaDetalhes.html",
+      chunks: ["vagaDetalhes"],
       inject: "body"
     }),
     new webpack.ProvidePlugin({

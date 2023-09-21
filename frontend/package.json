@@ -29,6 +29,8 @@
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@types/chart.js": "^2.9.38",
+    "chart.js": "^4.4.0",
     "jquery": "^3.7.1",
     "select2": "^4.1.0-rc.0"
   }
