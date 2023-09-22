@@ -12,7 +12,7 @@ class LocalStorageManager {
         if (!localStorageEmpresas) {
             import("../file/empresas.json")
                 .then((module): void => {
-                    localStorage.setItem('empresas', JSON.stringify(module));
+                    localStorage.setItem('empresas', JSON.stringify(module.default));
                     console.log('Dados salvos no localStorage empresas.');
                 });
         }
@@ -20,7 +20,7 @@ class LocalStorageManager {
         if (!localStorageCandidatos) {
             import("../file/candidatos.json")
                 .then((module): void => {
-                    localStorage.setItem('candidatos', JSON.stringify(module));
+                    localStorage.setItem('candidatos', JSON.stringify(module.default));
                     console.log('Dados salvos no localStorage candidatos.');
                 });
         }
@@ -28,7 +28,7 @@ class LocalStorageManager {
         if (!localStorageVagas) {
             import("../file/vagas.json")
                 .then((module): void => {
-                    localStorage.setItem('vagas', JSON.stringify(module));
+                    localStorage.setItem('vagas', JSON.stringify(module.default));
                     console.log('Dados salvos no localStorage vagas.');
                 });
         }
@@ -36,7 +36,7 @@ class LocalStorageManager {
         if (!localStorageCompetencias) {
             import("../file/competencias.json")
                 .then((module): void => {
-                    localStorage.setItem('competencias', JSON.stringify(module));
+                    localStorage.setItem('competencias', JSON.stringify(module.default));
                     console.log('Dados salvos no localStorage competencias.');
                 });
         }
