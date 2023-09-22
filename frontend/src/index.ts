@@ -12,6 +12,17 @@ library.add(faBars);
 library.add(faGithub)
 dom.watch();
 
-new Navbar('navbar-container', true);
-new Footer('footer-container');
+new Navbar("navbar-container", true);
+new Footer("footer-container");
 
+const localStorageEmpresas: (string|null) = localStorage.getItem('empresas');
+const localStorageCandidatos: (string|null) = localStorage.getItem('candidatos');
+const localStorageVagas: (string|null) = localStorage.getItem('vagas');
+const localStorageCompetencias: (string|null) = localStorage.getItem('competencias');
+
+if (!localStorageEmpresas || !localStorageCandidatos || !localStorageVagas || !localStorageCompetencias) {
+    import("./utils/LocalStorageManager").then((module): void => {
+        const localStorageManager = module.default;
+        new localStorageManager();
+    });
+}

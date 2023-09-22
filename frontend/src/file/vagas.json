@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nome": "Desenvolvedor Python Sênior",
+    "empresaID": 1,
+    "competenciasId": [1, 4, 7]
+  },
+  {
+    "id": 2,
+    "nome": "Engenheiro de Software Java",
+    "empresaID": 2,
+    "competenciasId": [2, 5, 8]
+  },
+  {
+    "id": 3,
+    "nome": "Desenvolvedor C++",
+    "empresaID": 3,
+    "competenciasId": [3, 6, 9]
+  },
+  {
+    "id": 4,
+    "nome": "Full Stack JavaScript Developer",
+    "empresaID": 4,
+    "competenciasId": [4, 7, 10]
+  },
+  {
+    "id": 5,
+    "nome": "Ruby on Rails Developer",
+    "empresaID": 5,
+    "competenciasId": [5, 8, 11]
+  },
+  {
+    "id": 6,
+    "nome": "Swift Mobile Developer",
+    "empresaID": 1,
+    "competenciasId": [6, 9, 12]
+  },
+  {
+    "id": 7,
+    "nome": "Desenvolvedor Go",
+    "empresaID": 2,
+    "competenciasId": [7, 10, 13]
+  },
+  {
+    "id": 8,
+    "nome": "PHP Web Developer",
+    "empresaID": 3,
+    "competenciasId": [8, 11, 14]
+  },
+  {
+    "id": 9,
+    "nome": "Rust Software Engineer",
+    "empresaID": 4,
+    "competenciasId": [9, 12, 15]
+  },
+  {
+    "id": 10,
+    "nome": "Kotlin Android Developer",
+    "empresaID": 5,
+    "competenciasId": [10, 13, 16]
+  }
+]
