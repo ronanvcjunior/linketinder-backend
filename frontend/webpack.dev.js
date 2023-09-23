@@ -45,49 +45,57 @@ module.exports = {
       template: "./public/index.html",
       filename: "index.html",
       chunks: ["index"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroCandidato.html",
       filename: "cadastroCandidato.html",
       chunks: ["cadastroCandidato"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroEmpresa.html",
       filename: "cadastroEmpresa.html",
       chunks: ["cadastroEmpresa"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilCandidato.html",
       filename: "perfilCandidato.html",
       chunks: ["perfilCandidato"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilEmpresa.html",
       filename: "perfilEmpresa.html",
       chunks: ["perfilEmpresa"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroVaga.html",
       filename: "cadastroVaga.html",
       chunks: ["cadastroVaga"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/vagaDetalhes.html",
       filename: "vagaDetalhes.html",
       chunks: ["vagaDetalhes"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/login.html",
       filename: "login.html",
       chunks: ["login"],
-      inject: "body"
+      inject: "body",
+      favicon: "./public/img/logo.png"
     }),
     new webpack.ProvidePlugin({
       $: "jquery",

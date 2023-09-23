@@ -48,56 +48,64 @@ module.exports = {
       filename: "index.html",
       chunks: ["index"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroCandidato.html",
       filename: "cadastroCandidato.html",
       chunks: ["cadastroCandidato"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroEmpresa.html",
       filename: "cadastroEmpresa.html",
       chunks: ["cadastroEmpresa"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilCandidato.html",
       filename: "perfilCandidato.html",
       chunks: ["perfilCandidato"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/perfilEmpresa.html",
       filename: "perfilEmpresa.html",
       chunks: ["perfilEmpresa"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/cadastroVaga.html",
       filename: "cadastroVaga.html",
       chunks: ["cadastroVaga"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/vagaDetalhes.html",
       filename: "vagaDetalhes.html",
       chunks: ["vagaDetalhes"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new HtmlWebpackPlugin({
       template: "./public/login.html",
       filename: "login.html",
       chunks: ["login"],
       inject: "body",
-      publicPath: "/linketinder-backend/frontend/dist/"
+      publicPath: "/linketinder-backend/frontend/dist/",
+      favicon: "./public/img/logo.png"
     }),
     new webpack.ProvidePlugin({
       $: "jquery",
