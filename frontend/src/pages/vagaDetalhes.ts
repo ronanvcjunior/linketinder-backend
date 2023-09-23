@@ -7,7 +7,6 @@ import {faGithub} from "@fortawesome/free-brands-svg-icons";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import DashboardVagaDetalhes from "../components/DashboardVagaDetalhes";
 
 declare const __webpack_public_path__: string;
 
@@ -30,6 +29,10 @@ declare const __webpack_public_path__: string;
     dom.watch();
 
     new Navbar('navbar-container', false);
-    new DashboardVagaDetalhes("content-container");
+    import("../components/DashboardVagaDetalhes")
+        .then((module) => {
+            const DashboardVagaDetalhes = module.default;
+            new DashboardVagaDetalhes("content-container");
+        })
     new Footer('footer-container');
 })();
