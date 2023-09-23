@@ -1,4 +1,4 @@
-interface CandidatoDomain {
+interface EmpresaDomain {
     id: number;
     nome: string;
     email: string;
@@ -9,4 +9,4 @@ interface CandidatoDomain {
     descricao: string;
 }
 
-export default CandidatoDomain;
+export default EmpresaDomain;
