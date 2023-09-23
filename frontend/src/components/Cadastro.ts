@@ -4,6 +4,7 @@ import LoginDomain from "../domain/LoginDomain";
 import CompetenciaDomain from "../domain/CompetenciaDomain";
 import candidatoDomain from "../domain/CandidatoDomain";
 import CandidatoDomain from "../domain/CandidatoDomain";
+import VagaDomain from "../domain/VagaDomain";
 
 declare const __webpack_public_path__: string;
 
@@ -13,6 +14,7 @@ class Cadastro {
   private tipoCadastro: string;
   private empresas: EmpresaDomain[] = [];
   private candidatos: candidatoDomain[] = [];
+  private vagas: VagaDomain[] = [];
 
   constructor(containerId: string, cadastroView: string, tipoCadastro: string) {
     const container: (HTMLElement|null) = document.getElementById(containerId);
@@ -29,6 +31,7 @@ class Cadastro {
 
     this.empresas = this.montarListaEmpresa();
     this.candidatos = this.montarListaCandidato();
+    this.vagas = this.montarListaVaga();
 
     this.render();
     this.montarSelect2();
@@ -38,6 +41,8 @@ class Cadastro {
       this.cadastrarEmpresa();
     else if (this.tipoCadastro == "candidato")
       this.cadastrarCandidato();
+    else if (this.tipoCadastro == "vaga")
+      this.cadastrarVaga();
   }
 
   private montarListaEmpresa(): EmpresaDomain[] {
@@ -60,6 +65,19 @@ class Cadastro {
       const candidatos: CandidatoDomain[] = Object.values(parsedCandidatos);
 
       return candidatos;
+    }
+    return [];
+  }
+
+
+  private montarListaVaga(): VagaDomain[] {
+    const localStorageVagas: (string|null) = localStorage.getItem('vagas');
+
+    if (localStorageVagas) {
+      const parsedVagas: VagaDomain[] = JSON.parse(localStorageVagas);
+      const vagas: VagaDomain[] = Object.values(parsedVagas);
+
+      return vagas;
     }
     return [];
   }
@@ -188,7 +206,7 @@ class Cadastro {
 
         const descricaoInput = document.getElementById("descricaoTextArea") as HTMLTextAreaElement;
         let descricao = descricaoInput.value;
-        
+
         const competenciasSelect = document.getElementById("competenciasSelect") as HTMLSelectElement
 
         let competenciasId: number[] = [];
@@ -220,6 +238,49 @@ class Cadastro {
         localStorage.setItem('login', JSON.stringify(login));
 
         window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
+      });
+    }
+  }
+
+  private cadastrarVaga() {
+    const formulario = document.getElementById("formulario");
+
+    if (formulario) {
+      formulario.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const id: number = this.vagas[this.vagas.length - 1].id + 1;
+
+        const localStorageLogin: (string|null) = localStorage.getItem('login');
+
+        let empresaID: number = 0;
+
+        if (localStorageLogin) {
+          const parsedLogin = JSON.parse(localStorageLogin);
+          empresaID = parsedLogin.id;
+        }
+
+        const nomeInput = document.getElementById("nomeInput") as HTMLInputElement;
+        const nome: string = nomeInput.value;
+
+        const competenciasSelect = document.getElementById("competenciasSelect") as HTMLSelectElement
+
+        let competenciasId: number[] = [];
+        for (let selectedOption of competenciasSelect.selectedOptions) {
+          competenciasId.push(parseInt(selectedOption.value));
+        }
+
+        let vaga: VagaDomain = {
+          id: id,
+          nome: nome,
+          empresaID: empresaID,
+          competenciasId: competenciasId
+        };
+
+        this.vagas.push(vaga);
+        localStorage.setItem('vagas', JSON.stringify(this.vagas));
+
+        window.location.href = `${__webpack_public_path__}vagaDetalhes.html?vaga=${id}.html`;
       });
     }
   }
