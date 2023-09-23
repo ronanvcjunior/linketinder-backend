@@ -120,6 +120,12 @@ class Cadastro {
 
   private render(): void {
     this.container.innerHTML = this.cadastroView;
+
+    const btnVoltar = document.getElementsByClassName("btn-voltar")[0];
+    if (this.tipoCadastro === "vaga")
+      btnVoltar.setAttribute("href", `${__webpack_public_path__}perfilEmpresa.html`);
+    else
+      btnVoltar.setAttribute("href", `${__webpack_public_path__}`);
   }
 
   private cadastrarEmpresa() {

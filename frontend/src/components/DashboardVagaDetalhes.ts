@@ -42,6 +42,9 @@ class DashboardVagaDetalhes {
         dashbaord.appendChild(dashboardVaga);
 
         this.container.appendChild(dashbaord);
+
+        const btnVoltar = document.getElementsByClassName("btn-voltar")[0];
+        btnVoltar.setAttribute("href", `${__webpack_public_path__}perfilEmpresa.html`);
     }
 
     private montarChart(): void {
