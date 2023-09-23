@@ -17,6 +17,7 @@ class Navbar {
 
     this.render();
     this.addMenuToggle();
+    this.sair();
   }
 
   private render(): void {
@@ -35,7 +36,16 @@ class Navbar {
             </ul>
         </nav>
         <div id="menu-toggle"><i class="fa-solid fa-bars"></i></div>
-    `;
+      `;
+    } else {
+      headerElement.innerHTML += `
+        <nav id="nav-header" class="">
+            <ul>
+                <li><a href="#" id="sair" class="item-menu">Sair</a></li>
+            </ul>
+        </nav>
+        <div id="menu-toggle"><i class="fa-solid fa-bars"></i></div>
+      `;
     }
     this.container.appendChild(headerElement);
   }
@@ -48,7 +58,21 @@ class Navbar {
       menuToggle.addEventListener("click", (): void => {
         navHeader.classList.toggle("menu-ativo");
       });
-}
+  }
+
+  private sair(): void {
+    const sair = document.getElementById("sair");
+
+    sair && sair.addEventListener("click", (event) => {
+      event.preventDefault();
+
+      if (localStorage.getItem("login")) {
+        localStorage.removeItem("login");
+      }
+
+      window.location.href = `${__webpack_public_path__}`;
+    });
+  }
 }
 
 export default Navbar;
