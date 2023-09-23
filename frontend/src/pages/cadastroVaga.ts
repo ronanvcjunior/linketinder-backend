@@ -14,5 +14,5 @@ library.add(faBars);
 dom.watch();
 
 new Navbar('navbar-container', false);
-new Cadastro("content-container", cadastroVagaView);
+new Cadastro("content-container", cadastroVagaView, "vaga");
 new Footer('footer-container');

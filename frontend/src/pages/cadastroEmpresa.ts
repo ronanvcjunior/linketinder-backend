@@ -13,5 +13,5 @@ library.add(faBars);
 dom.watch();
 
 new Navbar('navbar-container', false);
-new Cadastro("content-container", cadastroEmpresaView);
+new Cadastro("content-container", cadastroEmpresaView, "empresa");
 new Footer('footer-container');

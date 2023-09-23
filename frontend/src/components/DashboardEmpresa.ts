@@ -53,6 +53,8 @@ class DashboardEmpresa {
 
         if (localStorageLogin && localStorageEmpresas) {
             const parsedLogin = JSON.parse(localStorageLogin);
+            console.log(parsedLogin)
+            console.log(parsedLogin.id)
             const loginId = parsedLogin.id;
             this.empresaId = parsedLogin.id;
 
@@ -60,7 +62,7 @@ class DashboardEmpresa {
             const empresas: EmpresaDomain[] = Object.values(parsedEmpresas);
 
             const empresaLogado: (EmpresaDomain|undefined) = empresas.find(
-                (empresa: EmpresaDomain): void => empresa.id = loginId
+                (empresa: EmpresaDomain): boolean => empresa.id == loginId
             );
 
             if (empresaLogado) {
