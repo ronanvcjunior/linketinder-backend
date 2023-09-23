@@ -14,5 +14,5 @@ library.add(faBars);
 dom.watch();
 
 new Navbar('navbar-container', false);
-new Cadastro("content-container", cadastroCandidatoView);
+new Cadastro("content-container", cadastroCandidatoView, "candidato");
 new Footer('footer-container');
