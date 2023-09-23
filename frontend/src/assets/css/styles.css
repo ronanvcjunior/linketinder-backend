@@ -195,7 +195,7 @@ footer span a:hover {
   outline: 1px solid #BDC1C6;
 }
 
-.cadastro-container form .cadastro-btns {
+.cadastro-btns {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -203,7 +203,7 @@ footer span a:hover {
   margin-top: 15px;
 }
 
-.cadastro-container form .cadastro-btns .cadastro-btn {
+.cadastro-btns .cadastro-btn {
   width: 130px;
   text-decoration: none;
   line-height: 35px;
@@ -213,23 +213,23 @@ footer span a:hover {
   margin-bottom: 10px;
 }
 
-.cadastro-container form .cadastro-btns .btn-voltar {
+.cadastro-btns .btn-voltar {
   background-color: #e1ca44;
   color: #fff;
 }
 
-.cadastro-container form .cadastro-btns .btn-voltar:hover {
+.cadastro-btns .btn-voltar:hover {
   background-color: rgba(225, 202, 68, 0.9);
 }
 
-.cadastro-container form .cadastro-btns .btn-submeter {
+.cadastro-btns .btn-submeter {
   background-color: #46b446;
   color: #fff;
   border: none;
   outline: none;
 }
 
-.cadastro-container form .cadastro-btns .btn-submeter:hover {
+.cadastro-btns .btn-submeter:hover {
   background-color: rgba(70, 180, 70, .9);
 }
 
@@ -515,4 +515,10 @@ table tbody tr td .btns .btn-curtir:hover {
     width: 30%;
     display: inline-block;
   }
+}
+
+.custom-y-axis {
+  fill: white;
+  font-weight: bold;
+  color: white;
 }
