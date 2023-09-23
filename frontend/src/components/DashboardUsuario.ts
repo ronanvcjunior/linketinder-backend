@@ -55,7 +55,7 @@ class DashboardUsuario {
             const candidatos: CandidatoDomain[] = Object.values(parsedCandidatos);
 
             const candidatoLogado: (CandidatoDomain|undefined) = candidatos.find(
-                (candidato: CandidatoDomain): void => candidato.id = loginId
+                (candidato: CandidatoDomain): boolean => candidato.id == loginId
             );
 
             if (candidatoLogado) {
