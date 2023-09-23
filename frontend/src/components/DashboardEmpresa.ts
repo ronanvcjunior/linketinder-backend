@@ -1,8 +1,10 @@
 import dashboardPerfilEmpresaView from "../view/dashboardPerfilEmpresaView.html";
-import dashboardVagasCadastradasPorEmpresaView from "../view/dashboardVagasCadastradasPorEmpresaView.html"
+import dashboardVagasCadastradasPorEmpresaView from "../view/dashboardVagasCadastradasPorEmpresaView.html";
+import dashboardCandidatosCadastradosView from "../view/dashboardCandidatosCadastradosView.html";
 import EmpresaDomain from "../domain/EmpresaDomain";
 import VagaDomain from "../domain/VagaDomain";
 import CompetenciaDomain from "../domain/CompetenciaDomain";
+import CandidatoDomain from "../domain/CandidatoDomain";
 
 declare const __webpack_public_path__: string;
 
@@ -22,6 +24,7 @@ class DashboardEmpresa {
         this.render();
         this.montarInformacoes();
         this.montarVagasDiponiveis();
+        this.montarCandidatosCadastrados();
     }
 
     private render(): void {
@@ -38,8 +41,14 @@ class DashboardEmpresa {
         dashboardVagasDiponiveis.setAttribute("class", "dashboard-card");
         dashboardVagasDiponiveis.innerHTML = dashboardVagasCadastradasPorEmpresaView;
 
+        const dashboardCandidatosCadastrados: HTMLElement = document.createElement("div");
+        dashboardCandidatosCadastrados.setAttribute("id", "dashboard-candidatos-cadastrados");
+        dashboardCandidatosCadastrados.setAttribute("class", "dashboard-card");
+        dashboardCandidatosCadastrados.innerHTML = dashboardCandidatosCadastradosView;
+
         dashbaord.appendChild(dashboardPefil);
         dashbaord.appendChild(dashboardVagasDiponiveis);
+        dashbaord.appendChild(dashboardCandidatosCadastrados);
 
         this.container.appendChild(dashbaord);
 
@@ -142,6 +151,58 @@ class DashboardEmpresa {
         }
     }
 
+    private montarCandidatosCadastrados() {
+        const localStorageCandidatos: (string|null) = localStorage.getItem('candidatos');
+
+        if (localStorageCandidatos) {
+            const tabelaCandidatos = document.getElementById("tabela-candidatos");
+
+            const parsedCandidatos: CandidatoDomain = JSON.parse(localStorageCandidatos);
+            const candidatos: CandidatoDomain[] = Object.values(parsedCandidatos);
+            console.log(candidatos);
+
+            candidatos.forEach((candidato: CandidatoDomain): void => {
+                const tabelaCandidato = document.createElement("tr");
+                tabelaCandidato.innerHTML = `
+                    <td data-label="Nome">Anônimo</td>
+                    <td data-label="Competências">
+                        <div id="tabela-competencias-candidato${candidato.id}" class="table-competencias"></div>
+                    </td>
+                `;
+                tabelaCandidatos && tabelaCandidatos.appendChild(tabelaCandidato);
+
+                candidato.competenciasId.forEach((competenciaID: number): void => {
+                    this.montarCompetenciaCandidato(competenciaID, candidato.id);
+                })
+            });
+        }
+    }
+
+    private montarCompetenciaCandidato(competenciaId: number, candidatoId: number): void {
+        console.log(candidatoId + " - " + competenciaId)
+        const localStorageCompetencias: (string|null) = localStorage.getItem('competencias');
+
+        if (localStorageCompetencias) {
+            const parsedCompetencias: CompetenciaDomain = JSON.parse(localStorageCompetencias);
+            const competencias: CompetenciaDomain[] = Object.values(parsedCompetencias);
+
+            const tabelaCompetencias = document.getElementById(`tabela-competencias-candidato${candidatoId}`);
+
+            const tabelaCompetencia = document.createElement("span");
+            tabelaCompetencia.setAttribute("class", "table-competencia");
+
+            const competencia = competencias.find(
+                (element) => element.id == competenciaId
+            );
+
+
+            if (competencia) {
+                tabelaCompetencia.innerText = competencia.nome;
+
+                tabelaCompetencias && tabelaCompetencias.appendChild(tabelaCompetencia);
+            }
+        }
+    }
 }
 
 export default DashboardEmpresa;
