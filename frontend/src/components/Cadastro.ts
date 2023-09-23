@@ -43,6 +43,8 @@ class Cadastro {
       this.cadastrarCandidato();
     else if (this.tipoCadastro == "vaga")
       this.cadastrarVaga();
+    else if (this.tipoCadastro == "login")
+      this.login();
   }
 
   private montarListaEmpresa(): EmpresaDomain[] {
@@ -281,6 +283,51 @@ class Cadastro {
         localStorage.setItem('vagas', JSON.stringify(this.vagas));
 
         window.location.href = `${__webpack_public_path__}vagaDetalhes.html?vaga=${id}.html`;
+      });
+    }
+  }
+
+  private login() {
+    const formulario = document.getElementById("formulario");
+
+    if (formulario) {
+      formulario.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const emailInput = document.getElementById("emailInput") as HTMLInputElement;
+        const email: string = emailInput.value;
+
+        let id: number = 0;
+        let tipo: string = "";
+
+        const empresa =  this.empresas.find((empresa) => empresa.email == email);
+        if (empresa) {
+          id = empresa.id;
+          tipo = "empresa";
+        }
+
+        const candidato =  this.candidatos.find((candidato) => candidato.email == email);
+        if (candidato) {
+          id = candidato.id;
+          tipo = "candidato";
+        }
+
+        let login: LoginDomain = {
+          id: id,
+          email: email,
+          tipo: tipo,
+        };
+
+        if (tipo) {
+          localStorage.setItem('login', JSON.stringify(login));
+
+          if (tipo === "empresa")
+            window.location.href = `${__webpack_public_path__}perfilEmpresa.html`;
+          else if (tipo === "candidato")
+            window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
+        } else {
+          alert("Email não cadastrado");
+        }
       });
     }
   }

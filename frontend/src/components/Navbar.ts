@@ -29,8 +29,9 @@ class Navbar {
       headerElement.innerHTML += `
         <nav id="nav-header" class="">
             <ul>
-                <li><a href="${__webpack_public_path__}cadastroEmpresa.html" class="item-menu">Nova Empresa</a></li>
-                <li><a href="${__webpack_public_path__}cadastroCandidato.html" class="item-menu">Novo(a) Candidato(a)</a></li>
+                <li><a href="${__webpack_public_path__}cadastroEmpresa.html" id="cadastroEmpresa" class="item-menu">Nova Empresa</a></li>
+                <li><a href="${__webpack_public_path__}cadastroCandidato.html" id="cadastroCandidato" class="item-menu">Novo(a) Candidato(a)</a></li>
+                <li><a href="${__webpack_public_path__}login.html" id="login" class="item-menu">Login</a></li>
             </ul>
         </nav>
         <div id="menu-toggle"><i class="fa-solid fa-bars"></i></div>

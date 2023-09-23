@@ -13,6 +13,11 @@ import cadastroCandidatoView from "../view/cadastroCandidadoView.html";
 library.add(faBars);
 dom.watch();
 
-new Navbar('navbar-container', false);
+new Navbar('navbar-container', true);
+
+const cadastroCandidato = document.getElementById("cadastroCandidato");
+if (cadastroCandidato)
+    cadastroCandidato.classList.add("ativo");
+
 new Cadastro("content-container", cadastroCandidatoView, "candidato");
 new Footer('footer-container');
