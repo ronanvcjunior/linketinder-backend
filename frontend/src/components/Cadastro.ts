@@ -5,6 +5,7 @@ import CompetenciaDomain from "../domain/CompetenciaDomain";
 import candidatoDomain from "../domain/CandidatoDomain";
 import CandidatoDomain from "../domain/CandidatoDomain";
 import VagaDomain from "../domain/VagaDomain";
+import loginDomain from "../domain/LoginDomain";
 
 declare const __webpack_public_path__: string;
 
@@ -519,18 +520,40 @@ class Cadastro {
           tipo: tipo,
         };
 
-        if (tipo) {
-          localStorage.setItem('login', JSON.stringify(login));
+        if (this.validarLogin(login)) {
+          if (tipo) {
+            localStorage.setItem('login', JSON.stringify(login));
 
-          if (tipo === "empresa")
-            window.location.href = `${__webpack_public_path__}perfilEmpresa.html`;
-          else if (tipo === "candidato")
-            window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
-        } else {
-          alert("Email não cadastrado");
+            if (tipo === "empresa")
+              window.location.href = `${__webpack_public_path__}perfilEmpresa.html`;
+            else if (tipo === "candidato")
+              window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
+          } else {
+            alert("Email não cadastrado");
+          }
         }
       });
     }
+  }
+
+  private validarLogin(login: loginDomain): boolean {
+    const emailRegex: RegExp = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
+
+    const emailError = document.getElementById("emailError");
+
+    let isValid = true;
+    if (!emailRegex.test(login.email)) {
+      if (emailError) {
+        emailError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (emailError) {
+        emailError.hidden = true;
+      }
+    }
+
+    return isValid;
   }
 }
 
