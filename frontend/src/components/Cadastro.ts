@@ -196,6 +196,8 @@ class Cadastro {
     const nomeError = document.getElementById("nomeError");
     const emailError = document.getElementById("emailError");
     const cnpjError = document.getElementById("cnpjError");
+    const paisError = document.getElementById("paisError");
+    const estadoError = document.getElementById("estadoError");
     const cepError = document.getElementById("cepError");
 
     let isValid = true;
@@ -208,6 +210,28 @@ class Cadastro {
     } else {
       if (nomeError) {
         nomeError.hidden = true;
+      }
+    }
+
+    if (!nomeRegex.test(empresa.pais)) {
+      if (paisError) {
+        paisError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (paisError) {
+        paisError.hidden = true;
+      }
+    }
+
+    if (!nomeRegex.test(empresa.estado)) {
+      if (estadoError) {
+        estadoError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (estadoError) {
+        estadoError.hidden = true;
       }
     }
 
@@ -323,6 +347,8 @@ class Cadastro {
     const nomeError = document.getElementById("nomeError");
     const emailError = document.getElementById("emailError");
     const cpfError = document.getElementById("cpfError");
+    const paisError = document.getElementById("paisError");
+    const estadoError = document.getElementById("estadoError");
     const cepError = document.getElementById("cepError");
 
     let isValid = true;
@@ -357,6 +383,28 @@ class Cadastro {
     } else {
       if (cpfError) {
         cpfError.hidden = true;
+      }
+    }
+
+    if (!nomeRegex.test(candidato.pais)) {
+      if (paisError) {
+        paisError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (paisError) {
+        paisError.hidden = true;
+      }
+    }
+
+    if (!nomeRegex.test(candidato.estado)) {
+      if (estadoError) {
+        estadoError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (estadoError) {
+        estadoError.hidden = true;
       }
     }
 
@@ -409,12 +457,35 @@ class Cadastro {
           competenciasId: competenciasId
         };
 
-        this.vagas.push(vaga);
-        localStorage.setItem('vagas', JSON.stringify(this.vagas));
+        if (this.validarCadastroVaga(vaga)) {
+          this.vagas.push(vaga);
+          localStorage.setItem('vagas', JSON.stringify(this.vagas));
 
-        window.location.href = `${__webpack_public_path__}vagaDetalhes.html?vaga=${id}.html`;
+          window.location.href = `${__webpack_public_path__}vagaDetalhes.html?vaga=${id}.html`;
+        }
       });
     }
+  }
+
+  private validarCadastroVaga(vaga: VagaDomain): boolean {
+    const nomeRegex: RegExp = /^[\p{L},\s]{1,255}$/u;
+
+    const nomeError = document.getElementById("nomeError");
+
+    let isValid = true;
+
+    if (!nomeRegex.test(vaga.nome)) {
+      if (nomeError) {
+        nomeError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (nomeError) {
+        nomeError.hidden = true;
+      }
+    }
+
+    return isValid;
   }
 
   private login() {
