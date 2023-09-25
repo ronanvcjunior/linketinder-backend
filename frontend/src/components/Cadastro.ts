@@ -138,25 +138,25 @@ class Cadastro {
         const id: number = this.empresas[this.empresas.length - 1].id + 1;
 
         const nomeInput = document.getElementById("nomeInput") as HTMLInputElement;
-        const nome: string = nomeInput.value;
+        const nome: string = nomeInput.value.trim();
 
         const emailInput = document.getElementById("emailInput") as HTMLInputElement;
-        const email: string = emailInput.value;
+        const email: string = emailInput.value.trim();
 
         const cnpjInput = document.getElementById("cnpjInput") as HTMLInputElement;
-        const cnpj: string = cnpjInput.value;
+        const cnpj: string = cnpjInput.value.trim();
 
         const paisInput = document.getElementById("paisInput") as HTMLInputElement;
-        const pais: string = paisInput.value;
+        const pais: string = paisInput.value.trim();
 
         const estadoInput = document.getElementById("estadoInput") as HTMLInputElement;
-        const estado: string = estadoInput.value;
+        const estado: string = estadoInput.value.trim();
 
         const cepInput = document.getElementById("cepInput") as HTMLInputElement;
-        const cep: string = cepInput.value;
+        const cep: string = cepInput.value.trim();
 
         const descricaoInput = document.getElementById("descricaoTextArea") as HTMLTextAreaElement;
-        let descricao = descricaoInput.value;
+        let descricao = descricaoInput.value.trim();
 
         let empresa: EmpresaDomain = {
           id: id,
@@ -257,25 +257,25 @@ class Cadastro {
         const id: number = this.candidatos[this.candidatos.length - 1].id + 1;
 
         const nomeInput = document.getElementById("nomeInput") as HTMLInputElement;
-        const nome: string = nomeInput.value;
+        const nome: string = nomeInput.value.trim();
 
         const emailInput = document.getElementById("emailInput") as HTMLInputElement;
-        const email: string = emailInput.value;
+        const email: string = emailInput.value.trim();
 
         const cpfInput = document.getElementById("cpfInput") as HTMLInputElement;
-        const cpf: string = cpfInput.value;
+        const cpf: string = cpfInput.value.trim();
 
         const paisInput = document.getElementById("paisInput") as HTMLInputElement;
-        const pais: string = paisInput.value;
+        const pais: string = paisInput.value.trim();
 
         const estadoInput = document.getElementById("estadoInput") as HTMLInputElement;
-        const estado: string = estadoInput.value;
+        const estado: string = estadoInput.value.trim();
 
         const cepInput = document.getElementById("cepInput") as HTMLInputElement;
-        const cep: string = cepInput.value;
+        const cep: string = cepInput.value.trim();
 
         const descricaoInput = document.getElementById("descricaoTextArea") as HTMLTextAreaElement;
-        let descricao = descricaoInput.value;
+        let descricao = descricaoInput.value.trim();
 
         const competenciasSelect = document.getElementById("competenciasSelect") as HTMLSelectElement
 
@@ -296,20 +296,82 @@ class Cadastro {
           competenciasId: competenciasId
         };
 
-        this.candidatos.push(candidato);
-        localStorage.setItem('candidatos', JSON.stringify(this.candidatos));
+        if (this.validarCadastroCandidato(candidato)) {
+          this.candidatos.push(candidato);
+          localStorage.setItem('candidatos', JSON.stringify(this.candidatos));
 
-        let login: LoginDomain = {
-          id: id,
-          email: email,
-          tipo: "candidato",
-        };
+          let login: LoginDomain = {
+            id: id,
+            email: email,
+            tipo: "candidato",
+          };
 
-        localStorage.setItem('login', JSON.stringify(login));
+          localStorage.setItem('login', JSON.stringify(login));
 
-        window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
+          window.location.href = `${__webpack_public_path__}perfilCandidato.html`;
+        }
       });
     }
+  }
+
+  private validarCadastroCandidato(candidato: CandidatoDomain): boolean {
+    const nomeRegex: RegExp = /^[\p{L},\s]{1,255}$/u;
+    const emailRegex: RegExp = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
+    const cpfRegex: RegExp = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
+    const cepRegex: RegExp = /^\d{5}\-?\d{3}$/;
+
+    const nomeError = document.getElementById("nomeError");
+    const emailError = document.getElementById("emailError");
+    const cpfError = document.getElementById("cpfError");
+    const cepError = document.getElementById("cepError");
+
+    let isValid = true;
+
+    if (!nomeRegex.test(candidato.nome)) {
+      if (nomeError) {
+        nomeError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (nomeError) {
+        nomeError.hidden = true;
+      }
+    }
+
+    if (!emailRegex.test(candidato.email)) {
+      if (emailError) {
+        emailError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (emailError) {
+        emailError.hidden = true;
+      }
+    }
+
+    if (!cpfRegex.test(candidato.cpf)) {
+      if (cpfError) {
+        cpfError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (cpfError) {
+        cpfError.hidden = true;
+      }
+    }
+
+    if (!cepRegex.test(candidato.cep)) {
+      if (cepError) {
+        cepError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (cepError) {
+        cepError.hidden = true;
+      }
+    }
+
+    return isValid;
   }
 
   private cadastrarVaga() {
