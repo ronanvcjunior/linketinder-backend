@@ -169,20 +169,82 @@ class Cadastro {
           descricao: descricao
         };
 
-        this.empresas.push(empresa);
-        localStorage.setItem('empresas', JSON.stringify(this.empresas));
+        if (this.validarCadastroEmpresa(empresa)) {
+          this.empresas.push(empresa);
+          localStorage.setItem('empresas', JSON.stringify(this.empresas));
 
-        let login: LoginDomain = {
-          id: id,
-          email: email,
-          tipo: "empresa",
-        };
+          let login: LoginDomain = {
+            id: id,
+            email: email,
+            tipo: "empresa",
+          };
 
-        localStorage.setItem('login', JSON.stringify(login));
+          localStorage.setItem('login', JSON.stringify(login));
 
-        window.location.href = `${__webpack_public_path__}perfilEmpresa.html`;
+          window.location.href = `${__webpack_public_path__}perfilEmpresa.html`;
+        }
       });
     }
+  }
+
+  private validarCadastroEmpresa(empresa: EmpresaDomain): boolean {
+    const nomeRegex: RegExp = /^[\p{L},\s]{1,255}$/u;
+    const emailRegex: RegExp = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
+    const cnpjRegex: RegExp = /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/;
+    const cepRegex: RegExp = /^\d{5}\-?\d{3}$/;
+
+    const nomeError = document.getElementById("nomeError");
+    const emailError = document.getElementById("emailError");
+    const cnpjError = document.getElementById("cnpjError");
+    const cepError = document.getElementById("cepError");
+
+    let isValid = true;
+
+    if (!nomeRegex.test(empresa.nome)) {
+      if (nomeError) {
+        nomeError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (nomeError) {
+        nomeError.hidden = true;
+      }
+    }
+
+    if (!emailRegex.test(empresa.email)) {
+      if (emailError) {
+        emailError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (emailError) {
+        emailError.hidden = true;
+      }
+    }
+
+    if (!cnpjRegex.test(empresa.cnpj)) {
+      if (cnpjError) {
+        cnpjError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (cnpjError) {
+        cnpjError.hidden = true;
+      }
+    }
+
+    if (!cepRegex.test(empresa.cep)) {
+      if (cepError) {
+        cepError.hidden = false;
+      }
+      isValid = false;
+    } else {
+      if (cepError) {
+        cepError.hidden = true;
+      }
+    }
+
+    return isValid;
   }
 
   private cadastrarCandidato() {

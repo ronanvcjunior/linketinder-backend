@@ -522,3 +522,8 @@ table tbody tr td .btns .btn-curtir:hover {
   font-weight: bold;
   color: white;
 }
+
+.error {
+  color: #ff5858;
+
+}
