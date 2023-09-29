@@ -22,3 +22,10 @@ java -jar linketinder-backend.jar
 Pode ser visualizado com o link: https://ronanvcjunior.github.io/linketinder-backend/frontend/dist/
 
 usa-se o jquery, select2, webpack e chart.js.
+
+## Banco de Dados
+
+Segue o Link para a documentação da modelagem do Linketinder: 
+https://docs.google.com/document/d/111R26LkdVmqt9GBiHxdhPhFTjt6V6eofKp5wjSBo470/edit?usp=sharing
+
+Os arquivos de criação e teste do banco estão na pasta [modelo-linketinder](./modelo-linketinder/)
