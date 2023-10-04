@@ -8,6 +8,8 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
+import java.text.SimpleDateFormat
+
 import static org.junit.jupiter.api.Assertions.assertEquals
 
 class CandidatoViewTeste {
@@ -40,22 +42,22 @@ class CandidatoViewTeste {
     @Test
     void testeExibirCandidatos() {
         //Given:
+        String dataNascimento = "03/10/1993"
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
         Candidato candidato = new Candidato(
                 nome: "Stefany",
-                email: "stefany@gmail.com",
                 pais: "Brasil",
                 estado: "Goiás",
                 cep: "73754657",
                 descricao: "Engenheira de Software",
                 cpf: "51511285079",
-                idade: 30,
-                competencias: [new Competencia(nome: "Python")]
+                dataNascimento: sdf.parse(dataNascimento),
+                competencias: [new Competencia(1, "Python")]
         );
         String expectativaOutput =  "(" +
                 " nome: " + candidato.getNome() + "," +
-                " email: " + candidato.getEmail() + "," +
                 " cpf: " + candidato.getCpf() + "," +
-                " idade: " + candidato.getIdade() + "," +
+                " Data de nascimento: " + dataNascimento + "," +
                 " pais: " + candidato.getPais() + "," +
                 " estado: " + candidato.getEstado() + "," +
                 " cep: " + candidato.getCep() + "," +
@@ -75,21 +77,21 @@ class CandidatoViewTeste {
     @Test
     void testeCadastrarCandidato() {
         //Given:
+        String dataNascimento = "03/10/1993"
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
         Candidato candidato = new Candidato(
                 nome: "Stefany",
-                email: "stefany@gmail.com",
                 pais: "Brasil",
                 estado: "Goiás",
                 cep: "73754657",
                 descricao: "Engenheira de Software",
                 cpf: "51511285079",
-                idade: 30,
-                competencias: [new Competencia(nome: "Python")]
+                dataNascimento: sdf.parse(dataNascimento),
+                competencias: [new Competencia(null, "Python")]
         );
         String input =  "${candidato.nome}\n" +
-                "${candidato.email}\n" +
                 "${candidato.cpf}\n" +
-                "${candidato.idade}\n" +
+                "${dataNascimento}\n" +
                 "${candidato.pais}\n" +
                 "${candidato.estado}\n" +
                 "${candidato.cep}\n" +
@@ -98,16 +100,15 @@ class CandidatoViewTeste {
         inputStream = new ByteArrayInputStream(input.getBytes());
 
         candidatoView.setScanner(new Scanner(inputStream));
-        candidatoView.setCompetenciasCadastradas([new Competencia(nome: candidato.competencias[0].nome)]);
+        candidatoView.setCompetenciasCadastradas([new Competencia(candidato.competencias[0].id, candidato.competencias[0].nome)]);
 
         //When:
         Candidato candidatoResultado = candidatoView.cadastrarCandidato();
 
         //Then:
         assertEquals(candidato.nome, candidatoResultado.nome);
-        assertEquals(candidato.email, candidatoResultado.email);
         assertEquals(candidato.cpf, candidatoResultado.cpf);
-        assertEquals(candidato.idade, candidatoResultado.idade);
+        assertEquals(candidato.dataNascimento, candidatoResultado.dataNascimento);
         assertEquals(candidato.pais, candidatoResultado.pais);
         assertEquals(candidato.estado, candidatoResultado.estado);
         assertEquals(candidato.cep, candidatoResultado.cep);
@@ -121,22 +122,22 @@ class CandidatoViewTeste {
     @Test
     void testeCadastrarCandidatoCompetenciaQueNaoEstaNaListaCopetencias() {
         //Given:
+        String dataNascimento = "03/10/1993"
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
         Candidato candidato = new Candidato(
                 nome: "Stefany",
-                email: "stefany@gmail.com",
                 pais: "Brasil",
                 estado: "Goiás",
                 cep: "73754657",
                 descricao: "Engenheira de Software",
                 cpf: "51511285079",
-                idade: 30,
-                competencias: [new Competencia(nome: "Python"), new Competencia(nome: "Java")]
+                dataNascimento: sdf.parse(dataNascimento),
+                competencias: [new Competencia(null, "Python"), new Competencia(null, "Java")]
         );
         String nomeCompetenciaQueNaoPertenceListaCompetencias = "Groovy";
         String input =  "${candidato.nome}\n" +
-                "${candidato.email}\n" +
                 "${candidato.cpf}\n" +
-                "${candidato.idade}\n" +
+                "${dataNascimento}\n" +
                 "${candidato.pais}\n" +
                 "${candidato.estado}\n" +
                 "${candidato.cep}\n" +
@@ -147,16 +148,20 @@ class CandidatoViewTeste {
         inputStream = new ByteArrayInputStream(input.getBytes());
 
         candidatoView.setScanner(new Scanner(inputStream));
-        candidatoView.setCompetenciasCadastradas([new Competencia(nome: candidato.competencias[0].nome), new Competencia(nome: candidato.competencias[1].nome)]);
+        candidatoView.setCompetenciasCadastradas(
+                [
+                        new Competencia(candidato.competencias[0].id, candidato.competencias[0].nome),
+                        new Competencia(candidato.competencias[1].id, candidato.competencias[1].nome)
+                ]
+        );
 
         //When:
         Candidato candidatoResultado = candidatoView.cadastrarCandidato();
 
         //Then:
         assertEquals(candidato.nome, candidatoResultado.nome);
-        assertEquals(candidato.email, candidatoResultado.email);
         assertEquals(candidato.cpf, candidatoResultado.cpf);
-        assertEquals(candidato.idade, candidatoResultado.idade);
+        assertEquals(candidato.dataNascimento, candidatoResultado.dataNascimento);
         assertEquals(candidato.pais, candidatoResultado.pais);
         assertEquals(candidato.estado, candidatoResultado.estado);
         assertEquals(candidato.cep, candidatoResultado.cep);

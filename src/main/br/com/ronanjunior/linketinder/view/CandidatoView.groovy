@@ -2,19 +2,20 @@ package main.br.com.ronanjunior.linketinder.view
 
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
+import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
 
 class CandidatoView {
     List<Candidato> candidatos;
     Scanner scanner = new Scanner(System.in);
     List<Competencia> competenciasCadastradas = [];
+    ManipulacaoData manipulacaoData = new ManipulacaoData();
 
     void exibirCandidatos() {
         candidatos.each {candidato ->
             print   "(" +
                     " nome: " + candidato.getNome() + "," +
-                    " email: " + candidato.getEmail() + "," +
                     " cpf: " + candidato.getCpf() + "," +
-                    " idade: " + candidato.getIdade() + "," +
+                    " Data de nascimento: " + manipulacaoData.dateParaString(candidato.dataNascimento) + "," +
                     " pais: " + candidato.getPais() + "," +
                     " estado: " + candidato.getEstado() + "," +
                     " cep: " + candidato.getCep() + "," +
@@ -29,13 +30,10 @@ class CandidatoView {
 
         print "Nome: ";
         String nome = scanner.nextLine();
-        print "Email: ";
-        String email = scanner.nextLine();
         print "CPF: ";
         String cpf = scanner.nextLine();
-        print "Idade: ";
-        Integer idade = scanner.nextInt();
-        scanner.nextLine();
+        print "Data de nascimento: ";
+        String dataNascimento = scanner.nextLine();
         print "Pais: ";
         String pais = scanner.nextLine();
         print "Estado: ";
@@ -47,7 +45,7 @@ class CandidatoView {
         while (true) {
             print "Competência (ou deixe em branco para encerrar): ";
             String nomeCompetencia = scanner.nextLine();
-            Competencia competencia = new Competencia(nome: nomeCompetencia);
+            Competencia competencia = new Competencia(null, nomeCompetencia);
             if (nomeCompetencia.isEmpty()) {
                 break;
             }
@@ -65,9 +63,8 @@ class CandidatoView {
 
         return new Candidato(
                 nome: nome,
-                email: email,
                 cpf: cpf,
-                idade: idade,
+                dataNascimento: manipulacaoData.stringParaDate(dataNascimento),
                 pais: pais,
                 estado: estado,
                 cep: cep,

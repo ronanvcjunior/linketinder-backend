@@ -16,7 +16,7 @@ class TerminalInterativoView {
 
     void exibirOpcaoInvalida() {
         print   "Opção inválida\n" +
-                " digite ajuda, para mostrar todas as opções disponíveis\n" +
+                " digite 'ajuda', para mostrar todas as opções disponíveis\n" +
                 "\n";
     }
 
