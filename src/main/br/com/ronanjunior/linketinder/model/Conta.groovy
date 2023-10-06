@@ -10,4 +10,12 @@ class Conta implements Serializable {
     String senha;
     Candidato candidato;
     Empresa empresa;
+
+    Conta(Integer id, String email, String senha, Candidato candidato, Empresa empresa) {
+        this.id = id
+        this.email = email
+        this.senha = senha
+        this.candidato = candidato
+        this.empresa = empresa
+    }
 }

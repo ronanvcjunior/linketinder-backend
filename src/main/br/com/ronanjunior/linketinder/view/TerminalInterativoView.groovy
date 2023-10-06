@@ -14,6 +14,39 @@ class TerminalInterativoView {
                 "\n";
     }
 
+    void exibirAjudaMenuCandidato() {
+        print   "Opções disponíveis:\n" +
+                " - ajuda: Mostra todas as opções disponíveis\n" +
+                " - info: Para mostrar as suas informações\n" +
+                " - alterar: Para alterar as suas informações\n" +
+                " - vaga listar: Mostra todas as vagas\n" +
+                " - sair: Para sair do programa\n" +
+                "\n";
+    }
+
+    void exibirAjudaMenuEmpresa() {
+        print   "Opções disponíveis:\n" +
+                " - ajuda: Mostra todas as opções disponíveis\n" +
+                " - info: Para mostrar as suas informações\n" +
+                " - alterar: Para alterar as suas informações\n" +
+                " - vaga cadastrar: Para cadastrar um nova vaga\n" +
+                " - vaga listar: Mostra todos as vagas cadastradas pela empresa\n" +
+                " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
+                " - candidato listar: Mostra todos candidatos cadastrados\n" +
+                " - sair: Para sair do programa\n" +
+                "\n";
+    }
+
+    void exibirAjudaInicio() {
+        print   "Opções disponíveis:\n" +
+                " - ajuda: Mostra todas as opções disponíveis\n" +
+                " - candidato cadastrar: Para cadastrar um novo candidato\n" +
+                " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
+                " - login: Para entrar na conta\n" +
+                " - sair: Para sair do programa\n" +
+                "\n";
+    }
+
     void exibirOpcaoInvalida() {
         print   "Opção inválida\n" +
                 " digite 'ajuda', para mostrar todas as opções disponíveis\n" +
