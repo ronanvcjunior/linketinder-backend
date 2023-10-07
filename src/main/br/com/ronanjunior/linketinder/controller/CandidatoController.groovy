@@ -2,11 +2,13 @@ package main.br.com.ronanjunior.linketinder.controller
 
 import main.br.com.ronanjunior.linketinder.dao.CandidatoDao
 import main.br.com.ronanjunior.linketinder.model.Candidato
+import main.br.com.ronanjunior.linketinder.model.Competencia
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
 class CandidatoController {
     CandidatoDao candidatoDao = new CandidatoDao(new Conexao());
     List<Candidato> candidatos = [];
+    CompetenciaController competenciaController = new CompetenciaController();
 
     void adicionarCandidato(Candidato candidato) {
         candidatos.add(candidato);
@@ -20,7 +22,15 @@ class CandidatoController {
         return candidatoDao.cadastrarCompetenciaCandidato(candidato);
     }
 
+    Boolean removerCompetenciaCandidato(Candidato candidatoAlterado, Candidato candidatoAntigo) {
+        return candidatoDao.removerCompetenciaCandidato(candidatoAlterado, candidatoAntigo);
+    }
+
     Candidato copiarCandidato(Candidato candidato) {
+        List<Competencia> competencias = [];
+        candidato.competencias.forEach {Competencia competencia -> {
+            competencias.add(competenciaController.copiarCompetencia(competencia));
+        }}
         return new Candidato(
                 candidato.id,
                 candidato.nome,
@@ -31,7 +41,7 @@ class CandidatoController {
                 candidato.estado,
                 candidato.cep,
                 candidato.descricao,
-                candidato.competencias
+                competencias
         );
     }
 

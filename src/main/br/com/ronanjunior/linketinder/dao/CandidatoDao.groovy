@@ -83,7 +83,7 @@ class CandidatoDao {
         return executarUpdate(sSQL)
     }
 
-    public Boolean cadastrarCompetenciaCandidato(Candidato candidato) {
+    Boolean cadastrarCompetenciaCandidato(Candidato candidato) {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
             candidato.competencias.forEach {Competencia competencia -> {
@@ -94,6 +94,32 @@ class CandidatoDao {
                         VALUES (${candidato.id}, ${competencia.id})
                     """
 
+                    sql.execute(sSQL);
+                }
+            }}
+
+            conexao.commitTransacao()
+            conexao.fecharConexao();
+            return true;
+        } catch (Exception e) {
+            println e
+            conexao.rollbackTransacao()
+            conexao.fecharConexao();
+            return false;
+        }
+    }
+
+    Boolean removerCompetenciaCandidato(Candidato candidatoAlterado, Candidato candidatoAntigo) {
+        try (Sql sql = conexao.abrirConexao()) {
+            conexao.iniciarTransacao()
+            candidatoAntigo.competencias.forEach {Competencia competencia -> {
+                Boolean existeCompetenciaCandidato = candidatoAlterado.competencias.contains(competencia);
+                if(!existeCompetenciaCandidato) {
+                    String sSQL = """
+                        DELETE FROM Candidato_Competencia 
+                        WHERE id_candidato = ${candidatoAlterado.id} AND
+                            id_competencia = ${competencia.id}
+                    """
                     sql.execute(sSQL);
                 }
             }}

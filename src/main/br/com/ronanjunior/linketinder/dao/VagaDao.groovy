@@ -164,17 +164,112 @@ class VagaDao {
         }
     }
 
+    Vaga buscarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
+        Vaga vaga = null;
+        List<Competencia> competencias = null;
+        try (Sql sql = conexao.abrirConexao()) {
+            String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga} AND id_empresa = ${idEmpresa}"
+            sql.eachRow(sSQL) { linha ->
+                CompetenciaDao competenciaDao = new CompetenciaDao(conexao);
+                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga);
+                vaga = new Vaga(
+                        linha.id_vaga,
+                        linha.nome,
+                        linha.descricao,
+                        linha.estado,
+                        linha.cidade,
+                        null,
+                        competencias
+                )
+            }
+            conexao.fecharConexao();
+            return vaga;
+        } catch (Exception e) {
+            e.printStackTrace()
+            conexao.fecharConexao();
+            return vaga
+        }
+    }
+
     public Boolean atualizarVaga(Vaga vaga) {
         String sSQL = """
             UPDATE Vaga
             SET nome = '${vaga.nome}',
                 descricao = '${vaga.descricao}',
                 estado = '${vaga.estado}',
-                cidade = '${vaga.cidade}',
-                id_empresa = ${vaga.empresa.id}
+                cidade = '${vaga.cidade}'
             WHERE id_vaga = ${vaga.id}
         """
         return executarUpdate(sSQL)
+    }
+
+    Boolean cadastrarCompetenciaVaga(Vaga vaga) {
+        try (Sql sql = conexao.abrirConexao()) {
+            conexao.iniciarTransacao()
+            vaga.competencias.forEach {Competencia competencia -> {
+                Boolean existeCompetenciaVaga = this.verificarExistenciaCompetenciaParaVaga(vaga.id, competencia.id, sql);
+                if(!existeCompetenciaVaga) {
+                    String sSQL = """
+                        INSERT INTO Vaga_Competencia (id_vaga, id_competencia)
+                        VALUES (${vaga.id}, ${competencia.id})
+                    """
+
+                    sql.execute(sSQL);
+                }
+            }}
+
+            conexao.commitTransacao()
+            conexao.fecharConexao();
+            return true;
+        } catch (Exception e) {
+            println e
+            conexao.rollbackTransacao()
+            conexao.fecharConexao();
+            return false;
+        }
+    }
+
+    Boolean removerCompetenciaVaga(Vaga vagaAlterado, Vaga vagaAntigo) {
+        try (Sql sql = conexao.abrirConexao()) {
+            conexao.iniciarTransacao()
+            vagaAntigo.competencias.forEach {Competencia competencia -> {
+                Boolean existeCompetenciaVaga = vagaAlterado.competencias.contains(competencia);
+                if(!existeCompetenciaVaga) {
+                    String sSQL = """
+                        DELETE FROM Vaga_Competencia 
+                        WHERE id_vaga = ${vagaAlterado.id} AND
+                            id_competencia = ${competencia.id}
+                    """
+                    sql.execute(sSQL);
+                }
+            }}
+
+            conexao.commitTransacao()
+            conexao.fecharConexao();
+            return true;
+        } catch (Exception e) {
+            println e
+            conexao.rollbackTransacao()
+            conexao.fecharConexao();
+            return false;
+        }
+    }
+
+    private Boolean verificarExistenciaCompetenciaParaVaga(Integer idVaga, Integer idCompetencia, Sql sql) {
+        String sSQL = """
+        SELECT * FROM Vaga_Competencia
+        WHERE 
+            id_vaga = ${idVaga} AND
+            id_competencia = ${idCompetencia}
+    """
+
+        Boolean competenciaEncontrada = false
+
+        sql.eachRow(sSQL) { linha ->
+            competenciaEncontrada = true
+        }
+
+        return competenciaEncontrada;
     }
 
     public Boolean excluirVaga(Integer idVaga) {

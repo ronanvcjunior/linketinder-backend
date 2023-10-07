@@ -344,8 +344,8 @@ class CandidatoView {
 
 
 
-        print "Competências Atuais: ${candidato.competencias}\n";
-        List<Competencia> competencias = candidato.competencias;
+        print "Competências Atuais: ${candidatoAlterado.competencias}\n";
+        List<Competencia> competencias = candidatoAlterado.competencias;
         while (true) {
             print "Nome da competência (ou deixe em branco para encerrar): ";
             String nomeCompetencia = scanner.nextLine();
@@ -362,9 +362,7 @@ class CandidatoView {
 
         }
 
-        candidatoAlterado.competencias = competencias;
-
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.removerCompetenciaCandidato(candidatoAlterado, candidato);
 
         if (alterado)
             return candidatoAlterado;
