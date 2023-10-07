@@ -58,7 +58,7 @@ class EmpresaDao {
                 descricao = '${empresa.descricao}',
                 pais = '${empresa.pais}',
                 cep = '${empresa.cep}'
-            WHERE id_empresa = ${empresa.id_empresa}
+            WHERE id_empresa = ${empresa.id}
         """
         return executarUpdate(sSQL)
     }

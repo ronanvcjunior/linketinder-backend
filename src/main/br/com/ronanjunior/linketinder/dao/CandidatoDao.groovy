@@ -66,7 +66,7 @@ class CandidatoDao {
         return executarUpdate(sSQL)
     }
 
-    public Boolean atualizarCandidato(Candidato candidato) {
+    Boolean atualizarCandidato(Candidato candidato) {
         String sSQL = """
             UPDATE Candidato
             SET nome = '${candidato.nome}',

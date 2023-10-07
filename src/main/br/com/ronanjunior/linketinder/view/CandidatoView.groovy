@@ -99,9 +99,18 @@ class CandidatoView {
     Candidato alterarNome(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String nome;
+
         print "Nome Atual: ${candidato.nome}\n";
-        print "Nome Novo: ";
-        String nome = scanner.nextLine();
+        while (true) {
+            print "Nome Novo: ";
+            nome = scanner.nextLine();
+            nome = nome.trim();
+            if (nome)
+                break;
+            else
+                println "Nome Inválido";
+        }
 
         candidatoAlterado.nome = nome;
 
@@ -116,9 +125,18 @@ class CandidatoView {
     Candidato alterarSobrenome(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String sobrenome;
+
         print "Sobrenome Atual: ${candidato.sobrenome}\n";
-        print "Sobrenome Novo: ";
-        String sobrenome = scanner.nextLine();
+        while (true) {
+            print "Sobrenome novo: ";
+            sobrenome = scanner.nextLine();
+            sobrenome = sobrenome.trim();
+            if (sobrenome)
+                break;
+            else
+                println "Sobrenome Inválido";
+        }
 
         candidatoAlterado.sobrenome = sobrenome;
 
@@ -133,9 +151,23 @@ class CandidatoView {
     Candidato alterarCPF(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String cpf;
+
         print "CPF Atual: ${candidato.cpf}\n";
-        print "CPF Novo: ";
-        String cpf = scanner.nextLine();
+        while (true) {
+            print "CPF novo: ";
+            cpf = scanner.nextLine();
+            cpf = cpf.trim().replaceAll(/[^0-9]/, "");
+            String regexCPF = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
+            if (cpf ==~ regexCPF) {
+                Boolean cpfJaCadastrado = candidatoController.verificarCpf(cpf);
+                if (cpfJaCadastrado)
+                    println "Email já cadastrado no sistema";
+                else
+                    break
+            } else
+                println "CPF Inválido";
+        }
 
         candidatoAlterado.cpf = cpf;
 
@@ -150,9 +182,19 @@ class CandidatoView {
     Candidato alterarDataNascimento(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String dataNascimento;
+
         print "Data de nascimento Atual: ${candidato.dataNascimento}\n";
-        print "Data de nascimento Novo: ";
-        String dataNascimento = scanner.nextLine();
+        while (true) {
+            print "Data de nascimento nova: ";
+            dataNascimento = scanner.nextLine();
+            dataNascimento = dataNascimento.trim();
+            String regexDataNascimento = /^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/\d{4}/;
+            if (dataNascimento ==~ regexDataNascimento)
+                break
+            else
+                println "Data de nascimento Inválida";
+        }
 
         candidatoAlterado.dataNascimento = manipulacaoData.stringParaDate(dataNascimento);
 
@@ -167,9 +209,18 @@ class CandidatoView {
     Candidato alterarPais(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String pais;
+
         print "País Atual: ${candidato.pais}\n";
-        print "País Novo: ";
-        String pais = scanner.nextLine();
+        while (true) {
+            print "Pais novo: ";
+            pais = scanner.nextLine();
+            pais = pais.trim();
+            if (pais)
+                break
+            else
+                println "País Inválido";
+        }
 
         candidatoAlterado.pais = pais;
 
@@ -184,9 +235,19 @@ class CandidatoView {
     Candidato alterarCEP(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String cep;
+
         print "CEP Atual: ${candidato.cep}\n";
-        print "CEP Novo: ";
-        String cep = scanner.nextLine();
+        while (true) {
+            print "CEP novo: ";
+            cep = scanner.nextLine();
+            cep = cep.trim().replaceAll(/[^0-9]/, "");
+            String regexCEP = /^\d{5}\-?\d{3}$/;
+            if (cep ==~ regexCEP)
+                break;
+            else
+                println "CEP Inválido";
+        }
 
         candidatoAlterado.cep = cep;
 
@@ -201,9 +262,18 @@ class CandidatoView {
     Candidato alterarEstado(Candidato candidato) {
         Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
 
+        String estado;
+
         print "Estado Atual: ${candidato.estado}\n";
-        print "Estado Novo: ";
-        String estado = scanner.nextLine();
+        while (true) {
+            print "Estado novo: ";
+            estado = scanner.nextLine();
+            estado = estado.trim();
+            if (estado)
+                break
+            else
+                println "Estado Inválido";
+        }
 
         candidatoAlterado.estado = estado;
 

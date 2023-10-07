@@ -159,19 +159,19 @@ class TerminalInterativoController {
                     String comandoAlterar = terminalInterativoView.retornarComando();
                     switch (comandoAlterar) {
                         case "nome":
-                            this.login.candidato = candidatoView.alterarNome(login.candidato);
+                            this.login.empresa = empresaView.alterarNome(login.empresa);
                             break;
                         case "cnpj":
-                            this.login.candidato = candidatoView.alterarCPF(login.candidato);
+                            this.login.empresa = empresaView.alterarCnpj(login.empresa);
                             break;
                         case "pais":
-                            this.login.candidato = candidatoView.alterarPais(login.candidato);
+                            this.login.empresa = empresaView.alterarPais(login.empresa);
                             break;
                         case "cep":
-                            this.login.candidato = candidatoView.alterarCEP(login.candidato);
+                            this.login.empresa = empresaView.alterarCep(login.empresa);
                             break;
                         case "descricao":
-                            this.login.candidato = candidatoView.alterarDescricao(login.candidato);
+                            this.login.empresa = empresaView.alterarDescricao(login.empresa);
                             break;
                         default:
                             println "O campo ${comandoAlterar} não pertence ao candidato!"
