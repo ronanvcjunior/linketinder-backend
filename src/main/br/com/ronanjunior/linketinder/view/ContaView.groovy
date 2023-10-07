@@ -303,8 +303,8 @@ class ContaView {
             String regexEmail = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
             if (email ==~ regexEmail) {
                 Boolean emailJaCadastrado = contaController.verificarEmail(email);
-                if(emailJaCadastrado)
-                    println "Email já cadastrado no sistema";
+                if(!emailJaCadastrado)
+                    println "Email não cadastrado no sistema";
                 else
                     break
             } else
@@ -324,9 +324,9 @@ class ContaView {
         Conta login = contaController.realizarLogin(email, senha);
 
         if (!login)
-            println "Email e/ou senha incorreto(s)";
+            println "Senha incorreta";
         else
-            println "Login efetuado com sucessl!\n";
+            println "Login efetuado com sucesso!\n";
 
         return login;
     }

@@ -19,6 +19,15 @@ class EmpresaView {
         }
     }
 
+    void exibirEmpresa(Empresa empresa) {
+        println """   |Nome: ${empresa.nome}
+                |CPF: ${empresa.cnpj}
+                |Pais: ${empresa.pais}
+                |CEP: ${empresa.cep}
+                |Descrição: ${empresa.descricao}
+        |""".stripMargin();
+    }
+
     Empresa cadastrarEmpresa() {
         println("Cadastro de uma nova empresa:")
 

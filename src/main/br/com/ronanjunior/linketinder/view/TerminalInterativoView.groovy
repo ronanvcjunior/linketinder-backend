@@ -31,7 +31,6 @@ class TerminalInterativoView {
                 " - alterar: Para alterar as suas informações\n" +
                 " - vaga cadastrar: Para cadastrar um nova vaga\n" +
                 " - vaga listar: Mostra todos as vagas cadastradas pela empresa\n" +
-                " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
                 " - candidato listar: Mostra todos candidatos cadastrados\n" +
                 " - sair: Para sair do programa\n" +
                 "\n";

@@ -36,16 +36,16 @@ class CandidatoView {
     }
 
     void exibirCandidato(Candidato candidato) {
-    print """   |Nome: ${candidato.nome}
+    println """   |Nome: ${candidato.nome}
                 |Sobrenome: ${candidato.sobrenome}
                 |CPF: ${candidato.cpf}
                 |Data de nascimento: ${candidato.dataNascimento}
-                |Pais: ${candidato.dataNascimento}
-                |Estado: ${candidato.pais}
+                |Pais: ${candidato.pais}
+                |Estado: ${candidato.estado}
                 |CEP: ${candidato.cep}
                 |Competências: ${candidato.competencias}
                 |Descrição: ${candidato.descricao}
-        |\n""".stripMargin();
+        |""".stripMargin();
     }
 
     Candidato cadastrarCandidato() {

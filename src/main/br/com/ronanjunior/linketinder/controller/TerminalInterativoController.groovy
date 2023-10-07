@@ -151,20 +151,41 @@ class TerminalInterativoController {
                 case "ajuda":
                     terminalInterativoView.exibirAjudaMenuEmpresa();
                     break;
-                case "candidato cadastrar":
-                    Candidato candidato = candidatoView.cadastrarCandidato();
-                    candidatoController.adicionarCandidato(candidato);
-                    candidatoView.candidatos = candidatoController.candidatos;
+                case "info":
+                    empresaView.exibirEmpresa(login.empresa);
                     break;
-                case "candidato listar":
-                    candidatoView.exibirCandidatos();
+                case "alterar":
+                    println "Digite um campo para alterar (nome, cnpj, pais, cep, descricao)"
+                    String comandoAlterar = terminalInterativoView.retornarComando();
+                    switch (comandoAlterar) {
+                        case "nome":
+                            this.login.candidato = candidatoView.alterarNome(login.candidato);
+                            break;
+                        case "cnpj":
+                            this.login.candidato = candidatoView.alterarCPF(login.candidato);
+                            break;
+                        case "pais":
+                            this.login.candidato = candidatoView.alterarPais(login.candidato);
+                            break;
+                        case "cep":
+                            this.login.candidato = candidatoView.alterarCEP(login.candidato);
+                            break;
+                        case "descricao":
+                            this.login.candidato = candidatoView.alterarDescricao(login.candidato);
+                            break;
+                        default:
+                            println "O campo ${comandoAlterar} não pertence ao candidato!"
+                    }
                     break;
-                case "empresa cadastrar":
+                case "vaga cadastrar":
                     Empresa empresa = empresaView.cadastrarEmpresa();
                     empresaController.adicionarEmpresa(empresa);
                     empresaView.empresas = empresaController.empresas;
                     break;
-                case "empresa listar":
+                case "vaga listar":
+                    empresaView.exibirEmpresas();
+                    break;
+                case "candidato listar":
                     empresaView.exibirEmpresas();
                     break;
                 case "sair":
