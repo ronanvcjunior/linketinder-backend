@@ -181,7 +181,7 @@ class TerminalInterativoController {
                     vagaView.cadastrarVaga(login);
                     break;
                 case "vaga listar":
-                    empresaView.exibirEmpresas();
+                    vagaView.listarVagasParaEmpresa(login.empresa);
                     break;
                 case "candidato listar":
                     empresaView.exibirEmpresas();

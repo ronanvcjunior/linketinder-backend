@@ -59,7 +59,7 @@ class VagaDao {
         List<Vaga> vagas = []
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
-                SELECT id_vaga, nome
+                SELECT *
                 FROM Vaga
                 WHERE id_empresa = ${idEmpresa}
             """

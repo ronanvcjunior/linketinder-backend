@@ -6,6 +6,7 @@ import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
 import main.br.com.ronanjunior.linketinder.model.Conta
+import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.model.Vaga
 
 class VagaView {
@@ -26,7 +27,7 @@ class VagaView {
         println("Cadastro de um novo usuário:")
 
         String nome;
-        String pais;
+        String estado;
         String cidade;
 
         while (true) {
@@ -40,13 +41,13 @@ class VagaView {
         }
 
         while (true) {
-            print "Pais: ";
-            pais = scanner.nextLine();
-            pais = pais.trim();
-            if (pais)
+            print "Estado: ";
+            estado = scanner.nextLine();
+            estado = estado.trim();
+            if (estado)
                 break
             else
-                println "País Inválido";
+                println "Estado Inválido";
         }
 
         while (true) {
@@ -89,7 +90,7 @@ class VagaView {
                 null,
                 nome,
                 descricao,
-                pais,
+                estado,
                 cidade,
                 login.empresa,
                 competencias
@@ -106,6 +107,21 @@ class VagaView {
                     "Vaga de número ${vaga.id}: " +
                     "[Nome: ${vaga.nome}, " +
                     "Empresa: ${vaga.nomeEmpresa}, " +
+                    "Competências desejadas: ${vaga.competencias}, " +
+                    "Descrição: ${vaga.descricao}]" +
+                    "";
+        }}
+    }
+
+    void listarVagasParaEmpresa(Empresa empresa) {
+        List<Vaga> vagas = vagaController.listarTodasVagasParaEmpresa(empresa);
+
+        vagas.forEach {Vaga vaga -> {
+            println "" +
+                    "Vaga de número ${vaga.id}: " +
+                    "[Nome: ${vaga.nome}, " +
+                    "Estado: ${vaga.estado}, " +
+                    "Cidade: ${vaga.cidade}, " +
                     "Competências desejadas: ${vaga.competencias}, " +
                     "Descrição: ${vaga.descricao}]" +
                     "";
