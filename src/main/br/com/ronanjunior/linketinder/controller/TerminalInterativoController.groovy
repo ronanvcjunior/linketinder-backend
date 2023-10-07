@@ -25,7 +25,7 @@ class TerminalInterativoController {
     CandidatoView candidatoView = new CandidatoView(competenciasCadastradas);
     EmpresaController empresaController = new EmpresaController();
     EmpresaView empresaView = new EmpresaView();
-    VagaView vagaView = new VagaView();
+    VagaView vagaView = new VagaView(competenciasCadastradas);
     Conta login;
 
 
@@ -178,9 +178,7 @@ class TerminalInterativoController {
                     }
                     break;
                 case "vaga cadastrar":
-                    Empresa empresa = empresaView.cadastrarEmpresa();
-                    empresaController.adicionarEmpresa(empresa);
-                    empresaView.empresas = empresaController.empresas;
+                    vagaView.cadastrarVaga(login);
                     break;
                 case "vaga listar":
                     empresaView.exibirEmpresas();
