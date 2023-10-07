@@ -52,6 +52,7 @@ class ContaDao {
             Integer candidatoId = cadastrarCandidato(conta.candidato, sql)
             if (candidatoId == null) {
                 conexao.rollbackTransacao()
+                conexao.fecharConexao();
                 return null
             }
 

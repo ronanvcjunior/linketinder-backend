@@ -89,6 +89,28 @@ class EmpresaDao {
         }
     }
 
+    Boolean verificarExistenciaCnpjCadastrado(String cnpj) {
+        try (Sql sql = conexao.abrirConexao()) {
+            String sSQL = """
+                SELECT * FROM Empresa
+                WHERE cnpj = '${cnpj}'
+            """
+
+            Boolean empresaEncontrado = false
+
+            sql.eachRow(sSQL) { linha ->
+                empresaEncontrado = true
+            }
+
+            conexao.fecharConexao();
+            return empresaEncontrado;
+        } catch (Exception e) {
+            e.printStackTrace()
+            conexao.fecharConexao();
+            return false;
+        }
+    }
+
     private Boolean executarUpdate(String sSQL) {
         try (Sql sql = conexao.abrirConexao()) {
             sql.execute(sSQL)

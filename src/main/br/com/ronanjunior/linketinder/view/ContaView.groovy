@@ -3,6 +3,7 @@ package main.br.com.ronanjunior.linketinder.view
 import main.br.com.ronanjunior.linketinder.controller.CandidatoController
 import main.br.com.ronanjunior.linketinder.controller.CompetenciaController
 import main.br.com.ronanjunior.linketinder.controller.ContaController
+import main.br.com.ronanjunior.linketinder.controller.EmpresaController
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
 import main.br.com.ronanjunior.linketinder.model.Conta
@@ -12,6 +13,7 @@ import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
 class ContaView {
     ContaController contaController = new ContaController();
     CandidatoController candidatoController = new CandidatoController();
+    EmpresaController empresaController = new EmpresaController();
     Scanner scanner = new Scanner(System.in);
     List<Competencia> competenciasCadastradas = [];
     ManipulacaoData manipulacaoData = new ManipulacaoData();
@@ -189,18 +191,84 @@ class ContaView {
     Conta cadastrarContaEmpresa() {
         println("Cadastro de um nova Empresa:")
 
-        print "Nome: ";
-        String nome = scanner.nextLine();
-        print "CNPJ: ";
-        String cnpj = scanner.nextLine();
-        print "Pais: ";
-        String pais = scanner.nextLine();
-        print "CEP: ";
-        String cep = scanner.nextLine();
-        print "Email: ";
-        String email = scanner.nextLine();
-        print "Senha: ";
-        String senha = scanner.nextLine();
+        String nome;
+        String cnpj;
+        String pais;
+        String cep;
+        String email;
+        String senha;
+
+        while (true) {
+            print "Nome: ";
+            nome = scanner.nextLine();
+            nome = nome.trim();
+            if (nome)
+                break;
+            else
+                println "Nome Inválido";
+        }
+
+        while (true) {
+            print "CNPJ: ";
+            cnpj = scanner.nextLine();
+            cnpj = cnpj.trim().replaceAll(/[^0-9]/, "");
+            String regexCnpj = /^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}\-?\d{2}$/;
+            if (cnpj ==~ regexCnpj) {
+                Boolean cnpjJaCadastrado = empresaController.verificarCnpj(cnpj);
+                if (cnpjJaCadastrado)
+                    println "CNPJ já cadastrado no sistema";
+                else
+                    break
+            } else
+                println "CPF Inválido";
+        }
+
+        while (true) {
+            print "Pais: ";
+            pais = scanner.nextLine();
+            pais = pais.trim();
+            if (pais)
+                break
+            else
+                println "País Inválido";
+        }
+
+        while (true) {
+            print "CEP: ";
+            cep = scanner.nextLine();
+            cep = cep.trim().replaceAll(/[^0-9]/, "");
+            String regexCEP = /^\d{5}\-?\d{3}$/;
+            if (cep ==~ regexCEP)
+                break;
+            else
+                println "CEP Inválido";
+        }
+
+        while (true) {
+            print "Email: ";
+            email = scanner.nextLine();
+            email = email.trim();
+            String regexEmail = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
+            if (email ==~ regexEmail) {
+                Boolean emailJaCadastrado = contaController.verificarEmail(email);
+                if(emailJaCadastrado)
+                    println "Email já cadastrado no sistema";
+                else
+                    break
+            } else
+                println "Email Inválido";
+        }
+
+        while (true) {
+            print "Senha: ";
+            senha = scanner.nextLine();
+            senha = senha.trim();
+            if (senha)
+                break
+            else
+                println "Senha Inválida";
+        }
+
         print "Descrição: ";
         String descricao = scanner.nextLine();
 
@@ -225,11 +293,41 @@ class ContaView {
     Conta fazerLogin() {
         println("Login:")
 
-        print "Email: ";
-        String email = scanner.nextLine();
-        print "Senha: ";
-        String senha = scanner.nextLine();
+        String email;
+        String senha;
 
-        return contaController.realizarLogin(email, senha)
+        while (true) {
+            print "Email: ";
+            email = scanner.nextLine();
+            email = email.trim();
+            String regexEmail = /^\S+@\w+\.\w{2,6}(\.\w{2})?$/;
+            if (email ==~ regexEmail) {
+                Boolean emailJaCadastrado = contaController.verificarEmail(email);
+                if(emailJaCadastrado)
+                    println "Email já cadastrado no sistema";
+                else
+                    break
+            } else
+                println "Email Inválido";
+        }
+
+        while (true) {
+            print "Senha: ";
+            senha = scanner.nextLine();
+            senha = senha.trim();
+            if (senha)
+                break
+            else
+                println "Senha Inválida";
+        }
+
+        Conta login = contaController.realizarLogin(email, senha);
+
+        if (!login)
+            println "Email e/ou senha incorreto(s)";
+        else
+            println "Login efetuado com sucessl!\n";
+
+        return login;
     }
 }
