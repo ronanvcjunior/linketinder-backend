@@ -19,6 +19,9 @@ class VagaView {
 
     CompetenciaController competenciaController;
 
+    VagaView() {}
+
+
     VagaView(List<Competencia> competenciasCadastradas) {
         this.competenciasCadastradas = competenciasCadastradas;
         this.competenciaController = new CompetenciaController(this.competenciasCadastradas);
@@ -328,7 +331,7 @@ class VagaView {
     }
 
 
-    void listarVagasParaCandidato(Candidato candidato) {
+    List<VagaListaDoCandidadoDto> listarVagasParaCandidato(Candidato candidato) {
         List<VagaListaDoCandidadoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato);
 
         vagas.forEach {VagaListaDoCandidadoDto vaga -> {
@@ -340,6 +343,8 @@ class VagaView {
                     "Descrição: ${vaga.descricao}]" +
                     "";
         }}
+
+        return  vagas;
     }
 
     List<Vaga> listarVagasParaEmpresa(Empresa empresa) {

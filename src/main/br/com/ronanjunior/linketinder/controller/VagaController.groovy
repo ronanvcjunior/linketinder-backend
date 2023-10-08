@@ -47,6 +47,10 @@ class VagaController {
         return vagaDao.buscarVagaDaEmpresaPorId(idVaga, idEmpresa);
     }
 
+    Vaga procurarVagaPorId(Integer idVaga) {
+        return vagaDao.buscarVagaPorId(idVaga);
+    }
+
     Vaga copiarVaga(Vaga vaga) {
         List<Competencia> competencias = [];
         vaga.competencias.forEach {Competencia competencia -> {

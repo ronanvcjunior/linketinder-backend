@@ -9,6 +9,7 @@ import main.br.com.ronanjunior.linketinder.utils.Conexao
 import main.br.com.ronanjunior.linketinder.view.CandidatoView
 import main.br.com.ronanjunior.linketinder.view.ContaView
 import main.br.com.ronanjunior.linketinder.view.EmpresaView
+import main.br.com.ronanjunior.linketinder.view.MatchView
 import main.br.com.ronanjunior.linketinder.view.TerminalInterativoView
 import main.br.com.ronanjunior.linketinder.view.VagaView
 
@@ -26,6 +27,7 @@ class TerminalInterativoController {
     EmpresaController empresaController = new EmpresaController();
     EmpresaView empresaView = new EmpresaView();
     VagaView vagaView = new VagaView(competenciasCadastradas);
+    MatchView matchView = new MatchView();
     Conta login;
 
 
@@ -133,6 +135,9 @@ class TerminalInterativoController {
                     break;
                 case "vaga listar":
                     vagaView.listarVagasParaCandidato(login.candidato);
+                    break;
+                case "vaga curtir":
+                    matchView.curtirVaga(login.candidato);
                     break;
                 case "sair":
                     this.runnigCandidatoOuEmpresa = false;

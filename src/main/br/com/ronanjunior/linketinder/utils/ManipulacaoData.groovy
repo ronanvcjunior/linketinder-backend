@@ -7,7 +7,9 @@ class ManipulacaoData {
     SimpleDateFormat sdf = new SimpleDateFormat(formatoPadrao)
 
     String dateParaString(Date data) {
-        return sdf.format(data)
+        if (data)
+            return sdf.format(data)
+        return null
     }
 
     Date stringParaDate(String dataString) {

@@ -20,6 +20,7 @@ class TerminalInterativoView {
                 " - info: Para mostrar as suas informações\n" +
                 " - alterar: Para alterar as suas informações\n" +
                 " - vaga listar: Mostra todas as vagas\n" +
+                " - vaga curtir: Para curtir uma vaga\n" +
                 " - sair: Para sair do programa\n" +
                 "\n";
     }

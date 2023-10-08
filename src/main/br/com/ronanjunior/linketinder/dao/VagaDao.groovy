@@ -160,7 +160,7 @@ class VagaDao {
         } catch (Exception e) {
             e.printStackTrace()
             conexao.fecharConexao();
-            return vaga
+            return vaga;
         }
     }
 
