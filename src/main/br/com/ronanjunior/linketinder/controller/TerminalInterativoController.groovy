@@ -187,7 +187,7 @@ class TerminalInterativoController {
                     vagaView.alterarVaga(login.empresa);
                     break;
                 case "vaga deletar":
-                    vagaView.listarVagasParaEmpresa(login.empresa);
+                    vagaView.deletarVaga(login.empresa);
                     break;
                 case "candidato listar":
                     empresaView.exibirEmpresas();

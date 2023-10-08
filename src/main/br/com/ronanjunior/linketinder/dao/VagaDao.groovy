@@ -272,7 +272,7 @@ class VagaDao {
         return competenciaEncontrada;
     }
 
-    public Boolean excluirVaga(Integer idVaga) {
+    Boolean excluirVaga(Integer idVaga) {
         String sSQL = "DELETE FROM Vaga WHERE id_vaga = ${idVaga};"
         return executarUpdate(sSQL)
     }

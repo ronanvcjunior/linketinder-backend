@@ -39,6 +39,10 @@ class VagaController {
         return vagaDao.removerCompetenciaVaga(vagaAlterado, vagaAntigo);
     }
 
+    Boolean deletarVaga(Vaga vaga) {
+        return vagaDao.excluirVaga(vaga.id);
+    }
+
     Vaga procurarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
         return vagaDao.buscarVagaDaEmpresaPorId(idVaga, idEmpresa);
     }

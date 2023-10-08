@@ -1,5 +1,6 @@
 package main.br.com.ronanjunior.linketinder.view
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import main.br.com.ronanjunior.linketinder.controller.CompetenciaController
 import main.br.com.ronanjunior.linketinder.controller.VagaController
 import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
@@ -301,6 +302,29 @@ class VagaView {
             return vagaAlterado;
         else
             return vaga;
+    }
+
+    void deletarVaga(Empresa empresa) {
+        Boolean vagaDeletada = false;
+        List<Vaga> vagas = this.listarVagasParaEmpresa(empresa);
+
+        println "Qual vaga deseja deletar? Selecione o número dela"
+        print "Número da vaga: ";
+        Integer idVaga = scanner.nextInt();
+        scanner.nextLine();
+
+        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id);
+        if (vagas.contains(vaga)) {
+            vagaDeletada = vagaController.deletarVaga(vaga);
+        } else {
+            println "Não exite a vaga de número ${idVaga} registrada\n"
+        }
+
+        if(vagaDeletada)
+            println "Vaga Deletada com sucesso!"
+        else
+            println "Não foi possível deletar a vaga!"
+
     }
 
 
