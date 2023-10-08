@@ -2,8 +2,11 @@ package main.br.com.ronanjunior.linketinder.view
 
 import main.br.com.ronanjunior.linketinder.controller.CandidatoController
 import main.br.com.ronanjunior.linketinder.controller.CompetenciaController
+import main.br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
+import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
+import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
 
 class CandidatoView {
@@ -368,5 +371,18 @@ class CandidatoView {
             return candidatoAlterado;
         else
             return candidato;
+    }
+
+
+    void listarCandidatosParaEmpresa(Empresa empresa) {
+        List<CandidatoListaDaEmpresaDto> candidatos = candidatoController.listarCandidatosParaEmpresa(empresa);
+
+        candidatos.forEach {CandidatoListaDaEmpresaDto candidato -> {
+            println "" +
+                    "Candidato de número ${candidato.id}: " +
+                    "[Nome Completo: ${candidato.nomeCompleto}, " +
+                    "Competências: ${candidato.competencias}]" +
+                    "";
+        }}
     }
 }

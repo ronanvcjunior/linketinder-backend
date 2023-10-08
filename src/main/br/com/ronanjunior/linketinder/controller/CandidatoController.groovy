@@ -1,14 +1,20 @@
 package main.br.com.ronanjunior.linketinder.controller
 
 import main.br.com.ronanjunior.linketinder.dao.CandidatoDao
+import main.br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
+import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
 class CandidatoController {
     CandidatoDao candidatoDao = new CandidatoDao(new Conexao());
     List<Candidato> candidatos = [];
     CompetenciaController competenciaController = new CompetenciaController();
+
+    List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {
+        return candidatoDao.listarCandidatosParaEmpresa(empresa.id);
+    }
 
     void adicionarCandidato(Candidato candidato) {
         candidatos.add(candidato);

@@ -190,7 +190,7 @@ class TerminalInterativoController {
                     vagaView.deletarVaga(login.empresa);
                     break;
                 case "candidato listar":
-                    empresaView.exibirEmpresas();
+                    candidatoView.listarCandidatosParaEmpresa(login.empresa);
                     break;
                 case "sair":
                     this.runnigCandidatoOuEmpresa = false;
