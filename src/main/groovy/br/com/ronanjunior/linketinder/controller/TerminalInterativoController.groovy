@@ -36,6 +36,9 @@ class TerminalInterativoController {
 
         this.menuInicial()
 
+        if(!runnigCandidatoOuEmpresa)
+            return
+
         if (this.login.candidato)
             this.menuCandidato()
         else if (this.login.empresa)
