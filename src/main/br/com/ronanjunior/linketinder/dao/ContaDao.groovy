@@ -21,7 +21,7 @@ class ContaDao {
             Integer empresaId = cadastrarEmpresa(conta.empresa, sql)
             if (empresaId == null) {
                 conexao.rollbackTransacao()
-                conexao.fecharConexao();
+                conexao.fecharConexao()
                 return null
             }
 
@@ -30,33 +30,33 @@ class ContaDao {
 
             if (contaId == null) {
                 conexao.rollbackTransacao()
-                conexao.fecharConexao();
+                conexao.fecharConexao()
                 return null
             }
 
             conexao.commitTransacao()
-            conexao.fecharConexao();
+            conexao.fecharConexao()
             return contaId
         } catch (Exception e) {
             println e
             conexao.rollbackTransacao()
-            conexao.fecharConexao();
+            conexao.fecharConexao()
             return null
         }
     }
 
-    public Integer registrarCandidato(Conta conta) {
+    Integer registrarCandidato(Conta conta) {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
 
             Integer candidatoId = cadastrarCandidato(conta.candidato, sql)
             if (candidatoId == null) {
                 conexao.rollbackTransacao()
-                conexao.fecharConexao();
+                conexao.fecharConexao()
                 return null
             }
 
-            this.cadastrarCompetenciaDoCandidato(candidatoId, conta.candidato.competencias, sql);
+            this.cadastrarCompetenciaDoCandidato(candidatoId, conta.candidato.competencias, sql)
 
             conta.candidato.id = candidatoId
             Integer contaId = cadastrarConta(conta, sql)
@@ -75,10 +75,10 @@ class ContaDao {
         }
     }
 
-    public Conta realizarLogin(String email, String senha) {
-        Candidato candidato = null;
-        Empresa empresa = null;
-        Conta conta = null;
+    Conta realizarLogin(String email, String senha) {
+        Candidato candidato = null
+        Empresa empresa = null
+        Conta conta = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
                 SELECT * FROM Conta
@@ -86,11 +86,11 @@ class ContaDao {
             """
             sql.eachRow(sSQL) { linha ->
                 if (linha.id_candidato) {
-                    CandidatoDao candidatoDao = new CandidatoDao(conexao);
-                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato);
+                    CandidatoDao candidatoDao = new CandidatoDao(conexao)
+                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato)
                 } else if (linha.id_empresa) {
-                    EmpresaDao empresaDao = new EmpresaDao(conexao);
-                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa);
+                    EmpresaDao empresaDao = new EmpresaDao(conexao)
+                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa)
                 }
                 conta = new Conta(
                         linha.id_conta,
@@ -100,45 +100,28 @@ class ContaDao {
                         empresa
                 )
             }
-            conexao.fecharConexao();
-            return conta;
+            conexao.fecharConexao()
+            return conta
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
+            conexao.fecharConexao()
             return null
         }
     }
 
-    public Boolean atualizarConta(Conta conta) {
-        String sSQL = """
-            UPDATE Conta
-            SET email = '${conta.email}',
-                senha = '${conta.senha}',
-                id_candidato = ${conta.candidato.id},
-                id_empresa = ${conta.empresa.id}
-            WHERE id_conta = ${conta.id}
-        """
-        return executarUpdate(sSQL)
-    }
-
-    public Boolean excluirConta(Integer idConta) {
-        String sSQL = "DELETE FROM Conta WHERE id_conta = ${idConta};"
-        return executarUpdate(sSQL)
-    }
-
-    public Conta buscarContaPorId(Integer idConta) {
-        Candidato candidato = null;
-        Empresa empresa = null;
-        Conta conta = null;
+    Conta buscarContaPorId(Integer idConta) {
+        Candidato candidato = null
+        Empresa empresa = null
+        Conta conta = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = "SELECT * FROM Conta WHERE id_conta = ${idConta}"
             sql.eachRow(sSQL) { linha ->
                 if (linha.id_candidato) {
-                    CandidatoDao candidatoDao = new CandidatoDao(conexao);
-                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato);
+                    CandidatoDao candidatoDao = new CandidatoDao(conexao)
+                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato)
                 } else if (linha.id_empresa) {
-                    EmpresaDao empresaDao = new EmpresaDao(conexao);
-                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa);
+                    EmpresaDao empresaDao = new EmpresaDao(conexao)
+                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa)
                 }
                 conta = new Conta(
                         linha.id_conta,
@@ -148,22 +131,12 @@ class ContaDao {
                         empresa
                 )
             }
-            conexao.fecharConexao();
-            return conta;
+            conexao.fecharConexao()
+            return conta
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return conta;
-        }
-    }
-
-    public Conta buscarContaPorEmail(String email) {
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Conta WHERE email = ${email}"
-            return sql.firstRow(sSQL, Conta)
-        } catch (Exception e) {
-            e.printStackTrace()
-            return null
+            conexao.fecharConexao()
+            return conta
         }
     }
 
@@ -180,16 +153,16 @@ class ContaDao {
                 contaEncontrada = true
             }
 
-            conexao.fecharConexao();
-            return contaEncontrada;
+            conexao.fecharConexao()
+            return contaEncontrada
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
-    public Integer cadastrarEmpresa(Empresa empresa, Sql sql) {
+    Integer cadastrarEmpresa(Empresa empresa, Sql sql) {
         String sSQL = """
             INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
             VALUES (
@@ -208,7 +181,7 @@ class ContaDao {
             return null
     }
 
-    public Integer cadastrarCandidato(Candidato candidato, Sql sql) {
+    Integer cadastrarCandidato(Candidato candidato, Sql sql) {
         String sSQL = """
             INSERT INTO Candidato (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
             VALUES (
@@ -245,12 +218,12 @@ class ContaDao {
     }
 
     private Integer cadastrarConta(Conta conta, Sql sql) {
-        Integer idCandidato = null;
-        Integer idEmpresa = null;
+        Integer idCandidato = null
+        Integer idEmpresa = null
         if (conta.candidato)
-            idCandidato = conta.candidato.id;
+            idCandidato = conta.candidato.id
         else if (conta.empresa)
-            idEmpresa = conta.empresa.id;
+            idEmpresa = conta.empresa.id
         String sSQL = """
             INSERT INTO Conta (email, senha, id_candidato, id_empresa)
             VALUES (
@@ -266,15 +239,5 @@ class ContaDao {
             return resultado[0][0]
         else
             return null
-    }
-
-    private Boolean executarUpdate(String sSQL) {
-        try (Sql sql = conexao.abrirConexao()) {
-            sql.execute(sSQL)
-            return true
-        } catch (Exception e) {
-            e.printStackTrace()
-            return false
-        }
     }
 }

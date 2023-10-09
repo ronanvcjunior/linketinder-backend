@@ -1,6 +1,5 @@
 package main.br.com.ronanjunior.linketinder.view
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import main.br.com.ronanjunior.linketinder.controller.CompetenciaController
 import main.br.com.ronanjunior.linketinder.controller.VagaController
 import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
@@ -12,83 +11,83 @@ import main.br.com.ronanjunior.linketinder.model.Vaga
 
 class VagaView {
 
-    VagaController vagaController = new VagaController();
-    Scanner scanner = new Scanner(System.in);
+    VagaController vagaController = new VagaController()
+    Scanner scanner = new Scanner(System.in)
 
-    List<Competencia> competenciasCadastradas = [];
+    List<Competencia> competenciasCadastradas = []
 
-    CompetenciaController competenciaController;
+    CompetenciaController competenciaController
 
     VagaView() {}
 
 
     VagaView(List<Competencia> competenciasCadastradas) {
-        this.competenciasCadastradas = competenciasCadastradas;
-        this.competenciaController = new CompetenciaController(this.competenciasCadastradas);
+        this.competenciasCadastradas = competenciasCadastradas
+        this.competenciaController = new CompetenciaController(this.competenciasCadastradas)
     }
 
     Vaga cadastrarVaga(Conta login) {
         println("Cadastro de um nova vaga:")
 
-        String nome;
-        String estado;
-        String cidade;
+        String nome
+        String estado
+        String cidade
 
         while (true) {
-            print "Nome: ";
-            nome = scanner.nextLine();
-            nome = nome.trim();
+            print "Nome: "
+            nome = scanner.nextLine()
+            nome = nome.trim()
             if (nome)
-                break;
+                break
             else
-                println "Nome Inválido";
+                println "Nome Inválido"
         }
 
         while (true) {
-            print "Estado: ";
-            estado = scanner.nextLine();
-            estado = estado.trim();
+            print "Estado: "
+            estado = scanner.nextLine()
+            estado = estado.trim()
             if (estado)
                 break
             else
-                println "Estado Inválido";
+                println "Estado Inválido"
         }
 
         while (true) {
-            print "Cidade: ";
-            cidade = scanner.nextLine();
-            cidade = cidade.trim();
+            print "Cidade: "
+            cidade = scanner.nextLine()
+            cidade = cidade.trim()
             if (cidade)
                 break
             else
-                println "Cidade Inválido";
+                println "Cidade Inválido"
         }
 
         this.competenciasCadastradas.forEach {Competencia competencia -> {
             println "${competencia.id}: ${competencia.nome}"
         }}
-        List<Competencia> competencias = [];
+        List<Competencia> competencias = []
         while (true) {
-            print "Nome da competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
+            print "Nome da competência (ou deixe em branco para encerrar): "
+            String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
-                break;
+                break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia);
+            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
-                competencias.add(competencia);
+                competencias.add(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
-                        "${competenciasCadastradas}";
+                        "${competenciasCadastradas}"
             }
 
         }
 
-        print "Descrição: ";
-        String descricao = scanner.nextLine();
-        descricao = descricao.trim();
+        print "Descrição: "
+        String descricao = scanner.nextLine()
+        descricao = descricao.trim()
 
         Vaga novaVaga = new Vaga(
                 null,
@@ -98,43 +97,43 @@ class VagaView {
                 cidade,
                 login.empresa,
                 competencias
-        );
+        )
 
-        return vagaController.registrarVaga(novaVaga);
+        return vagaController.registrarVaga(novaVaga)
     }
 
     void alterarVaga(Empresa empresa) {
-        List<Vaga> vagas = this.listarVagasParaEmpresa(empresa);
+        List<Vaga> vagas = this.listarVagasParaEmpresa(empresa)
 
         println "Qual vaga deseja alterar? Selecione o número dela"
-        print "Número da vaga: ";
-        Integer idVaga = scanner.nextInt();
-        scanner.nextLine();
+        print "Número da vaga: "
+        Integer idVaga = scanner.nextInt()
+        scanner.nextLine()
 
-        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id);
+        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id)
         if (vagas.contains(vaga)) {
             println "Digite um campo para alterar (nome, esdato, cidade, descricao, add competencias, sub competencias)"
-            print ">>> ";
-            String comandoAlterar = scanner.nextLine();
+            print ">>> "
+            String comandoAlterar = scanner.nextLine()
             switch (comandoAlterar) {
                 case "nome":
-                    this.alterarNome(vaga);
-                    break;
+                    this.alterarNome(vaga)
+                    break
                 case "esdato":
-                    this.alterarEstado(vaga);
-                    break;
+                    this.alterarEstado(vaga)
+                    break
                 case "cidade":
-                    this.alterarCidade(vaga);
-                    break;
+                    this.alterarCidade(vaga)
+                    break
                 case "descricao":
-                    this.alterarDescricao(vaga);
-                    break;
+                    this.alterarDescricao(vaga)
+                    break
                 case "add competencias":
-                    this.adicionarCompetenciasVaga(vaga);
-                    break;
+                    this.adicionarCompetenciasVaga(vaga)
+                    break
                 case "sub competencias":
-                    this.removerCompetenciasVaga(vaga);
-                    break;
+                    this.removerCompetenciasVaga(vaga)
+                    break
                 default:
                     println "O campo ${comandoAlterar} não pertence a vaga!"
             }
@@ -145,180 +144,180 @@ class VagaView {
     }
 
     Vaga alterarNome(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
-        String nome;
+        String nome
 
-        print "Nome Atual: ${vaga.nome}\n";
+        print "Nome Atual: ${vaga.nome}\n"
         while (true) {
-            print "Nome Novo: ";
-            nome = scanner.nextLine();
-            nome = nome.trim();
+            print "Nome Novo: "
+            nome = scanner.nextLine()
+            nome = nome.trim()
             if (nome)
-                break;
+                break
             else
-                println "Nome Inválido";
+                println "Nome Inválido"
         }
 
-        vagaAlterado.nome = nome;
+        vagaAlterado.nome = nome
 
-        Boolean alterado = vagaController.alterarVaga(vagaAlterado);
+        Boolean alterado = vagaController.alterarVaga(vagaAlterado)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     Vaga alterarEstado(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
-        String estado;
+        String estado
 
-        print "Estado Atual: ${vaga.estado}\n";
+        print "Estado Atual: ${vaga.estado}\n"
         while (true) {
-            print "Estado Novo: ";
-            estado = scanner.nextLine();
-            estado = estado.trim();
+            print "Estado Novo: "
+            estado = scanner.nextLine()
+            estado = estado.trim()
             if (estado)
-                break;
+                break
             else
-                println "Estado Inválido";
+                println "Estado Inválido"
         }
 
-        vagaAlterado.estado = estado;
+        vagaAlterado.estado = estado
 
-        Boolean alterado = vagaController.alterarVaga(vagaAlterado);
+        Boolean alterado = vagaController.alterarVaga(vagaAlterado)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     Vaga alterarCidade(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
-        String cidade;
+        String cidade
 
-        print "Cidade Atual: ${vaga.cidade}\n";
+        print "Cidade Atual: ${vaga.cidade}\n"
         while (true) {
-            print "Cidade Nova: ";
-            cidade = scanner.nextLine();
-            cidade = cidade.trim();
+            print "Cidade Nova: "
+            cidade = scanner.nextLine()
+            cidade = cidade.trim()
             if (cidade)
-                break;
+                break
             else
-                println "Cidade Inválida";
+                println "Cidade Inválida"
         }
 
-        vagaAlterado.cidade = cidade;
+        vagaAlterado.cidade = cidade
 
-        Boolean alterado = vagaController.alterarVaga(vagaAlterado);
+        Boolean alterado = vagaController.alterarVaga(vagaAlterado)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     Vaga alterarDescricao(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
-        print "Descricao Atual: ${vaga.descricao}\n";
-        print "Descricao Novo: ";
-        String descricao = scanner.nextLine();
+        print "Descricao Atual: ${vaga.descricao}\n"
+        print "Descricao Novo: "
+        String descricao = scanner.nextLine()
 
-        vagaAlterado.descricao = descricao;
+        vagaAlterado.descricao = descricao
 
-        Boolean alterado = vagaController.alterarVaga(vagaAlterado);
+        Boolean alterado = vagaController.alterarVaga(vagaAlterado)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     Vaga adicionarCompetenciasVaga(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
 
         this.competenciasCadastradas.forEach {Competencia competencia -> {
             println "${competencia.id}: ${competencia.nome}"
         }}
-        print "Competências Atuais: ${vaga.competencias}\n";
-        List<Competencia> competencias = vaga.competencias;
+        print "Competências Atuais: ${vaga.competencias}\n"
+        List<Competencia> competencias = vaga.competencias
         while (true) {
-            print "Nome da competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
+            print "Nome da competência (ou deixe em branco para encerrar): "
+            String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
-                break;
+                break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia);
+            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
-                competencias.add(competencia);
+                competencias.add(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
-                        "${competenciasCadastradas}";
+                        "${competenciasCadastradas}"
             }
 
         }
 
-        vagaAlterado.competencias = competencias;
+        vagaAlterado.competencias = competencias
 
-        Boolean alterado = vagaController.adicionarCompetenciaVaga(vagaAlterado);
+        Boolean alterado = vagaController.adicionarCompetenciaVaga(vagaAlterado)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     Vaga removerCompetenciasVaga(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga);
+        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
 
 
 
-        print "Competências Atuais: ${vagaAlterado.competencias}\n";
-        List<Competencia> competencias = vagaAlterado.competencias;
+        print "Competências Atuais: ${vagaAlterado.competencias}\n"
+        List<Competencia> competencias = vagaAlterado.competencias
         while (true) {
-            print "Nome da competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
+            print "Nome da competência (ou deixe em branco para encerrar): "
+            String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
-                break;
+                break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia);
+            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
             if (competencias.contains(competencia)) {
-                competencias.remove(competencia);
+                competencias.remove(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de suas competências\n" +
-                        "${competencias}";
+                        "${competencias}"
             }
 
         }
 
-        Boolean alterado = vagaController.removerCompetenciaVaga(vagaAlterado, vaga);
+        Boolean alterado = vagaController.removerCompetenciaVaga(vagaAlterado, vaga)
 
         if (alterado)
-            return vagaAlterado;
+            return vagaAlterado
         else
-            return vaga;
+            return vaga
     }
 
     void deletarVaga(Empresa empresa) {
-        Boolean vagaDeletada = false;
-        List<Vaga> vagas = this.listarVagasParaEmpresa(empresa);
+        Boolean vagaDeletada = false
+        List<Vaga> vagas = this.listarVagasParaEmpresa(empresa)
 
         println "Qual vaga deseja deletar? Selecione o número dela"
-        print "Número da vaga: ";
-        Integer idVaga = scanner.nextInt();
-        scanner.nextLine();
+        print "Número da vaga: "
+        Integer idVaga = scanner.nextInt()
+        scanner.nextLine()
 
-        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id);
+        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id)
         if (vagas.contains(vaga)) {
-            vagaDeletada = vagaController.deletarVaga(vaga);
+            vagaDeletada = vagaController.deletarVaga(vaga)
         } else {
             println "Não exite a vaga de número ${idVaga} registrada\n"
         }
@@ -332,7 +331,7 @@ class VagaView {
 
 
     List<VagaListaDoCandidadoDto> listarVagasParaCandidato(Candidato candidato) {
-        List<VagaListaDoCandidadoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato);
+        List<VagaListaDoCandidadoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato)
 
         vagas.forEach {VagaListaDoCandidadoDto vaga -> {
             println "" +
@@ -341,18 +340,18 @@ class VagaView {
                     "Empresa: ${vaga.nomeEmpresa}, " +
                     "Competências desejadas: ${vaga.competencias}, " +
                     "Descrição: ${vaga.descricao}]" +
-                    "";
+                    ""
         }}
 
-        return  vagas;
+        return  vagas
     }
 
     List<Vaga> listarVagasParaEmpresa(Empresa empresa) {
-        List<Vaga> vagas = vagaController.listarTodasVagasParaEmpresa(empresa);
+        List<Vaga> vagas = vagaController.listarTodasVagasParaEmpresa(empresa)
 
-        this.mostrarVagasParaEmpresa(vagas);
+        this.mostrarVagasParaEmpresa(vagas)
 
-        return vagas;
+        return vagas
     }
 
     private void mostrarVagasParaEmpresa(List<Vaga> vagas) {
@@ -364,7 +363,7 @@ class VagaView {
                     "Cidade: ${vaga.cidade}, " +
                     "Competências desejadas: ${vaga.competencias}, " +
                     "Descrição: ${vaga.descricao}]" +
-                    "";
+                    ""
         }}
     }
 

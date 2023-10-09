@@ -3,18 +3,18 @@ package main.br.com.ronanjunior.linketinder.utils
 import groovy.sql.Sql
 
 class Conexao {
-    private final String URL = "jdbc:postgresql://localhost:5432/db_linketinder";
-    private final String USUARIO = "ronan";
-    private final String SENHA = "kubuntu";
-    private Sql sql;
+    private final String URL = "jdbc:postgresql://localhost:5432/db_linketinder"
+    private final String USUARIO = "ronan"
+    private final String SENHA = "kubuntu"
+    private Sql sql
 
     public Sql abrirConexao() {
-        this.sql = Sql.newInstance(URL, USUARIO, SENHA);
-        return this.sql;
+        this.sql = Sql.newInstance(URL, USUARIO, SENHA)
+        return this.sql
     }
 
     public void fecharConexao() {
-        this.sql.close();
+        this.sql.close()
     }
 
     public void iniciarTransacao() {

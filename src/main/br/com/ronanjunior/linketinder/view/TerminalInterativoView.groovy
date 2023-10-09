@@ -1,18 +1,7 @@
 package main.br.com.ronanjunior.linketinder.view
 
 class TerminalInterativoView {
-    Scanner scanner = new Scanner(System.in);
-
-    void exibirAjuda() {
-        print   "Opções disponíveis:\n" +
-                " - ajuda: Mostra todas as opções disponíveis\n" +
-                " - candidato cadastrar: Para cadastrar um novo candidato\n" +
-                " - candidato listar: Mostra todos os candidatos\n" +
-                " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
-                " - empresa listar: Mostra todas as empresas\n" +
-                " - sair: Para sair do programa\n" +
-                "\n";
-    }
+    Scanner scanner = new Scanner(System.in)
 
     void exibirAjudaMenuCandidato() {
         print   "Opções disponíveis:\n" +
@@ -22,7 +11,7 @@ class TerminalInterativoView {
                 " - vaga listar: Mostra todas as vagas\n" +
                 " - vaga curtir: Para curtir uma vaga\n" +
                 " - sair: Para sair do programa\n" +
-                "\n";
+                "\n"
     }
 
     void exibirAjudaMenuEmpresa() {
@@ -35,7 +24,7 @@ class TerminalInterativoView {
                 " - candidato listar: Mostra todos candidatos cadastrados\n" +
                 " - candidato curtir: Para curtir um candidato para uma vaga\n" +
                 " - sair: Para sair do programa\n" +
-                "\n";
+                "\n"
     }
 
     void exibirAjudaInicio() {
@@ -45,19 +34,19 @@ class TerminalInterativoView {
                 " - empresa cadastrar: Para cadastrar uma nova empresa\n" +
                 " - login: Para entrar na conta\n" +
                 " - sair: Para sair do programa\n" +
-                "\n";
+                "\n"
     }
 
     void exibirOpcaoInvalida() {
         print   "Opção inválida\n" +
                 " digite 'ajuda', para mostrar todas as opções disponíveis\n" +
-                "\n";
+                "\n"
     }
 
     String retornarComando() {
-        print ">>> ";
-        String comando = scanner.nextLine();
+        print ">>> "
+        String comando = scanner.nextLine()
 
-        return comando;
+        return comando
     }
 }

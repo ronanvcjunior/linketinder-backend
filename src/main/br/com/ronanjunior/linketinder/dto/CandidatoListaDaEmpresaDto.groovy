@@ -5,12 +5,9 @@ import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
 class CandidatoListaDaEmpresaDto {
-    Integer id;
-    String nomeCompleto;
-    List<Competencia> competencias = [];
-
-    CandidatoListaDaEmpresaDto() {
-    }
+    Integer id
+    String nomeCompleto
+    List<Competencia> competencias = []
 
     CandidatoListaDaEmpresaDto(Integer id, String nomeCompleto, List<Competencia> competencias) {
         this.id = id

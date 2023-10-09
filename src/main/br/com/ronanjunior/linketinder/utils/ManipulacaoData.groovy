@@ -17,7 +17,7 @@ class ManipulacaoData {
             return sdf.parse(dataString)
         } catch (Exception e) {
             e.printStackTrace()
-            return null;
+            return null
         }
     }
 

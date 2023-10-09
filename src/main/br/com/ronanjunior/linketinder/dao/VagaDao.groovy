@@ -4,8 +4,6 @@ import groovy.sql.Sql
 import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
-import main.br.com.ronanjunior.linketinder.model.Conta
-import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.model.Vaga
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
@@ -16,7 +14,7 @@ class VagaDao {
         this.conexao = conexao
     }
 
-    public List<VagaListaDoCandidadoDto> listarTodasVagasParaCandidato(Candidato candidato) {
+    List<VagaListaDoCandidadoDto> listarTodasVagasParaCandidato(Candidato candidato) {
         List<VagaListaDoCandidadoDto> vagas = []
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
@@ -35,7 +33,7 @@ class VagaDao {
                 ) ma ON ma.id_vaga = va.id_vaga
                 INNER JOIN Empresa em ON em.id_empresa = va.id_empresa
                 GROUP BY va.id_vaga, em.nome
-                ORDER BY match DESC, va.nome ASC, va.id_vaga ASC;
+                ORDER BY match DESC, va.nome ASC, va.id_vaga ASC
             """
             sql.eachRow(sSQL) { linha ->
                 CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
@@ -55,7 +53,7 @@ class VagaDao {
         return vagas
     }
 
-    public List<Vaga> listarVagasPorEmpresa(Integer idEmpresa) {
+    List<Vaga> listarVagasPorEmpresa(Integer idEmpresa) {
         List<Vaga> vagas = []
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
@@ -90,11 +88,11 @@ class VagaDao {
             Integer vagaId = cadastrarConta(vaga, sql)
             if (vagaId == null) {
                 conexao.rollbackTransacao()
-                conexao.fecharConexao();
+                conexao.fecharConexao()
                 return null
             }
 
-            this.cadastrarCompetenciaDaVaga(vagaId, vaga.competencias, sql);
+            this.cadastrarCompetenciaDaVaga(vagaId, vaga.competencias, sql)
 
             conexao.commitTransacao()
             return vagaId
@@ -138,13 +136,13 @@ class VagaDao {
     }
 
     Vaga buscarVagaPorId(Integer idVaga) {
-        Vaga vaga = null;
-        List<Competencia> competencias = null;
+        Vaga vaga = null
+        List<Competencia> competencias = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga}"
             sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao);
-                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga);
+                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
+                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
                 vaga = new Vaga(
                         linha.id_vaga,
                         linha.nome,
@@ -155,43 +153,43 @@ class VagaDao {
                         competencias
                 )
             }
-            conexao.fecharConexao();
-            return vaga;
+            conexao.fecharConexao()
+            return vaga
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return vaga;
-        }
-    }
-
-    Vaga buscarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
-        Vaga vaga = null;
-        List<Competencia> competencias = null;
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga} AND id_empresa = ${idEmpresa}"
-            sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao);
-                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga);
-                vaga = new Vaga(
-                        linha.id_vaga,
-                        linha.nome,
-                        linha.descricao,
-                        linha.estado,
-                        linha.cidade,
-                        null,
-                        competencias
-                )
-            }
-            conexao.fecharConexao();
-            return vaga;
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao();
+            conexao.fecharConexao()
             return vaga
         }
     }
 
-    public Boolean atualizarVaga(Vaga vaga) {
+    Vaga buscarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
+        Vaga vaga = null
+        List<Competencia> competencias = null
+        try (Sql sql = conexao.abrirConexao()) {
+            String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga} AND id_empresa = ${idEmpresa}"
+            sql.eachRow(sSQL) { linha ->
+                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
+                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
+                vaga = new Vaga(
+                        linha.id_vaga,
+                        linha.nome,
+                        linha.descricao,
+                        linha.estado,
+                        linha.cidade,
+                        null,
+                        competencias
+                )
+            }
+            conexao.fecharConexao()
+            return vaga
+        } catch (Exception e) {
+            e.printStackTrace()
+            conexao.fecharConexao()
+            return vaga
+        }
+    }
+
+    Boolean atualizarVaga(Vaga vaga) {
         String sSQL = """
             UPDATE Vaga
             SET nome = '${vaga.nome}',
@@ -207,25 +205,25 @@ class VagaDao {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
             vaga.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaVaga = this.verificarExistenciaCompetenciaParaVaga(vaga.id, competencia.id, sql);
+                Boolean existeCompetenciaVaga = this.verificarExistenciaCompetenciaParaVaga(vaga.id, competencia.id, sql)
                 if(!existeCompetenciaVaga) {
                     String sSQL = """
                         INSERT INTO Vaga_Competencia (id_vaga, id_competencia)
                         VALUES (${vaga.id}, ${competencia.id})
                     """
 
-                    sql.execute(sSQL);
+                    sql.execute(sSQL)
                 }
             }}
 
             conexao.commitTransacao()
-            conexao.fecharConexao();
-            return true;
+            conexao.fecharConexao()
+            return true
         } catch (Exception e) {
             println e
             conexao.rollbackTransacao()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
@@ -233,25 +231,25 @@ class VagaDao {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
             vagaAntigo.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaVaga = vagaAlterado.competencias.contains(competencia);
+                Boolean existeCompetenciaVaga = vagaAlterado.competencias.contains(competencia)
                 if(!existeCompetenciaVaga) {
                     String sSQL = """
                         DELETE FROM Vaga_Competencia 
                         WHERE id_vaga = ${vagaAlterado.id} AND
                             id_competencia = ${competencia.id}
                     """
-                    sql.execute(sSQL);
+                    sql.execute(sSQL)
                 }
             }}
 
             conexao.commitTransacao()
-            conexao.fecharConexao();
-            return true;
+            conexao.fecharConexao()
+            return true
         } catch (Exception e) {
             println e
             conexao.rollbackTransacao()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
@@ -269,11 +267,11 @@ class VagaDao {
             competenciaEncontrada = true
         }
 
-        return competenciaEncontrada;
+        return competenciaEncontrada
     }
 
     Boolean excluirVaga(Integer idVaga) {
-        String sSQL = "DELETE FROM Vaga WHERE id_vaga = ${idVaga};"
+        String sSQL = "DELETE FROM Vaga WHERE id_vaga = ${idVaga}"
         return executarUpdate(sSQL)
     }
 

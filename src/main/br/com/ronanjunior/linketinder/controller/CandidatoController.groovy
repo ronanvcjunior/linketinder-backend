@@ -8,38 +8,33 @@ import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
 class CandidatoController {
-    CandidatoDao candidatoDao = new CandidatoDao(new Conexao());
-    List<Candidato> candidatos = [];
-    CompetenciaController competenciaController = new CompetenciaController();
+    CandidatoDao candidatoDao = new CandidatoDao(new Conexao())
+    CompetenciaController competenciaController = new CompetenciaController()
 
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {
-        return candidatoDao.listarCandidatosParaEmpresa(empresa.id);
-    }
-
-    void adicionarCandidato(Candidato candidato) {
-        candidatos.add(candidato);
+        return candidatoDao.listarCandidatosParaEmpresa(empresa.id)
     }
 
     Boolean alterarCandidato(Candidato candidato) {
-        return candidatoDao.atualizarCandidato(candidato);
+        return candidatoDao.atualizarCandidato(candidato)
     }
 
     Boolean adicionarCompetenciaCandidato(Candidato candidato) {
-        return candidatoDao.cadastrarCompetenciaCandidato(candidato);
+        return candidatoDao.cadastrarCompetenciaCandidato(candidato)
     }
 
     Boolean removerCompetenciaCandidato(Candidato candidatoAlterado, Candidato candidatoAntigo) {
-        return candidatoDao.removerCompetenciaCandidato(candidatoAlterado, candidatoAntigo);
+        return candidatoDao.removerCompetenciaCandidato(candidatoAlterado, candidatoAntigo)
     }
 
     Candidato procurarCandidatoPorId(Integer idCandidato) {
-        return candidatoDao.buscarCandidatoPorId(idCandidato);
+        return candidatoDao.buscarCandidatoPorId(idCandidato)
     }
 
     Candidato copiarCandidato(Candidato candidato) {
-        List<Competencia> competencias = [];
+        List<Competencia> competencias = []
         candidato.competencias.forEach {Competencia competencia -> {
-            competencias.add(competenciaController.copiarCompetencia(competencia));
+            competencias.add(competenciaController.copiarCompetencia(competencia))
         }}
         return new Candidato(
                 candidato.id,
@@ -52,10 +47,10 @@ class CandidatoController {
                 candidato.cep,
                 candidato.descricao,
                 competencias
-        );
+        )
     }
 
-    public Boolean verificarCpf(String cpf) {
-        return candidatoDao.verificarExistenciaCpfCadastrado(cpf);
+    Boolean verificarCpf(String cpf) {
+        return candidatoDao.verificarExistenciaCpfCadastrado(cpf)
     }
 }

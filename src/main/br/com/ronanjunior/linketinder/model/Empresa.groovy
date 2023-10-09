@@ -5,12 +5,12 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class Empresa implements Serializable {
 
-    Integer id;
-    String nome;
-    String cnpj;
-    String pais;
-    String cep;
-    String descricao;
+    Integer id
+    String nome
+    String cnpj
+    String pais
+    String cep
+    String descricao
 
     Empresa(Integer id, String nome, String cnpj, String pais, String cep, String descricao) {
         this.id = id

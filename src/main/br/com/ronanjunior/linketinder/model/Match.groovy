@@ -5,11 +5,11 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class Match implements Serializable {
 
-    Integer id;
-    Date dataCurtidaCandidato;
-    Date dataCurtidaVaga;
-    Candidato candidato;
-    Vaga vaga;
+    Integer id
+    Date dataCurtidaCandidato
+    Date dataCurtidaVaga
+    Candidato candidato
+    Vaga vaga
 
     Match(Integer id, Date dataCurtidaCandidato, Date dataCurtidaVaga, Candidato candidato, Vaga vaga) {
         this.id = id

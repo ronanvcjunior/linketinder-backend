@@ -4,8 +4,6 @@ import groovy.sql.Sql
 import main.br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
-import main.br.com.ronanjunior.linketinder.model.Conta
-import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
 class CandidatoDao {
@@ -15,17 +13,25 @@ class CandidatoDao {
         this.conexao = conexao
     }
 
-    public List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Integer idEmpresa) {
+    List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Integer idEmpresa) {
         List<CandidatoListaDaEmpresaDto> candidatos = []
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
                 SELECT
                     can.id_candidato,
                     CASE
-                        WHEN MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) = 1 THEN CONCAT(can.nome, ' ', can.sobrenome)
+                        WHEN MAX(
+                            CASE 
+                                WHEN data_curtida_candidato IS NOT NULL 
+                                AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
+                        ) = 1 THEN CONCAT(can.nome, ' ', can.sobrenome)
                         ELSE 'Anônimo'
                     END AS nome_completo,
-                    MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) AS match
+                    MAX(
+                        CASE 
+                            WHEN data_curtida_candidato IS NOT NULL 
+                            AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
+                    ) AS match
                 FROM Candidato can
                 LEFT JOIN (
                     SELECT * FROM Match WHERE id_vaga IN (
@@ -35,7 +41,7 @@ class CandidatoDao {
                     )
                 ) ma ON ma.id_candidato = can.id_candidato
                 GROUP BY can.id_candidato
-                ORDER BY match DESC, nome_completo ASC, can.id_candidato ASC;
+                ORDER BY match DESC, nome_completo ASC, can.id_candidato ASC
             """
 
             sql.eachRow(sSQL) { linha ->
@@ -52,18 +58,6 @@ class CandidatoDao {
             e.printStackTrace()
         }
         return candidatos
-    }
-
-    public Boolean cadastrarCandidato(Candidato candidato) {
-        String sSQL = """
-            INSERT INTO Candidato_Competencia (id_candidato, id_competencia)
-            VALUES (
-                '${candidato.id}',
-                '${candidato.competencias.id}',
-            )
-        """
-
-        return executarUpdate(sSQL)
     }
 
     Boolean atualizarCandidato(Candidato candidato) {
@@ -87,25 +81,26 @@ class CandidatoDao {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
             candidato.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaCandidato = this.verificarExistenciaCompetenciaParaCandidato(candidato.id, competencia.id, sql);
+                Boolean existeCompetenciaCandidato =
+                        this.verificarExistenciaCompetenciaParaCandidato(candidato.id, competencia.id, sql)
                 if(!existeCompetenciaCandidato) {
                     String sSQL = """
                         INSERT INTO Candidato_Competencia (id_candidato, id_competencia)
                         VALUES (${candidato.id}, ${competencia.id})
                     """
 
-                    sql.execute(sSQL);
+                    sql.execute(sSQL)
                 }
             }}
 
             conexao.commitTransacao()
-            conexao.fecharConexao();
-            return true;
+            conexao.fecharConexao()
+            return true
         } catch (Exception e) {
             println e
             conexao.rollbackTransacao()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
@@ -113,25 +108,25 @@ class CandidatoDao {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()
             candidatoAntigo.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaCandidato = candidatoAlterado.competencias.contains(competencia);
+                Boolean existeCompetenciaCandidato = candidatoAlterado.competencias.contains(competencia)
                 if(!existeCompetenciaCandidato) {
                     String sSQL = """
                         DELETE FROM Candidato_Competencia 
                         WHERE id_candidato = ${candidatoAlterado.id} AND
                             id_competencia = ${competencia.id}
                     """
-                    sql.execute(sSQL);
+                    sql.execute(sSQL)
                 }
             }}
 
             conexao.commitTransacao()
-            conexao.fecharConexao();
-            return true;
+            conexao.fecharConexao()
+            return true
         } catch (Exception e) {
             println e
             conexao.rollbackTransacao()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
@@ -149,7 +144,7 @@ class CandidatoDao {
             competenciaEncontrada = true
         }
 
-        return competenciaEncontrada;
+        return competenciaEncontrada
     }
 
     Boolean verificarExistenciaCpfCadastrado(String cpf) {
@@ -165,29 +160,29 @@ class CandidatoDao {
                 candidatoEncontrado = true
             }
 
-            conexao.fecharConexao();
-            return candidatoEncontrado;
+            conexao.fecharConexao()
+            return candidatoEncontrado
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 
 
-    public Boolean excluirCandidato(Integer idCandidato) {
-        String sSQL = "DELETE FROM Candidato WHERE id_candidato = ${idCandidato};"
+    Boolean excluirCandidato(Integer idCandidato) {
+        String sSQL = "DELETE FROM Candidato WHERE id_candidato = ${idCandidato}"
         return executarUpdate(sSQL)
     }
 
     Candidato buscarCandidatoPorId(Integer idCandidato) {
-        Candidato candidato = null;
-        List<Competencia> competencias = null;
+        Candidato candidato = null
+        List<Competencia> competencias = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = "SELECT * FROM Candidato WHERE id_candidato = ${idCandidato}"
             sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao);
-                competencias = competenciaDao.listarCompetenciasPorCandidatoID(linha.id_candidato);
+                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
+                competencias = competenciaDao.listarCompetenciasPorCandidatoID(linha.id_candidato)
                 candidato = new Candidato(
                         linha.id_candidato,
                         linha.nome,
@@ -201,11 +196,11 @@ class CandidatoDao {
                         competencias
                 )
             }
-            conexao.fecharConexao();
-            return candidato;
+            conexao.fecharConexao()
+            return candidato
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
+            conexao.fecharConexao()
             return candidato
         }
     }

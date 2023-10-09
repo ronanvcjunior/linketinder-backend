@@ -3,41 +3,24 @@ package main.br.com.ronanjunior.linketinder.view
 import main.br.com.ronanjunior.linketinder.controller.CandidatoController
 import main.br.com.ronanjunior.linketinder.controller.CompetenciaController
 import main.br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
-import main.br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Competencia
 import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
 
 class CandidatoView {
-    List<Candidato> candidatos;
-    CandidatoController candidatoController = new CandidatoController();
-    Scanner scanner = new Scanner(System.in);
-    List<Competencia> competenciasCadastradas = [];
-    ManipulacaoData manipulacaoData = new ManipulacaoData();
+    CandidatoController candidatoController = new CandidatoController()
+    Scanner scanner = new Scanner(System.in)
+    List<Competencia> competenciasCadastradas = []
+    ManipulacaoData manipulacaoData = new ManipulacaoData()
 
-    CompetenciaController competenciaController;
+    CompetenciaController competenciaController
 
     CandidatoView() { }
 
     CandidatoView(List<Competencia> competenciasCadastradas) {
-        this.competenciasCadastradas = competenciasCadastradas;
-        this.competenciaController = new CompetenciaController(this.competenciasCadastradas);
-    }
-
-    void exibirCandidatos() {
-        candidatos.each {candidato ->
-            print   "(" +
-                    " nome: " + candidato.getNome() + "," +
-                    " cpf: " + candidato.getCpf() + "," +
-                    " Data de nascimento: " + manipulacaoData.dateParaString(candidato.dataNascimento) + "," +
-                    " pais: " + candidato.getPais() + "," +
-                    " estado: " + candidato.getEstado() + "," +
-                    " cep: " + candidato.getCep() + "," +
-                    " competências: " + candidato.getCompetencias() + "," +
-                    " descrição: " + candidato.getDescricao() +
-                    ")\n";
-        }
+        this.competenciasCadastradas = competenciasCadastradas
+        this.competenciaController = new CompetenciaController(this.competenciasCadastradas)
     }
 
     void exibirCandidato(Candidato candidato) {
@@ -50,343 +33,295 @@ class CandidatoView {
                 |CEP: ${candidato.cep}
                 |Competências: ${candidato.competencias}
                 |Descrição: ${candidato.descricao}
-        |""".stripMargin();
-    }
-
-    Candidato cadastrarCandidato() {
-        println("Cadastro de um novo usuário:")
-
-        print "Nome: ";
-        String nome = scanner.nextLine();
-        print "CPF: ";
-        String cpf = scanner.nextLine();
-        print "Data de nascimento: ";
-        String dataNascimento = scanner.nextLine();
-        print "Pais: ";
-        String pais = scanner.nextLine();
-        print "Estado: ";
-        String estado = scanner.nextLine();
-        print "CEP: ";
-        String cep = scanner.nextLine();
-
-        List<Competencia> competencias = [];
-        while (true) {
-            print "Competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
-            Competencia competencia = new Competencia(null, nomeCompetencia);
-            if (nomeCompetencia.isEmpty()) {
-                break;
-            }
-            if (competenciasCadastradas.contains(competencia)) {
-                competencias.add(competencia);
-            } else {
-                println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
-                        "${competenciasCadastradas}";
-            }
-
-        }
-
-        print "Descrição: ";
-        String descricao = scanner.nextLine();
-
-        return new Candidato(
-                nome: nome,
-                cpf: cpf,
-                dataNascimento: manipulacaoData.stringParaDate(dataNascimento),
-                pais: pais,
-                estado: estado,
-                cep: cep,
-                competencias: competencias,
-                descricao: descricao
-        );
+        |""".stripMargin()
     }
 
     Candidato alterarNome(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String nome;
+        String nome
 
-        print "Nome Atual: ${candidato.nome}\n";
+        print "Nome Atual: ${candidato.nome}\n"
         while (true) {
-            print "Nome Novo: ";
-            nome = scanner.nextLine();
-            nome = nome.trim();
+            print "Nome Novo: "
+            nome = scanner.nextLine()
+            nome = nome.trim()
             if (nome)
-                break;
+                break
             else
-                println "Nome Inválido";
+                println "Nome Inválido"
         }
 
-        candidatoAlterado.nome = nome;
+        candidatoAlterado.nome = nome
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarSobrenome(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String sobrenome;
+        String sobrenome
 
-        print "Sobrenome Atual: ${candidato.sobrenome}\n";
+        print "Sobrenome Atual: ${candidato.sobrenome}\n"
         while (true) {
-            print "Sobrenome novo: ";
-            sobrenome = scanner.nextLine();
-            sobrenome = sobrenome.trim();
+            print "Sobrenome novo: "
+            sobrenome = scanner.nextLine()
+            sobrenome = sobrenome.trim()
             if (sobrenome)
-                break;
+                break
             else
-                println "Sobrenome Inválido";
+                println "Sobrenome Inválido"
         }
 
-        candidatoAlterado.sobrenome = sobrenome;
+        candidatoAlterado.sobrenome = sobrenome
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarCPF(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String cpf;
+        String cpf
 
-        print "CPF Atual: ${candidato.cpf}\n";
+        print "CPF Atual: ${candidato.cpf}\n"
         while (true) {
-            print "CPF novo: ";
-            cpf = scanner.nextLine();
-            cpf = cpf.trim().replaceAll(/[^0-9]/, "");
-            String regexCPF = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/;
+            print "CPF novo: "
+            cpf = scanner.nextLine()
+            cpf = cpf.trim().replaceAll(/[^0-9]/, "")
+            String regexCPF = /^\d{3}\.?\d{3}\.?\d{3}\-?\d{2}$/
             if (cpf ==~ regexCPF) {
-                Boolean cpfJaCadastrado = candidatoController.verificarCpf(cpf);
+                Boolean cpfJaCadastrado = candidatoController.verificarCpf(cpf)
                 if (cpfJaCadastrado)
-                    println "Email já cadastrado no sistema";
+                    println "Email já cadastrado no sistema"
                 else
                     break
             } else
-                println "CPF Inválido";
+                println "CPF Inválido"
         }
 
-        candidatoAlterado.cpf = cpf;
+        candidatoAlterado.cpf = cpf
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarDataNascimento(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String dataNascimento;
+        String dataNascimento
 
-        print "Data de nascimento Atual: ${candidato.dataNascimento}\n";
+        print "Data de nascimento Atual: ${candidato.dataNascimento}\n"
         while (true) {
-            print "Data de nascimento nova: ";
-            dataNascimento = scanner.nextLine();
-            dataNascimento = dataNascimento.trim();
-            String regexDataNascimento = /^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/\d{4}/;
+            print "Data de nascimento nova: "
+            dataNascimento = scanner.nextLine()
+            dataNascimento = dataNascimento.trim()
+            String regexDataNascimento = /^(0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[0-2])\\/\d{4}/
             if (dataNascimento ==~ regexDataNascimento)
                 break
             else
-                println "Data de nascimento Inválida";
+                println "Data de nascimento Inválida"
         }
 
-        candidatoAlterado.dataNascimento = manipulacaoData.stringParaDate(dataNascimento);
+        candidatoAlterado.dataNascimento = manipulacaoData.stringParaDate(dataNascimento)
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarPais(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String pais;
+        String pais
 
-        print "País Atual: ${candidato.pais}\n";
+        print "País Atual: ${candidato.pais}\n"
         while (true) {
-            print "Pais novo: ";
-            pais = scanner.nextLine();
-            pais = pais.trim();
+            print "Pais novo: "
+            pais = scanner.nextLine()
+            pais = pais.trim()
             if (pais)
                 break
             else
-                println "País Inválido";
+                println "País Inválido"
         }
 
-        candidatoAlterado.pais = pais;
+        candidatoAlterado.pais = pais
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarCEP(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String cep;
+        String cep
 
-        print "CEP Atual: ${candidato.cep}\n";
+        print "CEP Atual: ${candidato.cep}\n"
         while (true) {
-            print "CEP novo: ";
-            cep = scanner.nextLine();
-            cep = cep.trim().replaceAll(/[^0-9]/, "");
-            String regexCEP = /^\d{5}\-?\d{3}$/;
+            print "CEP novo: "
+            cep = scanner.nextLine()
+            cep = cep.trim().replaceAll(/[^0-9]/, "")
+            String regexCEP = /^\d{5}\-?\d{3}$/
             if (cep ==~ regexCEP)
-                break;
+                break
             else
-                println "CEP Inválido";
+                println "CEP Inválido"
         }
 
-        candidatoAlterado.cep = cep;
+        candidatoAlterado.cep = cep
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarEstado(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        String estado;
+        String estado
 
-        print "Estado Atual: ${candidato.estado}\n";
+        print "Estado Atual: ${candidato.estado}\n"
         while (true) {
-            print "Estado novo: ";
-            estado = scanner.nextLine();
-            estado = estado.trim();
+            print "Estado novo: "
+            estado = scanner.nextLine()
+            estado = estado.trim()
             if (estado)
                 break
             else
-                println "Estado Inválido";
+                println "Estado Inválido"
         }
 
-        candidatoAlterado.estado = estado;
+        candidatoAlterado.estado = estado
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato alterarDescricao(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
-        print "Descricao Atual: ${candidato.descricao}\n";
-        print "Descricao Novo: ";
-        String descricao = scanner.nextLine();
+        print "Descricao Atual: ${candidato.descricao}\n"
+        print "Descricao Novo: "
+        String descricao = scanner.nextLine()
 
-        candidatoAlterado.descricao = descricao;
+        candidatoAlterado.descricao = descricao
 
-        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato adicionarCompetenciasCandidato(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
 
         this.competenciasCadastradas.forEach {Competencia competencia -> {
             println "${competencia.id}: ${competencia.nome}"
         }}
-        print "Competências Atuais: ${candidato.competencias}\n";
-        List<Competencia> competencias = candidato.competencias;
+        print "Competências Atuais: ${candidato.competencias}\n"
+        List<Competencia> competencias = candidato.competencias
         while (true) {
-            print "Nome da competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
+            print "Nome da competência (ou deixe em branco para encerrar): "
+            String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
-                break;
+                break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia);
+            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
-                competencias.add(competencia);
+                competencias.add(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de competências\n" +
-                        "${competenciasCadastradas}";
+                        "${competenciasCadastradas}"
             }
 
         }
 
-        candidatoAlterado.competencias = competencias;
+        candidatoAlterado.competencias = competencias
 
-        Boolean alterado = candidatoController.adicionarCompetenciaCandidato(candidatoAlterado);
+        Boolean alterado = candidatoController.adicionarCompetenciaCandidato(candidatoAlterado)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
     Candidato removerCompetenciasCandidato(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato);
+        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
 
 
 
-        print "Competências Atuais: ${candidatoAlterado.competencias}\n";
-        List<Competencia> competencias = candidatoAlterado.competencias;
+        print "Competências Atuais: ${candidatoAlterado.competencias}\n"
+        List<Competencia> competencias = candidatoAlterado.competencias
         while (true) {
-            print "Nome da competência (ou deixe em branco para encerrar): ";
-            String nomeCompetencia = scanner.nextLine();
+            print "Nome da competência (ou deixe em branco para encerrar): "
+            String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
-                break;
+                break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia);
+            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
             if (competencias.contains(competencia)) {
-                competencias.remove(competencia);
+                competencias.remove(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de suas competências\n" +
-                        "${competencias}";
+                        "${competencias}"
             }
 
         }
 
-        Boolean alterado = candidatoController.removerCompetenciaCandidato(candidatoAlterado, candidato);
+        Boolean alterado = candidatoController.removerCompetenciaCandidato(candidatoAlterado, candidato)
 
         if (alterado)
-            return candidatoAlterado;
+            return candidatoAlterado
         else
-            return candidato;
+            return candidato
     }
 
 
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {
-        List<CandidatoListaDaEmpresaDto> candidatos = candidatoController.listarCandidatosParaEmpresa(empresa);
+        List<CandidatoListaDaEmpresaDto> candidatos = candidatoController.listarCandidatosParaEmpresa(empresa)
 
         candidatos.forEach {CandidatoListaDaEmpresaDto candidato -> {
             println "" +
                     "Candidato de número ${candidato.id}: " +
                     "[Nome Completo: ${candidato.nomeCompleto}, " +
                     "Competências: ${candidato.competencias}]" +
-                    "";
+                    ""
         }}
 
-        return candidatos;
+        return candidatos
     }
 }

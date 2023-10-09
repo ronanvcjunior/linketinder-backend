@@ -1,7 +1,6 @@
 package main.br.com.ronanjunior.linketinder.dao
 
 import groovy.sql.Sql
-import main.br.com.ronanjunior.linketinder.model.Candidato
 import main.br.com.ronanjunior.linketinder.model.Empresa
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 
@@ -10,44 +9,6 @@ class EmpresaDao {
 
     EmpresaDao(Conexao conexao) {
         this.conexao = conexao
-    }
-
-    public List<Empresa> listarTodasEmpresas() {
-        List<Empresa> empresas = []
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT id_empresa, nome, cnpj, descricao, pais, cep
-                FROM Empresa
-            """
-            sql.eachRow(sSQL) { linha ->
-                Empresa empresa = new Empresa(
-                        linha.id_empresa,
-                        linha.nome,
-                        linha.cnpj,
-                        linha.descricao,
-                        linha.pais,
-                        linha.cep
-                )
-                empresas.add(empresa)
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-        return empresas
-    }
-
-    public Boolean cadastrarEmpresa(Empresa empresa) {
-        String sSQL = """
-            INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
-            VALUES (
-                '${empresa.nome}',
-                '${empresa.cnpj}',
-                '${empresa.descricao}',
-                '${empresa.pais}',
-                '${empresa.cep}'
-            )
-        """
-        return executarUpdate(sSQL)
     }
 
     public Boolean atualizarEmpresa(Empresa empresa) {
@@ -64,12 +25,12 @@ class EmpresaDao {
     }
 
     public Boolean excluirEmpresa(Integer idEmpresa) {
-        String sSQL = "DELETE FROM Empresa WHERE id_empresa = ${idEmpresa};"
+        String sSQL = "DELETE FROM Empresa WHERE id_empresa = ${idEmpresa}"
         return executarUpdate(sSQL)
     }
 
     public Empresa buscarEmpresaPorId(Integer idEmpresa) {
-        Empresa empresa = null;
+        Empresa empresa = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = "SELECT * FROM Empresa WHERE id_empresa = ${idEmpresa}"
             sql.eachRow(sSQL) { linha ->
@@ -82,7 +43,7 @@ class EmpresaDao {
                         linha.descricao
                 )
             }
-            return empresa;
+            return empresa
         } catch (Exception e) {
             e.printStackTrace()
             return empresa
@@ -102,12 +63,12 @@ class EmpresaDao {
                 empresaEncontrado = true
             }
 
-            conexao.fecharConexao();
-            return empresaEncontrado;
+            conexao.fecharConexao()
+            return empresaEncontrado
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return false;
+            conexao.fecharConexao()
+            return false
         }
     }
 

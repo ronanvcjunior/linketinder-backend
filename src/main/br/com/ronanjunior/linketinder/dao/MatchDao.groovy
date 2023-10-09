@@ -3,7 +3,6 @@ package main.br.com.ronanjunior.linketinder.dao
 import groovy.sql.Sql
 import main.br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import main.br.com.ronanjunior.linketinder.model.Candidato
-import main.br.com.ronanjunior.linketinder.model.Match
 import main.br.com.ronanjunior.linketinder.model.Vaga
 import main.br.com.ronanjunior.linketinder.utils.Conexao
 import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
@@ -11,13 +10,13 @@ import main.br.com.ronanjunior.linketinder.utils.ManipulacaoData
 class MatchDao {
     private final Conexao conexao
 
-    ManipulacaoData manipulacaoData = new ManipulacaoData();
+    ManipulacaoData manipulacaoData = new ManipulacaoData()
 
     MatchDao(Conexao conexao) {
         this.conexao = conexao
     }
 
-    public Boolean curtirVaga(Candidato candidato, Vaga vaga) {
+    Boolean curtirVaga(Candidato candidato, Vaga vaga) {
         MatchComIdVagaEIdCandidatoDto match = buscarMatchPorCandidatoEVaga(candidato.id, vaga.id)
         if (match == null) {
             match = new MatchComIdVagaEIdCandidatoDto(null, null, new Date(), candidato.id, vaga.id)
@@ -28,7 +27,7 @@ class MatchDao {
         }
     }
 
-    public Boolean curtirCandidato(Candidato candidato, Vaga vaga) {
+    Boolean curtirCandidato(Candidato candidato, Vaga vaga) {
         MatchComIdVagaEIdCandidatoDto match = buscarMatchPorCandidatoEVaga(candidato.id, vaga.id)
         if (match == null) {
             match = new MatchComIdVagaEIdCandidatoDto(null, new Date(), null, candidato.id, vaga.id)
@@ -40,7 +39,7 @@ class MatchDao {
     }
 
     private MatchComIdVagaEIdCandidatoDto buscarMatchPorCandidatoEVaga(Integer idCandidato, Integer idVaga) {
-        MatchComIdVagaEIdCandidatoDto match = null;
+        MatchComIdVagaEIdCandidatoDto match = null
         try (Sql sql = conexao.abrirConexao()) {
             String sSQL = """
                 SELECT * FROM Match
@@ -56,12 +55,12 @@ class MatchDao {
                         linha.id_vaga
                 )
             }
-            conexao.fecharConexao();
-            return match;
+            conexao.fecharConexao()
+            return match
         } catch (Exception e) {
             e.printStackTrace()
-            conexao.fecharConexao();
-            return match;
+            conexao.fecharConexao()
+            return match
         }
     }
 

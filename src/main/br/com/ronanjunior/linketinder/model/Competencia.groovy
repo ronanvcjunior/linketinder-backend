@@ -5,8 +5,8 @@ import groovy.transform.EqualsAndHashCode
 @EqualsAndHashCode
 class Competencia implements Serializable {
 
-    Integer id;
-    String nome;
+    Integer id
+    String nome
 
     Competencia(Integer id, String nome) {
         this.id = id
@@ -15,6 +15,6 @@ class Competencia implements Serializable {
 
     @Override
     String toString() {
-        return nome;
+        return nome
     }
 }
