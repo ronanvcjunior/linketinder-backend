@@ -78,3 +78,5 @@ lib/
 node_modules
 
 stats.json
+
+.env

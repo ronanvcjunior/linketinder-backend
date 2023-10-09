@@ -1,11 +1,13 @@
 package br.com.ronanjunior.linketinder.utils
 
 import groovy.sql.Sql
+import io.github.cdimascio.dotenv.Dotenv
 
 class Conexao {
-    private final String URL = "jdbc:postgresql://localhost:5432/db_linketinder"
-    private final String USUARIO = "ronan"
-    private final String SENHA = "kubuntu"
+    Dotenv dotenv = Dotenv.configure().load()
+    private final String URL = dotenv.get("URL")
+    private final String USUARIO = dotenv.get("USUARIO")
+    private final String SENHA = dotenv.get("SENHA")
     private Sql sql
 
     public Sql abrirConexao() {
