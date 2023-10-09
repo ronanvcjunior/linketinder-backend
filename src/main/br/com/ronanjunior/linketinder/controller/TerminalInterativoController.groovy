@@ -197,6 +197,9 @@ class TerminalInterativoController {
                 case "candidato listar":
                     candidatoView.listarCandidatosParaEmpresa(login.empresa);
                     break;
+                case "candidato curtir":
+                    matchView.curtirCandidato(login.empresa);
+                    break;
                 case "sair":
                     this.runnigCandidatoOuEmpresa = false;
                     break;

@@ -32,6 +32,10 @@ class CandidatoController {
         return candidatoDao.removerCompetenciaCandidato(candidatoAlterado, candidatoAntigo);
     }
 
+    Candidato procurarCandidatoPorId(Integer idCandidato) {
+        return candidatoDao.buscarCandidatoPorId(idCandidato);
+    }
+
     Candidato copiarCandidato(Candidato candidato) {
         List<Competencia> competencias = [];
         candidato.competencias.forEach {Competencia competencia -> {

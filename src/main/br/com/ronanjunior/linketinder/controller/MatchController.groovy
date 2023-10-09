@@ -11,4 +11,8 @@ class MatchController {
     Boolean curtirVaga(Candidato candidato, Vaga vaga) {
         return matchDao.curtirVaga(candidato, vaga);
     }
+
+    Boolean curtirCandidato(Candidato candidato, Vaga vaga) {
+        return matchDao.curtirCandidato(candidato, vaga);
+    }
 }

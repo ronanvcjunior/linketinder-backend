@@ -33,6 +33,7 @@ class TerminalInterativoView {
                 " - vaga cadastrar: Para cadastrar um nova vaga\n" +
                 " - vaga listar: Mostra todos as vagas cadastradas pela empresa\n" +
                 " - candidato listar: Mostra todos candidatos cadastrados\n" +
+                " - candidato curtir: Para curtir um candidato para uma vaga\n" +
                 " - sair: Para sair do programa\n" +
                 "\n";
     }

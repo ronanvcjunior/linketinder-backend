@@ -1,7 +1,9 @@
 package main.br.com.ronanjunior.linketinder.dto
 
 import main.br.com.ronanjunior.linketinder.model.Competencia
+import groovy.transform.EqualsAndHashCode
 
+@EqualsAndHashCode
 class CandidatoListaDaEmpresaDto {
     Integer id;
     String nomeCompleto;

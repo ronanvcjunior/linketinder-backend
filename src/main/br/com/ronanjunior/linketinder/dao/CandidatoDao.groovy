@@ -180,7 +180,7 @@ class CandidatoDao {
         return executarUpdate(sSQL)
     }
 
-    public Candidato buscarCandidatoPorId(Integer idCandidato) {
+    Candidato buscarCandidatoPorId(Integer idCandidato) {
         Candidato candidato = null;
         List<Competencia> competencias = null;
         try (Sql sql = conexao.abrirConexao()) {
