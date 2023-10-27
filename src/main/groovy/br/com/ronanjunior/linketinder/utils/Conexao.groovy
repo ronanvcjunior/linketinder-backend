@@ -2,34 +2,86 @@ package br.com.ronanjunior.linketinder.utils
 
 import groovy.sql.Sql
 import io.github.cdimascio.dotenv.Dotenv
+import org.postgresql.util.PSQLException
 
 class Conexao {
-    Dotenv dotenv = Dotenv.configure().load()
-    private final String URL = dotenv.get("URL")
-    private final String USUARIO = dotenv.get("USUARIO")
-    private final String SENHA = dotenv.get("SENHA")
+    private String url
+    private String usuario
+    private String senha
     private Sql sql
 
-    public Sql abrirConexao() {
-        this.sql = Sql.newInstance(URL, USUARIO, SENHA)
-        return this.sql
+    Conexao(Dotenv dotenv) {
+        try {
+            this.url = dotenv.get("URL")
+            this.usuario = dotenv.get("USUARIO")
+            this.senha = dotenv.get("SENHA")
+        } catch (NullPointerException e) {
+            throw new NullPointerException("A variável dotenv não pode ser nula: \n" + e.getMessage())
+        }
     }
 
-    public void fecharConexao() {
-        this.sql.close()
+    Sql abrirConexao() {
+        try {
+            this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
+            return this.sql
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao abrir conexão com o banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
+        }
     }
 
-    public void iniciarTransacao() {
-        this.sql.getConnection().setAutoCommit(false)
+    void fecharConexao() {
+        try {
+            this.sql.close()
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao fechar conexão com o banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao fechar conexão com o banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao fechar conexão com o banco de dados.", null, e)
+        }
     }
 
-    public void commitTransacao() {
-        this.sql.getConnection().commit()
-        this.sql.getConnection().setAutoCommit(true)
+    void iniciarTransacao() {
+        if (!this.sql)
+
+        try {
+            this.sql.getConnection().setAutoCommit(false)
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao iniciar transação no banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao iniciar transação no banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao iniciar transação no banco de dados.", null, e)
+        }
     }
 
-    public void rollbackTransacao() {
-        this.sql.getConnection().rollback()
-        this.sql.getConnection().setAutoCommit(true)
+    void commitTransacao() {
+        try {
+            this.sql.getConnection().commit()
+            this.sql.getConnection().setAutoCommit(true)
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao fazer commit da transação no banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao fazer commit da transação no banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao fazer commit da transação no banco de dados.", null, e)
+        }
+    }
+
+    void rollbackTransacao() {
+        try {
+            this.sql.getConnection().rollback()
+            this.sql.getConnection().setAutoCommit(true)
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao fazer rollback da transação no banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao fazer rollback da transação no banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao fazer rollback da transação no banco de dados.", null, e)
+        }
     }
 }

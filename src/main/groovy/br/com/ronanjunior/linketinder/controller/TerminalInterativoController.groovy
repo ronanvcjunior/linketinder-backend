@@ -10,12 +10,14 @@ import br.com.ronanjunior.linketinder.view.EmpresaView
 import br.com.ronanjunior.linketinder.view.MatchView
 import br.com.ronanjunior.linketinder.view.TerminalInterativoView
 import br.com.ronanjunior.linketinder.view.VagaView
+import io.github.cdimascio.dotenv.Dotenv
 
 class TerminalInterativoController {
     Boolean runnigIncial = true
     Boolean runnigCandidatoOuEmpresa = false
 
-    CompetenciaDao competenciaDao = new CompetenciaDao(new Conexao())
+    Dotenv dotenv = Dotenv.configure().load()
+    CompetenciaDao competenciaDao = new CompetenciaDao(new Conexao(dotenv))
     List<Competencia> competenciasCadastradas = competenciaDao.listarTodasCompetencias()
 
     TerminalInterativoView terminalInterativoView = new TerminalInterativoView()

@@ -14,6 +14,12 @@ class ContaDao {
         this.conexao = conexao
     }
 
+//    void iniciarTransacao() {
+//        try {
+//
+//        } catch ()
+//    }
+
     Integer registrarEmpresa(Conta conta) {
         try (Sql sql = conexao.abrirConexao()) {
             conexao.iniciarTransacao()

@@ -7,9 +7,11 @@ import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
+import io.github.cdimascio.dotenv.Dotenv
 
 class VagaController {
-    VagaDao vagaDao = new VagaDao(new Conexao())
+    Dotenv dotenv = Dotenv.configure().load()
+    VagaDao vagaDao = new VagaDao(new Conexao(dotenv))
     CompetenciaController competenciaController = new CompetenciaController()
 
     List<VagaListaDoCandidadoDto> listarTodasVagasParaCandidato(Candidato candidato) {

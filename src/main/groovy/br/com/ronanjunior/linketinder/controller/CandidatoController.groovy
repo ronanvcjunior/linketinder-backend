@@ -6,9 +6,11 @@ import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
+import io.github.cdimascio.dotenv.Dotenv
 
 class CandidatoController {
-    CandidatoDao candidatoDao = new CandidatoDao(new Conexao())
+    Dotenv dotenv = Dotenv.configure().load()
+    CandidatoDao candidatoDao = new CandidatoDao(new Conexao(dotenv))
     CompetenciaController competenciaController = new CompetenciaController()
 
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {

@@ -3,9 +3,11 @@ package br.com.ronanjunior.linketinder.controller
 import br.com.ronanjunior.linketinder.dao.EmpresaDao
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
+import io.github.cdimascio.dotenv.Dotenv
 
 class EmpresaController {
-    EmpresaDao empresaDao = new EmpresaDao(new Conexao())
+    Dotenv dotenv = Dotenv.configure().load()
+    EmpresaDao empresaDao = new EmpresaDao(new Conexao(dotenv))
 
     Boolean alterarEmpresa(Empresa empresa) {
         return empresaDao.atualizarEmpresa(empresa)
