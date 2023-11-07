@@ -1,84 +1,100 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 import groovy.sql.Sql
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
 
 class EmpresaDao {
     private final Conexao conexao
+    private final MapperUtils mapperUtils
 
-    EmpresaDao(Conexao conexao) {
+    EmpresaDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
+        this.mapperUtils = mapperUtils
     }
 
-    public Boolean atualizarEmpresa(Empresa empresa) {
+    Integer inserirEmpresa(Empresa empresa) {
+        try {
+            String sSQL = montarInserirEmpresa()
+
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(empresa)
+
+            return conexao.inserir(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao inserir empresa", e)
+        }
+    }
+
+    private String montarInserirEmpresa() {
         String sSQL = """
-            UPDATE Empresa
-            SET nome = '${empresa.nome}',
-                cnpj = '${empresa.cnpj}',
-                descricao = '${empresa.descricao}',
-                pais = '${empresa.pais}',
-                cep = '${empresa.cep}'
-            WHERE id_empresa = ${empresa.id}
+            INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
+            VALUES (:nome, :cnpj, :descricao, :pais, :cep)
         """
-        return executarUpdate(sSQL)
+        return sSQL
     }
 
-    public Boolean excluirEmpresa(Integer idEmpresa) {
-        String sSQL = "DELETE FROM Empresa WHERE id_empresa = ${idEmpresa}"
-        return executarUpdate(sSQL)
-    }
+    Boolean excluirEmpresa(Integer idEmpresa) {
+        try {
+            String sSQL = montarExcluirEmpresa()
 
-    public Empresa buscarEmpresaPorId(Integer idEmpresa) {
-        Empresa empresa = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Empresa WHERE id_empresa = ${idEmpresa}"
-            sql.eachRow(sSQL) { linha ->
-                empresa = new Empresa(
-                        linha.id_empresa,
-                        linha.nome,
-                        linha.cnpj,
-                        linha.pais,
-                        linha.cep,
-                        linha.descricao
-                )
-            }
-            return empresa
-        } catch (Exception e) {
-            e.printStackTrace()
-            return empresa
-        }
-    }
+            Map<String, Integer> parametros = [idEmpresa: idEmpresa]
 
-    Boolean verificarExistenciaCnpjCadastrado(String cnpj) {
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT * FROM Empresa
-                WHERE cnpj = '${cnpj}'
-            """
+            conexao.executar(sSQL, parametros)
 
-            Boolean empresaEncontrado = false
-
-            sql.eachRow(sSQL) { linha ->
-                empresaEncontrado = true
-            }
-
-            conexao.fecharConexao()
-            return empresaEncontrado
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return false
-        }
-    }
-
-    private Boolean executarUpdate(String sSQL) {
-        try (Sql sql = conexao.abrirConexao()) {
-            sql.execute(sSQL)
             return true
         } catch (Exception e) {
-            e.printStackTrace()
-            return false
+            throw new Exception("Erro ao excluir empresa", e)
         }
+    }
+
+    private String montarExcluirEmpresa() {
+        String sSQL = """
+            DELETE FROM Empresa
+            WHERE id_empresa = :idEmpresa
+        """
+        return sSQL
+    }
+
+    Map buscarEmpresaPorId(Integer idEmpresa) {
+        try {
+            String sSQL = this.construirConsultaEmpresaPorId()
+
+            Map<String, Integer> parametros = [idEmpresa: idEmpresa]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar empresa por id", e)
+        }
+    }
+
+    private String construirConsultaEmpresaPorId() {
+        String sSQL = """
+            SELECT * FROM Empresa
+            WHERE id_empresa = :idEmpresa
+        """
+        return sSQL
+    }
+
+    Map buscarEmpresaPorCnpj(String cnpj) {
+        try {
+            String sSQL = this.construirConsultaEmpresaPorCnpj()
+
+            Map<String, String> parametros = [cnpj: cnpj]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao verificar existência de empresa por cnpj", e)
+        }
+    }
+
+    private String construirConsultaEmpresaPorCnpj() {
+        String sSQL = """
+            SELECT * FROM Empresa
+            WHERE cnpj = :cnpj
+        """
+        return sSQL
     }
 }

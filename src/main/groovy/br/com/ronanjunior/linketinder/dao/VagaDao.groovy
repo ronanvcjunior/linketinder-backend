@@ -1,5 +1,7 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.model.Match
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 import groovy.sql.Sql
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
 import br.com.ronanjunior.linketinder.model.Candidato
@@ -9,279 +11,158 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 
 class VagaDao {
     private final Conexao conexao
+    private final MapperUtils mapperUtils
 
-    VagaDao(Conexao conexao) {
+    VagaDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
+        this.mapperUtils = mapperUtils
     }
 
-    List<VagaListaDoCandidadoDto> listarTodasVagasParaCandidato(Candidato candidato) {
-        List<VagaListaDoCandidadoDto> vagas = []
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
+    List<Map> listarVagasParaCandidato(Integer idCandidato) {
+        try {
+            String sSQL = construirConsultaVagasParaCandidato()
+            Map<String, Integer> parametros = [idCandidato: idCandidato]
+            return conexao.obterLinhas(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao listar vagas para o candidato: ${e.message}", e)
+        }
+    }
+
+    private String construirConsultaVagasParaCandidato() {
+        String sSQL = """
                 SELECT
                     va.id_vaga,
                     va.nome,
                     va.descricao,
                     CASE
                         WHEN MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) = 1 THEN em.nome
-                        ELSE 'Anonimo'
+                        ELSE 'Anônimo'
                     END AS empresa,
                     MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) AS match
                 FROM Vaga va
                 LEFT JOIN (
-                    SELECT * FROM Match WHERE id_candidato = ${candidato.id}
+                    SELECT * FROM Match WHERE id_candidato = :idCandidato
                 ) ma ON ma.id_vaga = va.id_vaga
                 INNER JOIN Empresa em ON em.id_empresa = va.id_empresa
                 GROUP BY va.id_vaga, em.nome
                 ORDER BY match DESC, va.nome ASC, va.id_vaga ASC
             """
-            sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
-                List<Competencia> competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
-                VagaListaDoCandidadoDto vagaListaDoCandidadoDto = new VagaListaDoCandidadoDto(
-                        linha.id_vaga,
-                        linha.nome,
-                        linha.descricao,
-                        linha.empresa,
-                        competencias
-                )
-                vagas.add(vagaListaDoCandidadoDto)
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-        return vagas
+        return sSQL
     }
 
-    List<Vaga> listarVagasPorEmpresa(Integer idEmpresa) {
-        List<Vaga> vagas = []
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT *
-                FROM Vaga
-                WHERE id_empresa = ${idEmpresa}
+    List<Map> buscarVagasPorIdEmpresa(Integer idEmpresa) {
+        try {
+            String sSQL = this.construirConsultaVagasPorIdEmpresa()
+
+            Map<String, Integer> parametros = [idEmpresa: idEmpresa]
+
+            return conexao.obterLinhas(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar candidato por id", e)
+        }
+    }
+
+    private String construirConsultaVagasPorIdEmpresa() {
+        String sSQL = """
+                SELECT * FROM Vaga
+                WHERE id_empresa = :idEmpresa
             """
-            sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
-                List<Competencia> competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
-                Vaga vaga = new Vaga(
-                        linha.id_vaga,
-                        linha.nome,
-                        linha.descricao,
-                        linha.estado,
-                        linha.cidade,
-                        null,
-                        competencias
-                )
-                vagas.add(vaga)
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-        return vagas
+        return sSQL
     }
 
-    Integer cadastrarVaga(Vaga vaga) {
-        try (Sql sql = conexao.abrirConexao()) {
-            conexao.iniciarTransacao()
+    Integer inserirVaga(Vaga vaga) {
+        try {
+            String sSQL = montarInserirVaga()
 
-            Integer vagaId = cadastrarConta(vaga, sql)
-            if (vagaId == null) {
-                conexao.rollbackTransacao()
-                conexao.fecharConexao()
-                return null
-            }
+            Map<String, Object> parametros = [
+                    nome: vaga.nome,
+                    descricao: vaga.descricao,
+                    estado: vaga.estado,
+                    cidade: vaga.cidade,
+                    idEmpresa: vaga.empresa.id
+            ]
 
-            this.cadastrarCompetenciaDaVaga(vagaId, vaga.competencias, sql)
-
-            conexao.commitTransacao()
-            return vagaId
+            return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            e.printStackTrace()
-            conexao.rollbackTransacao()
-            return null
+            throw new Exception("Erro ao inserir vaga", e)
         }
     }
 
-    private Integer cadastrarConta(Vaga vaga, Sql sql) {
+    private String montarInserirVaga() {
         String sSQL = """
             INSERT INTO Vaga (nome, descricao, estado, cidade, id_empresa)
-            VALUES (
-                '${vaga.nome}',
-                '${vaga.descricao}',
-                '${vaga.estado}',
-                '${vaga.cidade}',
-                ${vaga.empresa.id}
-            )
-            RETURNING id_vaga
+            VALUES (:nome, :descricao, :estado, :cidade, :idEmpresa)
         """
-        List<List<Object>> resultado = sql.executeInsert(sSQL)
-        if (resultado)
-            return resultado[0][0]
-        else
-            return null
+        return sSQL
     }
 
-    private void cadastrarCompetenciaDaVaga(Integer idVaga, List<Competencia> competencias, Sql sql) {
-        competencias.forEach {Competencia competencia -> {
-            String sSQL = """
-                INSERT INTO vaga_competencia (id_vaga, id_competencia)
-                VALUES (
-                    ${idVaga},
-                    ${competencia.id}
-                )
-            """
-            sql.executeInsert(sSQL)
-        }}
-    }
+    Map buscarVagaPorId(Integer idVaga) {
+        try {
+            String sSQL = this.construirConsultaCandidatoPorId()
 
-    Vaga buscarVagaPorId(Integer idVaga) {
-        Vaga vaga = null
-        List<Competencia> competencias = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga}"
-            sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
-                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
-                vaga = new Vaga(
-                        linha.id_vaga,
-                        linha.nome,
-                        linha.descricao,
-                        linha.estado,
-                        linha.cidade,
-                        null,
-                        competencias
-                )
-            }
-            conexao.fecharConexao()
-            return vaga
+            Map<String, Integer> parametros = [idVaga: idVaga]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
         } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return vaga
+            throw new Exception("Erro ao buscar vaga por id", e)
         }
     }
 
-    Vaga buscarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
-        Vaga vaga = null
-        List<Competencia> competencias = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Vaga WHERE id_vaga = ${idVaga} AND id_empresa = ${idEmpresa}"
-            sql.eachRow(sSQL) { linha ->
-                CompetenciaDao competenciaDao = new CompetenciaDao(conexao)
-                competencias = competenciaDao.listarCompetenciasPorVagaID(linha.id_vaga)
-                vaga = new Vaga(
-                        linha.id_vaga,
-                        linha.nome,
-                        linha.descricao,
-                        linha.estado,
-                        linha.cidade,
-                        null,
-                        competencias
-                )
-            }
-            conexao.fecharConexao()
-            return vaga
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return vaga
-        }
+    private String construirConsultaCandidatoPorId() {
+        String sSQL = """
+            SELECT * FROM Vaga
+            WHERE id_vaga = :idVaga
+        """
+        return sSQL
     }
 
     Boolean atualizarVaga(Vaga vaga) {
-        String sSQL = """
-            UPDATE Vaga
-            SET nome = '${vaga.nome}',
-                descricao = '${vaga.descricao}',
-                estado = '${vaga.estado}',
-                cidade = '${vaga.cidade}'
-            WHERE id_vaga = ${vaga.id}
-        """
-        return executarUpdate(sSQL)
-    }
+        try {
+            String sSQL = construirAtualizaVaga()
 
-    Boolean cadastrarCompetenciaVaga(Vaga vaga) {
-        try (Sql sql = conexao.abrirConexao()) {
-            conexao.iniciarTransacao()
-            vaga.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaVaga = this.verificarExistenciaCompetenciaParaVaga(vaga.id, competencia.id, sql)
-                if(!existeCompetenciaVaga) {
-                    String sSQL = """
-                        INSERT INTO Vaga_Competencia (id_vaga, id_competencia)
-                        VALUES (${vaga.id}, ${competencia.id})
-                    """
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(vaga)
 
-                    sql.execute(sSQL)
-                }
-            }}
-
-            conexao.commitTransacao()
-            conexao.fecharConexao()
+            conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            println e
-            conexao.rollbackTransacao()
-            conexao.fecharConexao()
-            return false
+            throw new Exception("Erro ao altera a vaga", e)
         }
     }
 
-    Boolean removerCompetenciaVaga(Vaga vagaAlterado, Vaga vagaAntigo) {
-        try (Sql sql = conexao.abrirConexao()) {
-            conexao.iniciarTransacao()
-            vagaAntigo.competencias.forEach {Competencia competencia -> {
-                Boolean existeCompetenciaVaga = vagaAlterado.competencias.contains(competencia)
-                if(!existeCompetenciaVaga) {
-                    String sSQL = """
-                        DELETE FROM Vaga_Competencia 
-                        WHERE id_vaga = ${vagaAlterado.id} AND
-                            id_competencia = ${competencia.id}
-                    """
-                    sql.execute(sSQL)
-                }
-            }}
-
-            conexao.commitTransacao()
-            conexao.fecharConexao()
-            return true
-        } catch (Exception e) {
-            println e
-            conexao.rollbackTransacao()
-            conexao.fecharConexao()
-            return false
-        }
-    }
-
-    private Boolean verificarExistenciaCompetenciaParaVaga(Integer idVaga, Integer idCompetencia, Sql sql) {
+    private String construirAtualizaVaga() {
         String sSQL = """
-        SELECT * FROM Vaga_Competencia
-        WHERE 
-            id_vaga = ${idVaga} AND
-            id_competencia = ${idCompetencia}
-    """
-
-        Boolean competenciaEncontrada = false
-
-        sql.eachRow(sSQL) { linha ->
-            competenciaEncontrada = true
-        }
-
-        return competenciaEncontrada
+                UPDATE Vaga
+                SET nome = :nome,
+                    descricao = :descricao,
+                    estado = :estado,
+                    cidade = :cidade
+                WHERE id_vaga = :idVaga
+            """
+        return sSQL
     }
 
     Boolean excluirVaga(Integer idVaga) {
-        String sSQL = "DELETE FROM Vaga WHERE id_vaga = ${idVaga}"
-        return executarUpdate(sSQL)
-    }
+        try {
+            String sSQL = montarExcluirVaga()
 
-    private Boolean executarUpdate(String sSQL) {
-        try (Sql sql = conexao.abrirConexao()) {
-            sql.execute(sSQL)
+            Map<String, Integer> parametros = [idVaga: idVaga]
+
+            conexao.executar(sSQL, parametros)
+
             return true
         } catch (Exception e) {
-            e.printStackTrace()
-            return false
+            throw new Exception("Erro ao excluir candidato", e)
         }
     }
+
+    private String montarExcluirVaga() {
+        String sSQL = """
+            DELETE FROM Vaga
+            WHERE id_vaga = : idVaga
+        """
+        return sSQL
+    }
+
 }

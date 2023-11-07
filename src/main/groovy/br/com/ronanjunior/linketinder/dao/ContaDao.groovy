@@ -1,249 +1,103 @@
 package br.com.ronanjunior.linketinder.dao
 
-import groovy.sql.Sql
-import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 import br.com.ronanjunior.linketinder.model.Conta
-import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
 
 class ContaDao {
     private final Conexao conexao
+    private final MapperUtils mapperUtils
 
-    ContaDao(Conexao conexao) {
+    ContaDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
+        this.mapperUtils = mapperUtils
     }
 
-//    void iniciarTransacao() {
-//        try {
-//
-//        } catch ()
-//    }
+    Map buscarContaPorEmailSenha(Conta conta) {
+        try {
+            String sSQL = this.construirConsultaContaPorEmailSenha()
 
-    Integer registrarEmpresa(Conta conta) {
-        try (Sql sql = conexao.abrirConexao()) {
-            conexao.iniciarTransacao()
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(conta)
 
-            Integer empresaId = cadastrarEmpresa(conta.empresa, sql)
-            if (empresaId == null) {
-                conexao.rollbackTransacao()
-                conexao.fecharConexao()
-                return null
-            }
-
-            conta.empresa.id = empresaId
-            Integer contaId = cadastrarConta(conta, sql)
-
-            if (contaId == null) {
-                conexao.rollbackTransacao()
-                conexao.fecharConexao()
-                return null
-            }
-
-            conexao.commitTransacao()
-            conexao.fecharConexao()
-            return contaId
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            println e
-            conexao.rollbackTransacao()
-            conexao.fecharConexao()
-            return null
+            throw new Exception("Erro ao buscar conta por email e senha", e)
         }
     }
 
-    Integer registrarCandidato(Conta conta) {
-        try (Sql sql = conexao.abrirConexao()) {
-            conexao.iniciarTransacao()
-
-            Integer candidatoId = cadastrarCandidato(conta.candidato, sql)
-            if (candidatoId == null) {
-                conexao.rollbackTransacao()
-                conexao.fecharConexao()
-                return null
-            }
-
-            this.cadastrarCompetenciaDoCandidato(candidatoId, conta.candidato.competencias, sql)
-
-            conta.candidato.id = candidatoId
-            Integer contaId = cadastrarConta(conta, sql)
-
-            if (contaId == null) {
-                conexao.rollbackTransacao()
-                return null
-            }
-
-            conexao.commitTransacao()
-            return contaId
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.rollbackTransacao()
-            return null
-        }
-    }
-
-    Conta realizarLogin(String email, String senha) {
-        Candidato candidato = null
-        Empresa empresa = null
-        Conta conta = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT * FROM Conta
-                WHERE email = '${email}' AND senha = '${senha}'
-            """
-            sql.eachRow(sSQL) { linha ->
-                if (linha.id_candidato) {
-                    CandidatoDao candidatoDao = new CandidatoDao(conexao)
-                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato)
-                } else if (linha.id_empresa) {
-                    EmpresaDao empresaDao = new EmpresaDao(conexao)
-                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa)
-                }
-                conta = new Conta(
-                        linha.id_conta,
-                        linha.email,
-                        linha.senha,
-                        candidato,
-                        empresa
-                )
-            }
-            conexao.fecharConexao()
-            return conta
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return null
-        }
-    }
-
-    Conta buscarContaPorId(Integer idConta) {
-        Candidato candidato = null
-        Empresa empresa = null
-        Conta conta = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = "SELECT * FROM Conta WHERE id_conta = ${idConta}"
-            sql.eachRow(sSQL) { linha ->
-                if (linha.id_candidato) {
-                    CandidatoDao candidatoDao = new CandidatoDao(conexao)
-                    candidato = candidatoDao.buscarCandidatoPorId(linha.id_candidato)
-                } else if (linha.id_empresa) {
-                    EmpresaDao empresaDao = new EmpresaDao(conexao)
-                    empresa = empresaDao.buscarEmpresaPorId(linha.id_Empresa)
-                }
-                conta = new Conta(
-                        linha.id_conta,
-                        linha.email,
-                        linha.senha,
-                        candidato,
-                        empresa
-                )
-            }
-            conexao.fecharConexao()
-            return conta
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return conta
-        }
-    }
-
-    Boolean verificarExistenciaEmailCadastrado(String email) {
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT * FROM Conta
-                WHERE email = '${email}'
-            """
-
-            Boolean contaEncontrada = false
-
-            sql.eachRow(sSQL) { linha ->
-                contaEncontrada = true
-            }
-
-            conexao.fecharConexao()
-            return contaEncontrada
-        } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return false
-        }
-    }
-
-    Integer cadastrarEmpresa(Empresa empresa, Sql sql) {
+    private String construirConsultaContaPorEmailSenha() {
         String sSQL = """
-            INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
-            VALUES (
-                '${empresa.nome}',
-                '${empresa.cnpj}',
-                '${empresa.descricao}',
-                '${empresa.pais}',
-                '${empresa.cep}'
-            )
-            RETURNING id_empresa
+            SELECT * FROM Conta
+            WHERE email = :email
+            AND senha = :senha
         """
-        List<List<Object>> resultado = sql.executeInsert(sSQL)
-        if (resultado)
-            return resultado[0][0]
-        else
-            return null
+        return sSQL
     }
 
-    Integer cadastrarCandidato(Candidato candidato, Sql sql) {
+    Map buscarContaPorId(Integer idConta) {
+        try {
+            String sSQL = this.construirConsultaContaPorId()
+
+            Map<String, Integer> parametros = [idConta: idConta]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar conta por id", e)
+        }
+    }
+
+    private String construirConsultaContaPorId() {
         String sSQL = """
-            INSERT INTO Candidato (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
-            VALUES (
-                '${candidato.nome}',
-                '${candidato.sobrenome}',
-                '${candidato.cpf}',
-                '${candidato.dataNascimento}',
-                '${candidato.pais}',
-                '${candidato.cep}',
-                '${candidato.estado}',
-                '${candidato.descricao}'
-            )
-            RETURNING id_candidato
+            SELECT * FROM Conta
+            WHERE id_conta = :idConta
         """
-        List<List<Object>> resultado = sql.executeInsert(sSQL)
-        if (resultado)
-            return resultado[0][0]
-        else
-            return null
+        return sSQL
     }
 
-    private void cadastrarCompetenciaDoCandidato(Integer idCandidato, List<Competencia> competencias, Sql sql) {
-        competencias.forEach {Competencia competencia -> {
-            String sSQL = """
-                INSERT INTO candidato_competencia (id_candidato, id_competencia)
-                VALUES (
-                    ${idCandidato},
-                    ${competencia.id}
-                )
-                RETURNING id_candidato
-            """
-            sql.executeInsert(sSQL)
-        }}
+    Map buscarContaPorEmail(String email) {
+        try {
+            String sSQL = this.construirConsultaContaPorEmail()
+
+            Map<String, String> parametros = [email: email]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar conta por email", e)
+        }
     }
 
-    private Integer cadastrarConta(Conta conta, Sql sql) {
-        Integer idCandidato = null
-        Integer idEmpresa = null
-        if (conta.candidato)
-            idCandidato = conta.candidato.id
-        else if (conta.empresa)
-            idEmpresa = conta.empresa.id
+    private String construirConsultaContaPorEmail() {
         String sSQL = """
-            INSERT INTO Conta (email, senha, id_candidato, id_empresa)
-            VALUES (
-                '${conta.email}',
-                '${conta.senha}',
-                ${idCandidato},
-                ${idEmpresa}
-            )
-            RETURNING id_conta
+            SELECT * FROM Conta
+            WHERE email = :email
         """
-        List<List<Object>> resultado = sql.executeInsert(sSQL)
-        if (resultado)
-            return resultado[0][0]
-        else
-            return null
+        return sSQL
     }
+
+    Integer inserirConta(Conta conta) {
+        try {
+            String sSQL = montarInserirConta()
+
+            Map<String, Object> parametros = [
+                    email: conta.email,
+                    senha: conta.senha,
+                    idCandidato: conta.candidato?.id,
+                    idEmpresa: conta.empresa?.id
+            ]
+
+            return conexao.inserir(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao excluir conta", e)
+        }
+    }
+
+    private String montarInserirConta() {
+        String sSQL = """
+            INSERT INTO Empresa (email, senha, id_candidato, id_empresa)
+            VALUES (:email, :senha, :idCandidato, :idEmpresa)
+        """
+        return sSQL
+    }
+
 }

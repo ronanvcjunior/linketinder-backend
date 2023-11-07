@@ -2,6 +2,8 @@ package br.com.ronanjunior.linketinder.model
 
 import groovy.transform.EqualsAndHashCode
 
+import java.time.LocalDate
+
 @EqualsAndHashCode
 class Candidato implements Serializable {
 
@@ -9,7 +11,7 @@ class Candidato implements Serializable {
     String nome
     String sobrenome
     String cpf
-    Date dataNascimento
+    LocalDate dataNascimento
     String pais
     String estado
     String cep
@@ -24,7 +26,7 @@ class Candidato implements Serializable {
             String nome,
             String sobrenome,
             String cpf,
-            Date dataNascimento,
+            LocalDate dataNascimento,
             String pais,
             String estado,
             String cep,

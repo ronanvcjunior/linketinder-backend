@@ -7,8 +7,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import io.github.cdimascio.dotenv.Dotenv
 
 class MatchController {
-    Dotenv dotenv = Dotenv.configure().load()
-    MatchDao matchDao = new MatchDao(new Conexao(dotenv))
+    MatchDao matchDao = new MatchDao(new Conexao())
 
     Boolean curtirVaga(Candidato candidato, Vaga vaga) {
         return matchDao.curtirVaga(candidato, vaga)

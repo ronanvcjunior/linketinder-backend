@@ -6,8 +6,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import io.github.cdimascio.dotenv.Dotenv
 
 class ContaController {
-    Dotenv dotenv = Dotenv.configure().load()
-    ContaDao contaDao = new ContaDao(new Conexao(dotenv))
+    ContaDao contaDao = new ContaDao(new Conexao())
 
     Conta registrarCandidato(Conta novoCandidato) {
         Integer idContaCandidato =  contaDao.registrarCandidato(novoCandidato)

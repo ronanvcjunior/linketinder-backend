@@ -10,8 +10,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import io.github.cdimascio.dotenv.Dotenv
 
 class VagaController {
-    Dotenv dotenv = Dotenv.configure().load()
-    VagaDao vagaDao = new VagaDao(new Conexao(dotenv))
+    VagaDao vagaDao = new VagaDao(new Conexao())
     CompetenciaController competenciaController = new CompetenciaController()
 
     List<VagaListaDoCandidadoDto> listarTodasVagasParaCandidato(Candidato candidato) {

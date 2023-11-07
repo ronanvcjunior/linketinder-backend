@@ -16,8 +16,7 @@ class TerminalInterativoController {
     Boolean runnigIncial = true
     Boolean runnigCandidatoOuEmpresa = false
 
-    Dotenv dotenv = Dotenv.configure().load()
-    CompetenciaDao competenciaDao = new CompetenciaDao(new Conexao(dotenv))
+    CompetenciaDao competenciaDao = new CompetenciaDao(new Conexao())
     List<Competencia> competenciasCadastradas = competenciaDao.listarTodasCompetencias()
 
     TerminalInterativoView terminalInterativoView = new TerminalInterativoView()

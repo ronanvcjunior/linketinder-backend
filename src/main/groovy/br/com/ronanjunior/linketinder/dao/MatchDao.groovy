@@ -1,5 +1,8 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.model.Conta
+import br.com.ronanjunior.linketinder.model.Match
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 import groovy.sql.Sql
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
@@ -9,98 +12,89 @@ import br.com.ronanjunior.linketinder.utils.ManipulacaoData
 
 class MatchDao {
     private final Conexao conexao
+    private final MapperUtils mapperUtils
 
     ManipulacaoData manipulacaoData = new ManipulacaoData()
 
-    MatchDao(Conexao conexao) {
+    MatchDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
+        this.mapperUtils = mapperUtils
     }
 
-    Boolean curtirVaga(Candidato candidato, Vaga vaga) {
-        MatchComIdVagaEIdCandidatoDto match = buscarMatchPorCandidatoEVaga(candidato.id, vaga.id)
-        if (match == null) {
-            match = new MatchComIdVagaEIdCandidatoDto(null, null, new Date(), candidato.id, vaga.id)
-            return cadastrarMatch(match)
-        } else {
-            match.dataCurtidaVaga = new Date()
-            return atualizarMatch(match)
-        }
-    }
+    Integer inserirMatch(Match match) {
+        try {
+            String sSQL = montarInserirMatch()
 
-    Boolean curtirCandidato(Candidato candidato, Vaga vaga) {
-        MatchComIdVagaEIdCandidatoDto match = buscarMatchPorCandidatoEVaga(candidato.id, vaga.id)
-        if (match == null) {
-            match = new MatchComIdVagaEIdCandidatoDto(null, new Date(), null, candidato.id, vaga.id)
-            return cadastrarMatch(match)
-        } else {
-            match.dataCurtidaCandidato = new Date()
-            return atualizarMatch(match)
-        }
-    }
+            Map<String, Object> parametros = [
+                    dataCurtidaCandidato: match.dataCurtidaCandidato,
+                    dataCurtidaVaga: match.dataCurtidaVaga,
+                    idCandidato: match.candidato.id,
+                    idVaga: match.vaga.id
+            ]
 
-    private MatchComIdVagaEIdCandidatoDto buscarMatchPorCandidatoEVaga(Integer idCandidato, Integer idVaga) {
-        MatchComIdVagaEIdCandidatoDto match = null
-        try (Sql sql = conexao.abrirConexao()) {
-            String sSQL = """
-                SELECT * FROM Match
-                WHERE id_candidato = ${idCandidato}
-                AND id_vaga = ${idVaga}
-            """
-            sql.eachRow(sSQL) { linha ->
-                match = new MatchComIdVagaEIdCandidatoDto(
-                        linha.id_match,
-                        linha.data_curtida_candidato,
-                        linha.data_curtida_vaga,
-                        linha.id_candidato,
-                        linha.id_vaga
-                )
-            }
-            conexao.fecharConexao()
-            return match
+            return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            e.printStackTrace()
-            conexao.fecharConexao()
-            return match
+            throw new Exception("Erro ao inserir match", e)
         }
     }
 
-    private Boolean cadastrarMatch(MatchComIdVagaEIdCandidatoDto match) {
+    private String montarInserirMatch() {
         String sSQL = """
             INSERT INTO Match (id_candidato, id_vaga, data_curtida_candidato, data_curtida_vaga)
-            VALUES (
-                ${match.idCandidato},
-                ${match.idVaga},
-                ${dataCurtida(match.dataCurtidaCandidato)},
-                ${dataCurtida(match.dataCurtidaVaga)}
-            )
+            VALUES (:idCandidato, :idVaga, :dataCurtidaCandidato, :dataCurtidaVaga)
         """
-        return executarUpdate(sSQL)
+        return sSQL
     }
 
-    private Boolean atualizarMatch(MatchComIdVagaEIdCandidatoDto match) {
-        String sSQL = """
-            UPDATE Match
-            SET data_curtida_candidato = ${dataCurtida(match.dataCurtidaCandidato)},
-                data_curtida_vaga = ${dataCurtida(match.dataCurtidaVaga)}
-            WHERE id_candidato = ${match.idCandidato}
-            AND id_vaga = ${match.idVaga}
-        """
-        return executarUpdate(sSQL)
-    }
+    Boolean atualizarMatch(Match match) {
+        try {
+            String sSQL = construirAtualizaMatch()
 
-    private String dataCurtida(Date dataCurtida) {
-        if (dataCurtida)
-            return "'${manipulacaoData.dateParaString(dataCurtida)}'"
-        return null
-    }
+            Map<String, Object> parametros = [
+                    dataCurtidaCandidato: match.dataCurtidaCandidato,
+                    dataCurtidaVaga: match.dataCurtidaVaga,
+                    idMatch: match.id,
+            ]
 
-    private Boolean executarUpdate(String sSQL) {
-        try (Sql sql = conexao.abrirConexao()) {
-            sql.execute(sSQL)
+            conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            e.printStackTrace()
-            return false
+            throw new Exception("Erro ao altera o candidato", e)
         }
     }
+
+    private String construirAtualizaMatch() {
+        String sSQL = """
+                UPDATE Match
+                SET data_curtida_candidato = :dataCurtidaCandidato,
+                    data_curtida_vaga = :dataCurtidaVaga
+                WHERE id_match = :idMatch
+            """
+        return sSQL
+    }
+
+    Map buscarMatchPorIdCandidatoIdVaga(Match match) {
+        try {
+            String sSQL = this.construirConsultaMatchPorIdCandidatoIdVaga()
+
+            Map<String, Object> parametros = [
+                    idCandidato: match.candidato.id,
+                    idVaga: match.vaga.id
+            ]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar match por id da vaga e id do candidato", e)
+        }
+    }
+
+    private String construirConsultaMatchPorIdCandidatoIdVaga() {
+        String sSQL = """
+            SELECT * FROM Match
+            WHERE id_candidato = :idCandidato
+            AND id_vaga = :idVaga
+        """
+        return sSQL
+    }
+
 }

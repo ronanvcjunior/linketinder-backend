@@ -10,8 +10,9 @@ class Conexao {
     private String senha
     private Sql sql
 
-    Conexao(Dotenv dotenv) {
-        try {
+    Conexao() {
+        try  {
+            Dotenv dotenv = Dotenv.configure().load()
             this.url = dotenv.get("URL")
             this.usuario = dotenv.get("USUARIO")
             this.senha = dotenv.get("SENHA")
@@ -20,7 +21,7 @@ class Conexao {
         }
     }
 
-    Sql abrirConexao() {
+    Sql obterConexao() {
         try {
             this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
             return this.sql
@@ -30,6 +31,66 @@ class Conexao {
             throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
         } catch (PSQLException e) {
             throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
+        }
+    }
+
+    void abrirConexao() {
+        try {
+            this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
+        } catch (ConnectException e) {
+            throw new ConnectException("Erro ao abrir conexão com o banco de dados: \n" + e.getMessage())
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
+        } catch (PSQLException e) {
+            throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
+        }
+    }
+
+    <T> T executarComTransacao(Closure<T> closure) {
+        try {
+            return sql.withTransaction { status ->
+                try {
+                    return closure.call(sql)
+                } catch (Exception e) {
+                    status.setRollbackOnly()
+                    throw new Exception("Erro na transação: " + e.message, e)
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception("Erro na consulta com rows: " + e.message, e)
+        }
+    }
+
+
+    List<Map> obterLinhas(String sSQL, Map parametros = [:]) {
+        try {
+            return sql.rows(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro na consulta com rows: " + e.message, e)
+        }
+    }
+
+    void executar(String sSQL, Map parametros = [:]) {
+        try {
+            sql.execute(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro na consulta com execute: " + e.message, e)
+        }
+    }
+
+    Integer inserir(String sSQL, Map parametros = [:]) {
+        try {
+            return sql.executeInsert(sSQL, parametros) as Integer
+        } catch (Exception e) {
+            throw new Exception("Erro ao inserir informações no banco de dados: " + e.message, e)
+        }
+    }
+
+    Map obterPrimeiraLinha(String sSQL, Map parametros = [:]) {
+        try {
+            return sql.firstRow(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro na consulta com firstRow: " + e.message, e)
         }
     }
 
@@ -46,8 +107,6 @@ class Conexao {
     }
 
     void iniciarTransacao() {
-        if (!this.sql)
-
         try {
             this.sql.getConnection().setAutoCommit(false)
         } catch (ConnectException e) {

@@ -6,8 +6,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import io.github.cdimascio.dotenv.Dotenv
 
 class EmpresaController {
-    Dotenv dotenv = Dotenv.configure().load()
-    EmpresaDao empresaDao = new EmpresaDao(new Conexao(dotenv))
+    EmpresaDao empresaDao = new EmpresaDao(new Conexao())
 
     Boolean alterarEmpresa(Empresa empresa) {
         return empresaDao.atualizarEmpresa(empresa)
