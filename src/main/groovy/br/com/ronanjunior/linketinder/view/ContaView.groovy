@@ -8,7 +8,7 @@ import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.utils.ManipulacaoData
+import br.com.ronanjunior.linketinder.utils.DataUtils
 
 class ContaView {
     ContaController contaController = new ContaController()
@@ -16,7 +16,7 @@ class ContaView {
     EmpresaController empresaController = new EmpresaController()
     Scanner scanner = new Scanner(System.in)
     List<Competencia> competenciasCadastradas = []
-    ManipulacaoData manipulacaoData = new ManipulacaoData()
+    DataUtils manipulacaoData = new DataUtils()
 
     CompetenciaController competenciaController
 

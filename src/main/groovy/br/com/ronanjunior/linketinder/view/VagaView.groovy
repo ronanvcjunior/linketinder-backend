@@ -2,7 +2,7 @@ package br.com.ronanjunior.linketinder.view
 
 import br.com.ronanjunior.linketinder.controller.CompetenciaController
 import br.com.ronanjunior.linketinder.controller.VagaController
-import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
+import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Conta
@@ -330,10 +330,10 @@ class VagaView {
     }
 
 
-    List<VagaListaDoCandidadoDto> listarVagasParaCandidato(Candidato candidato) {
-        List<VagaListaDoCandidadoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato)
+    List<VagaListaDoCandidatoDto> listarVagasParaCandidato(Candidato candidato) {
+        List<VagaListaDoCandidatoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato)
 
-        vagas.forEach {VagaListaDoCandidadoDto vaga -> {
+        vagas.forEach { VagaListaDoCandidatoDto vaga -> {
             println "" +
                     "Vaga de número ${vaga.id}: " +
                     "[Nome: ${vaga.nome}, " +

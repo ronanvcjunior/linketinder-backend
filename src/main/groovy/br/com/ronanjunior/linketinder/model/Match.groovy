@@ -20,4 +20,18 @@ class Match implements Serializable {
         this.candidato = candidato
         this.vaga = vaga
     }
+
+    Match(Map matchMap, Candidato candidato, Vaga vaga) {
+        this.id = matchMap.get("id_match") as Integer
+        this.dataCurtidaCandidato = LocalDate.parse(matchMap.get("data_curtida_candidato") as String)
+        this.dataCurtidaVaga = LocalDate.parse(matchMap.get("data_curtida_vaga") as String)
+        this.candidato = candidato
+        this.vaga = vaga
+    }
+
+    Match(Map matchMap) {
+        this.id = matchMap.get("id_match") as Integer
+        this.dataCurtidaCandidato = LocalDate.parse(matchMap.get("data_curtida_candidato") as String)
+        this.dataCurtidaVaga = LocalDate.parse(matchMap.get("data_curtida_vaga") as String)
+    }
 }

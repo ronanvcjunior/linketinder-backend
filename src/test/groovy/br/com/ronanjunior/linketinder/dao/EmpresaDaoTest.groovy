@@ -1,5 +1,6 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
@@ -68,6 +69,48 @@ class EmpresaDaoTest extends GroovyTestCase {
 
         // Verificar se os resultados correspondem ao esperado
         assertEquals(1, idEmpresa)
+    }
+
+    @Test
+    void testAtualizarEmpresa() {
+        // Defina a consulta diretamente no teste
+        Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
+        String sSQLEsperdao = """
+                UPDATE Empresa
+                SET nome = :nome,
+                    cnpj = :cnpj,
+                    pais = :pais,
+                    cep = :cep,
+                    descricao = :descricao
+                WHERE id_empresa = :id
+            """
+
+        List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
+
+        Mockito.doNothing().when(conexao).abrirConexao()
+        Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(Empresa.class))).thenReturn([
+                "id"       : 1,
+                "nome"     : "Empresa",
+                "cnpj"     : "012345678901234",
+                "pais"     : "Brasil",
+                "cep"     : "12345678",
+                "descricao"     : ""
+        ])
+
+        Mockito.when(conexao.executar(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
+            List<Object> args = invocation.getArguments()
+            String sSQL = args[0]
+
+            List<String> atualiza = sSQL.split("\n").collect { it.trim()}
+
+            assertEquals(atualizaEsperado, atualiza)
+        }
+
+        // Chamar o método que está sendo testado
+        Boolean atualizado = empresaDao.atualizarEmpresa(empresa)
+
+        // Verificar se os resultados correspondem ao esperado
+        assertTrue(atualizado)
     }
 
     @Test

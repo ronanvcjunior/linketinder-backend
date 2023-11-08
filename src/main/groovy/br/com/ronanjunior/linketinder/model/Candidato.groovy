@@ -18,9 +18,6 @@ class Candidato implements Serializable {
     String descricao
     List<Competencia> competencias = []
 
-    Candidato() {
-    }
-
     Candidato(
             Integer id,
             String nome,
@@ -43,5 +40,30 @@ class Candidato implements Serializable {
         this.cep = cep
         this.descricao = descricao
         this.competencias = competencias
+    }
+
+    Candidato(Map candidatoMap, List<Competencia> competencias) {
+        this.id = candidatoMap.get("id_candidato") as Integer
+        this.nome = candidatoMap.get("nome") as String
+        this.sobrenome = candidatoMap.get("sobrenome") as String
+        this.cpf = candidatoMap.get("cpf") as String
+        this.dataNascimento = LocalDate.parse(candidatoMap.get("data_nascimento") as String)
+        this.pais = candidatoMap.get("pais") as String
+        this.estado = candidatoMap.get("estado") as String
+        this.cep = candidatoMap.get("cep") as String
+        this.descricao = candidatoMap.get("descricao") as String
+        this.competencias = competencias
+    }
+
+    Candidato(Map candidatoMap) {
+        this.id = candidatoMap.get("id_candidato") as Integer
+        this.nome = candidatoMap.get("nome") as String
+        this.sobrenome = candidatoMap.get("sobrenome") as String
+        this.cpf = candidatoMap.get("cpf") as String
+        this.dataNascimento = LocalDate.parse(candidatoMap.get("data_nascimento") as String)
+        this.pais = candidatoMap.get("pais") as String
+        this.estado = candidatoMap.get("estado") as String
+        this.cep = candidatoMap.get("cep") as String
+        this.descricao = candidatoMap.get("descricao") as String
     }
 }

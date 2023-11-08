@@ -6,13 +6,13 @@ import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.utils.ManipulacaoData
+import br.com.ronanjunior.linketinder.utils.DataUtils
 
 class CandidatoView {
     CandidatoController candidatoController = new CandidatoController()
     Scanner scanner = new Scanner(System.in)
     List<Competencia> competenciasCadastradas = []
-    ManipulacaoData manipulacaoData = new ManipulacaoData()
+    DataUtils manipulacaoData = new DataUtils()
 
     CompetenciaController competenciaController
 

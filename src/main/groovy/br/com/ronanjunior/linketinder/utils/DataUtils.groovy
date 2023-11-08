@@ -2,7 +2,7 @@ package br.com.ronanjunior.linketinder.utils
 
 import java.text.SimpleDateFormat
 
-class ManipulacaoData {
+class DataUtils {
     String formatoPadrao = "dd/MM/yyyy"
     SimpleDateFormat sdf = new SimpleDateFormat(formatoPadrao)
 

@@ -8,8 +8,6 @@ import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
-import java.time.LocalDate
-
 class CandidatoService {
     private final Conexao conexao
     private final MapperUtils mapperUtils
@@ -41,10 +39,10 @@ class CandidatoService {
         }
     }
 
-    Boolean alterarCandidato(Candidato candidato) {
+    Candidato buscarCandidatoPorId(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarAlterarCandidato(candidato)
+            return this.montarBuscarCandidatoPorId(candidato.id)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -63,10 +61,10 @@ class CandidatoService {
         }
     }
 
-    Candidato buscarCandidatoPorId(Candidato candidato) {
+    Candidato inserirCandidato(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCandidatoPorId(candidato.id)
+            return this.montarInserirCandidato(candidato)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -74,25 +72,14 @@ class CandidatoService {
         }
     }
 
-    protected Candidato montarBuscarCandidatoPorId(Integer idCandidato) {
+    Boolean alterarCandidato(Candidato candidato) {
         try {
-            Map candidatoMap = candidatoDao.buscarCandidatoPorId(idCandidato)
-            List<Competencia> competencias = candidatoCompetenciaService
-                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-            return new Candidato(
-                    candidatoMap.get("id_candidato") as Integer,
-                    candidatoMap.get("nome") as String,
-                    candidatoMap.get("sobrenome") as String,
-                    candidatoMap.get("cpf") as String,
-                    LocalDate.parse(candidatoMap.get("data_nascimento") as String),
-                    candidatoMap.get("pais") as String,
-                    candidatoMap.get("estado") as String,
-                    candidatoMap.get("cep") as String,
-                    candidatoMap.get("descricao") as String,
-                    competencias
-            )
+            conexao.abrirConexao()
+            return this.montarAlterarCandidato(candidato)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar os dados do candidato por id: ${e.message}", e)
+            throw new Exception(e.message, e)
+        } finally {
+            conexao.fecharConexao()
         }
     }
 
@@ -107,31 +94,30 @@ class CandidatoService {
         }
     }
 
-    Candidato inserirCandidato(Candidato candidato) {
+    protected List<CandidatoListaDaEmpresaDto> montarListaCandidatosParaEmpresa(Integer idEmpresa) {
         try {
-            conexao.abrirConexao()
-            return this.montarInserirCandidato(candidato)
+            List<CandidatoListaDaEmpresaDto> candidatosListaDaEmpresaDto = []
+
+            List<Map> candidatosParaEmpresaEmMap = candidatoDao.listarCandidatosParaEmpresa(idEmpresa)
+            candidatosParaEmpresaEmMap.forEach { Map candidatoMap ->
+                List<Competencia> competencias = candidatoCompetenciaService
+                        .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
+                candidatosListaDaEmpresaDto.push(new CandidatoListaDaEmpresaDto(candidatoMap, competencias))
+            }
+            return candidatosListaDaEmpresaDto
         } catch (Exception e) {
-            throw new Exception(e.message, e)
-        } finally {
-            conexao.fecharConexao()
+            throw new Exception("Houve um erro ao montar lista de candidatos para empresa: ${e.message}", e)
         }
     }
 
-    protected Candidato montarInserirCandidato(Candidato candidato) {
+    protected Candidato montarBuscarCandidatoPorId(Integer idCandidato) {
         try {
-            Integer idCandidato = candidatoDao.inserirCandidato(candidato)
-            this.montarBuscarCandidatoPorId(idCandidato)
+            Map candidatoMap = candidatoDao.buscarCandidatoPorId(idCandidato)
+            List<Competencia> competencias = candidatoCompetenciaService
+                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
+            return new Candidato(candidatoMap, competencias)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um novo candidato: ${e.message}", e)
-        }
-    }
-
-    protected Boolean montarExcluirCandidato(Integer idCandidato) {
-        try {
-            return candidatoDao.excluirCandidato(idCandidato)
-        } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao buscar os dados do candidato por id: ${e.message}", e)
         }
     }
 
@@ -139,21 +125,22 @@ class CandidatoService {
         try {
             Map candidatoMap = candidatoDao.buscarCandidatoPorCpf(cpf)
             List<Competencia> competencias = candidatoCompetenciaService
-                                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-            return new Candidato(
-                    candidatoMap.get("id_candidato") as Integer,
-                    candidatoMap.get("nome") as String,
-                    candidatoMap.get("sobrenome") as String,
-                    candidatoMap.get("cpf") as String,
-                    LocalDate.parse(candidatoMap.get("data_nascimento") as String),
-                    candidatoMap.get("pais") as String,
-                    candidatoMap.get("estado") as String,
-                    candidatoMap.get("cep") as String,
-                    candidatoMap.get("descricao") as String,
-                    competencias
-            )
+                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
+            return new Candidato(candidatoMap, competencias)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao buscar os dados do candidato por cpf: ${e.message}", e)
+        }
+    }
+
+    protected Candidato montarInserirCandidato(Candidato candidato) {
+        try {
+            Integer idCandidato = candidatoDao.inserirCandidato(candidato)
+
+            candidato.setId(idCandidato)
+
+            return candidato
+        } catch (Exception e) {
+            throw new Exception("Houve um erro ao inserir um novo candidato: ${e.message}", e)
         }
     }
 
@@ -165,24 +152,11 @@ class CandidatoService {
         }
     }
 
-    protected List<CandidatoListaDaEmpresaDto> montarListaCandidatosParaEmpresa(Integer idEmpresa) {
+    protected Boolean montarExcluirCandidato(Integer idCandidato) {
         try {
-            List<CandidatoListaDaEmpresaDto> candidatosListaDaEmpresaDto = []
-
-            List<Map> candidatosParaEmpresaEmMap = candidatoDao.listarCandidatosParaEmpresa(idEmpresa)
-            candidatosParaEmpresaEmMap.forEach { Map candidatoMap ->
-                List<Competencia> competencias = candidatoCompetenciaService
-                        .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-                candidatosListaDaEmpresaDto.push(new CandidatoListaDaEmpresaDto(
-                        candidatoMap.get("id_candidato") as Integer,
-                        candidatoMap.get("nome_completo") as String,
-                        competencias
-
-                ))
-            }
-            return candidatosListaDaEmpresaDto
+            return candidatoDao.excluirCandidato(idCandidato)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao montar lista de candidatos para empresa: ${e.message}", e)
+            throw new Exception("Houve um erro ao excluir candidato: ${e.message}", e)
         }
     }
 }

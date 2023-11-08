@@ -16,14 +16,14 @@ class CompetenciaDao {
 
     List<Map> listarTodasCompetencias() {
         try {
-            String sSQL = construirConsultaCandidatosParaEmpresa()
+            String sSQL = construirConsultaCompetenicas()
             return conexao.obterLinhas(sSQL)
         } catch (Exception e) {
             throw new Exception("Erro ao listar competências: ${e.message}", e)
         }
     }
 
-    private String construirConsultaCandidatosParaEmpresa() {
+    private String construirConsultaCompetenicas() {
         String sSQL = """
             SELECT id_competencia, nome FROM Competencia
         """

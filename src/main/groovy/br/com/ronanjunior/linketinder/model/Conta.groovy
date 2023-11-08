@@ -18,4 +18,18 @@ class Conta implements Serializable {
         this.candidato = candidato
         this.empresa = empresa
     }
+
+    Conta(Map contaMap, Candidato candidato, Empresa empresa) {
+        this.id = contaMap.get("id_conta") as Integer
+        this.email = contaMap.get("email") as String
+        this.senha = contaMap.get("senha") as String
+        this.candidato = candidato
+        this.empresa = empresa
+    }
+
+    Conta(Map contaMap) {
+        this.id = contaMap.get("id_conta") as Integer
+        this.email = contaMap.get("email") as String
+        this.senha = contaMap.get("senha") as String
+    }
 }

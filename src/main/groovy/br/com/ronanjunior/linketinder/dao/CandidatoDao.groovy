@@ -1,9 +1,7 @@
 package br.com.ronanjunior.linketinder.dao
 
 import br.com.ronanjunior.linketinder.utils.MapperUtils
-import groovy.sql.Sql
 import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.utils.Conexao
 
 class CandidatoDao {
@@ -56,6 +54,68 @@ class CandidatoDao {
         return sSQL
     }
 
+    Map buscarCandidatoPorId(Integer idCandidato) {
+        try {
+            String sSQL = this.construirConsultaCandidatoPorId()
+
+            Map<String, Integer> parametros = [idCandidato: idCandidato]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar candidato por id", e)
+        }
+    }
+
+    private String construirConsultaCandidatoPorId() {
+        String sSQL = """
+            SELECT * FROM Candidato
+            WHERE id_candidato = :idCandidato
+        """
+        return sSQL
+    }
+
+    Map buscarCandidatoPorCpf(String cpf) {
+        try {
+            String sSQL = this.construirConsultaCandidatoPorCpf()
+
+            Map<String, String> parametros = [cpf: cpf]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao verificar existência de candidato por cpf", e)
+        }
+    }
+
+    private String construirConsultaCandidatoPorCpf() {
+        String sSQL = """
+            SELECT * FROM Candidato
+            WHERE cpf = :cpf
+        """
+        return sSQL
+    }
+
+    Integer inserirCandidato(Candidato candidato) {
+        try {
+            String sSQL = montarInserirCandidato()
+
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(candidato)
+
+            return conexao.inserir(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao inserir candidato", e)
+        }
+    }
+
+    private String montarInserirCandidato() {
+        String sSQL = """
+            INSERT INTO Empresa (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
+            VALUES (:nome, :sobrenome, :cpf, :dataNascimento, :pais, :cep, :estado, :descricao)
+        """
+        return sSQL
+    }
+
     Boolean atualizarCandidato(Candidato candidato) {
         try {
             String sSQL = construirAtualizaCandidato()
@@ -85,50 +145,6 @@ class CandidatoDao {
         return sSQL;
     }
 
-
-
-    Map buscarCandidatoPorCpf(String cpf) {
-        try {
-            String sSQL = this.construirConsultaCandidatoPorCpf()
-
-            Map<String, String> parametros = [cpf: cpf]
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-
-        } catch (Exception e) {
-            throw new Exception("Erro ao verificar existência de candidato por cpf", e)
-        }
-    }
-
-    private String construirConsultaCandidatoPorCpf() {
-        String sSQL = """
-            SELECT * FROM Candidato
-            WHERE cpf = :cpf
-        """
-        return sSQL
-    }
-
-    Map buscarCandidatoPorId(Integer idCandidato) {
-        try {
-            String sSQL = this.construirConsultaCandidatoPorId()
-
-            Map<String, Integer> parametros = [idCandidato: idCandidato]
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar candidato por id", e)
-        }
-    }
-
-    private String construirConsultaCandidatoPorId() {
-        String sSQL = """
-            SELECT * FROM Candidato
-            WHERE id_candidato = :idCandidato
-        """
-        return sSQL
-    }
-
     Boolean excluirCandidato(Integer idCandidato) {
         try {
             String sSQL = montarExcluirCandidato()
@@ -147,26 +163,6 @@ class CandidatoDao {
         String sSQL = """
             DELETE FROM Candidato
             WHERE id_candidato = : idCandidato
-        """
-        return sSQL
-    }
-
-    Integer inserirCandidato(Candidato candidato) {
-        try {
-            String sSQL = montarInserirCandidato()
-
-            Map<String, Object> parametros = mapperUtils.converterObjectToMap(candidato)
-
-            return conexao.inserir(sSQL, parametros)
-        } catch (Exception e) {
-            throw new Exception("Erro ao inserir candidato", e)
-        }
-    }
-
-    private String montarInserirCandidato() {
-        String sSQL = """
-            INSERT INTO Empresa (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
-            VALUES (:nome, :sobrenome, :cpf, :dataNascimento, :pais, :cep, :estado, :descricao)
         """
         return sSQL
     }

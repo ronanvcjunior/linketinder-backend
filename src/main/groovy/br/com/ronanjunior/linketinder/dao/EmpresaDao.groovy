@@ -1,5 +1,6 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 import groovy.sql.Sql
 import br.com.ronanjunior.linketinder.model.Empresa
@@ -12,48 +13,6 @@ class EmpresaDao {
     EmpresaDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
-    }
-
-    Integer inserirEmpresa(Empresa empresa) {
-        try {
-            String sSQL = montarInserirEmpresa()
-
-            Map<String, Object> parametros = mapperUtils.converterObjectToMap(empresa)
-
-            return conexao.inserir(sSQL, parametros)
-        } catch (Exception e) {
-            throw new Exception("Erro ao inserir empresa", e)
-        }
-    }
-
-    private String montarInserirEmpresa() {
-        String sSQL = """
-            INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
-            VALUES (:nome, :cnpj, :descricao, :pais, :cep)
-        """
-        return sSQL
-    }
-
-    Boolean excluirEmpresa(Integer idEmpresa) {
-        try {
-            String sSQL = montarExcluirEmpresa()
-
-            Map<String, Integer> parametros = [idEmpresa: idEmpresa]
-
-            conexao.executar(sSQL, parametros)
-
-            return true
-        } catch (Exception e) {
-            throw new Exception("Erro ao excluir empresa", e)
-        }
-    }
-
-    private String montarExcluirEmpresa() {
-        String sSQL = """
-            DELETE FROM Empresa
-            WHERE id_empresa = :idEmpresa
-        """
-        return sSQL
     }
 
     Map buscarEmpresaPorId(Integer idEmpresa) {
@@ -94,6 +53,74 @@ class EmpresaDao {
         String sSQL = """
             SELECT * FROM Empresa
             WHERE cnpj = :cnpj
+        """
+        return sSQL
+    }
+
+    Integer inserirEmpresa(Empresa empresa) {
+        try {
+            String sSQL = montarInserirEmpresa()
+
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(empresa)
+
+            return conexao.inserir(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao inserir empresa", e)
+        }
+    }
+
+    private String montarInserirEmpresa() {
+        String sSQL = """
+            INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
+            VALUES (:nome, :cnpj, :descricao, :pais, :cep)
+        """
+        return sSQL
+    }
+
+    Boolean atualizarEmpresa(Empresa empresa) {
+        try {
+            String sSQL = construirAtualizaEmpresa()
+
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(empresa)
+
+            conexao.executar(sSQL, parametros)
+            return true
+        } catch (Exception e) {
+            throw new Exception("Erro ao altera a empresa", e)
+        }
+    }
+
+    private String construirAtualizaEmpresa() {
+        String sSQL = """
+                UPDATE Empresa
+                SET nome = :nome,
+                    cnpj = :cnpj,
+                    pais = :pais,
+                    cep = :cep,
+                    descricao = :descricao
+                WHERE id_empresa = :id
+            """
+        return sSQL;
+    }
+
+    Boolean excluirEmpresa(Integer idEmpresa) {
+        try {
+            String sSQL = montarExcluirEmpresa()
+
+            Map<String, Integer> parametros = [idEmpresa: idEmpresa]
+
+            conexao.executar(sSQL, parametros)
+
+            return true
+        } catch (Exception e) {
+            throw new Exception("Erro ao excluir empresa", e)
+        }
+    }
+
+    private String montarExcluirEmpresa() {
+        String sSQL = """
+            DELETE FROM Empresa
+            WHERE id_empresa = :idEmpresa
         """
         return sSQL
     }

@@ -4,7 +4,7 @@ import br.com.ronanjunior.linketinder.controller.CandidatoController
 import br.com.ronanjunior.linketinder.controller.MatchController
 import br.com.ronanjunior.linketinder.controller.VagaController
 import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
-import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
+import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
@@ -19,11 +19,11 @@ class MatchView {
 
     void curtirVaga(Candidato candidato) {
         Boolean vagaCurtida = false
-        List<VagaListaDoCandidadoDto> vagasEncontradas = vagaView.listarVagasParaCandidato(candidato)
+        List<VagaListaDoCandidatoDto> vagasEncontradas = vagaView.listarVagasParaCandidato(candidato)
 
-        List<VagaListaDoCandidadoDto> vagas = []
+        List<VagaListaDoCandidatoDto> vagas = []
 
-        vagasEncontradas.forEach {VagaListaDoCandidadoDto vaga -> {
+        vagasEncontradas.forEach { VagaListaDoCandidatoDto vaga -> {
             vaga.nomeEmpresa = null
             vagas.add(vaga)
         }}
@@ -35,7 +35,7 @@ class MatchView {
 
         Vaga vagaEncontrada = vagaController.procurarVagaPorId(idVaga)
 
-        VagaListaDoCandidadoDto vaga = new VagaListaDoCandidadoDto(
+        VagaListaDoCandidatoDto vaga = new VagaListaDoCandidatoDto(
                 vagaEncontrada.id,
                 vagaEncontrada.nome,
                 vagaEncontrada.descricao,

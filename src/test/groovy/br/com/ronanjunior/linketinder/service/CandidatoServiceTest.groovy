@@ -143,22 +143,10 @@ class CandidatoServiceTest extends GroovyTestCase {
     @Test
     void testInserirCandidato() {
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
-        Map candidatoMap = [
-                id_candidato: 1,
-                nome: "Candi",
-                sobrenome: "Dato",
-                cpf: "01234567890",
-                data_nascimento: "1970-01-01",
-                pais: "Brasil",
-                estado: "GO",
-                cep: "12345678",
-                descricao: ""
-        ]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(candidatoDao.inserirCandidato(Mockito.any(Candidato.class))).thenReturn(1)
-        Mockito.when(candidatoDao.buscarCandidatoPorId(Mockito.any(Integer.class))).thenReturn(candidatoMap)
 
         Candidato candidato = candidatoService.inserirCandidato(candidatoEsperado)
 

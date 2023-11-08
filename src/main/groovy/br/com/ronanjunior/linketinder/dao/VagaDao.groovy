@@ -1,11 +1,7 @@
 package br.com.ronanjunior.linketinder.dao
 
-import br.com.ronanjunior.linketinder.model.Match
+
 import br.com.ronanjunior.linketinder.utils.MapperUtils
-import groovy.sql.Sql
-import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidadoDto
-import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
 
@@ -71,6 +67,27 @@ class VagaDao {
         return sSQL
     }
 
+    Map buscarVagaPorId(Integer idVaga) {
+        try {
+            String sSQL = this.construirConsultaCandidatoPorId()
+
+            Map<String, Integer> parametros = [idVaga: idVaga]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar vaga por id", e)
+        }
+    }
+
+    private String construirConsultaCandidatoPorId() {
+        String sSQL = """
+            SELECT * FROM Vaga
+            WHERE id_vaga = :idVaga
+        """
+        return sSQL
+    }
+
     Integer inserirVaga(Vaga vaga) {
         try {
             String sSQL = montarInserirVaga()
@@ -93,27 +110,6 @@ class VagaDao {
         String sSQL = """
             INSERT INTO Vaga (nome, descricao, estado, cidade, id_empresa)
             VALUES (:nome, :descricao, :estado, :cidade, :idEmpresa)
-        """
-        return sSQL
-    }
-
-    Map buscarVagaPorId(Integer idVaga) {
-        try {
-            String sSQL = this.construirConsultaCandidatoPorId()
-
-            Map<String, Integer> parametros = [idVaga: idVaga]
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar vaga por id", e)
-        }
-    }
-
-    private String construirConsultaCandidatoPorId() {
-        String sSQL = """
-            SELECT * FROM Vaga
-            WHERE id_vaga = :idVaga
         """
         return sSQL
     }

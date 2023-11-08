@@ -61,7 +61,6 @@ class Conexao {
         }
     }
 
-
     List<Map> obterLinhas(String sSQL, Map parametros = [:]) {
         try {
             return sql.rows(sSQL, parametros)

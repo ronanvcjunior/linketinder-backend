@@ -13,27 +13,6 @@ class ContaDao {
         this.mapperUtils = mapperUtils
     }
 
-    Map buscarContaPorEmailSenha(Conta conta) {
-        try {
-            String sSQL = this.construirConsultaContaPorEmailSenha()
-
-            Map<String, Object> parametros = mapperUtils.converterObjectToMap(conta)
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar conta por email e senha", e)
-        }
-    }
-
-    private String construirConsultaContaPorEmailSenha() {
-        String sSQL = """
-            SELECT * FROM Conta
-            WHERE email = :email
-            AND senha = :senha
-        """
-        return sSQL
-    }
-
     Map buscarContaPorId(Integer idConta) {
         try {
             String sSQL = this.construirConsultaContaPorId()
@@ -51,6 +30,27 @@ class ContaDao {
         String sSQL = """
             SELECT * FROM Conta
             WHERE id_conta = :idConta
+        """
+        return sSQL
+    }
+
+    Map buscarContaPorEmailSenha(Conta conta) {
+        try {
+            String sSQL = this.construirConsultaContaPorEmailSenha()
+
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(conta)
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar conta por email e senha", e)
+        }
+    }
+
+    private String construirConsultaContaPorEmailSenha() {
+        String sSQL = """
+            SELECT * FROM Conta
+            WHERE email = :email
+            AND senha = :senha
         """
         return sSQL
     }

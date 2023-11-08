@@ -13,6 +13,11 @@ class Competencia implements Serializable {
         this.nome = nome
     }
 
+    Competencia(Map competenciaMap) {
+        this.id = competenciaMap.get("id_competencia") as String
+        this.nome = competenciaMap.get("nome") as String
+    }
+
     @Override
     String toString() {
         return nome

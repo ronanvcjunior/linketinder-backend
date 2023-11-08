@@ -13,6 +13,47 @@ class CandidatoCompetenciaDao {
         this.mapperUtils = mapperUtils
     }
 
+    Map buscarCompetenciaCandidato(Integer idCandidato, Integer idCompetencia) {
+        try {
+            String sSQL = montarBuscarCompetenciaCandidato()
+
+            Map<String, Integer> parametros = [
+                    idCandidato: idCandidato,
+                    idCompetencia: idCompetencia
+            ]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao excluir competência candidato", e)
+        }
+    }
+
+    private String montarBuscarCompetenciaCandidato() {
+        String sSQL = """
+            SELECT id_candidato_competencia FROM Candidato_Competencia
+            WHERE id_candidato = : idCandidato
+            AND id_competencia = : idCompetencia
+        """
+        return sSQL
+    }
+
+    List<Map> listarCompetenciasPorCandidatoID(Integer idCandidato) {
+        String sSQL = montarListarCompetenciasPorCandidatoID()
+
+        Map<String, Integer> parametros = [ idCandidato: idCandidato ]
+
+        return conexao.obterLinhas(sSQL, parametros)
+    }
+
+    private String montarListarCompetenciasPorCandidatoID() {
+        String sSQL = """
+            SELECT con.id_competencia, con.nome FROM Candidato_Competencia cc
+            LEFT JOIN Competencia con ON con.id_competencia = cc.id_competencia
+            WHERE cc.id_candidato = :idCandidato
+        """
+        return sSQL
+    }
+
     Boolean cadastrarCompetenciaCandidato(Integer idCandidato, Integer idCompetencia) {
         try {
             String sSQL = this.montarInserirCompetenciaCandidato();
@@ -60,47 +101,6 @@ class CandidatoCompetenciaDao {
             DELETE FROM Candidato_Competencia
             WHERE id_candidato = : idCandidato
             AND id_competencia = : idCompetencia
-        """
-        return sSQL
-    }
-
-    Map buscarCompetenciaCandidato(Integer idCandidato, Integer idCompetencia) {
-        try {
-            String sSQL = montarBuscarCompetenciaCandidato()
-
-            Map<String, Integer> parametros = [
-                    idCandidato: idCandidato,
-                    idCompetencia: idCompetencia
-            ]
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-        } catch (Exception e) {
-            throw new Exception("Erro ao excluir competência candidato", e)
-        }
-    }
-
-    private String montarBuscarCompetenciaCandidato() {
-        String sSQL = """
-            SELECT id_candidato_competencia FROM Candidato_Competencia
-            WHERE id_candidato = : idCandidato
-            AND id_competencia = : idCompetencia
-        """
-        return sSQL
-    }
-
-    List<Map> listarCompetenciasPorCandidatoID(Integer idCandidato) {
-        String sSQL = montarListarCompetenciasPorCandidatoID()
-
-        Map<String, Integer> parametros = [ idCandidato: idCandidato ]
-
-        return conexao.obterLinhas(sSQL, parametros)
-    }
-
-    private String montarListarCompetenciasPorCandidatoID() {
-        String sSQL = """
-            SELECT con.id_competencia, con.nome FROM Candidato_Competencia cc
-            LEFT JOIN Competencia con ON con.id_competencia = cc.id_competencia
-            WHERE cc.id_candidato = :idCandidato
         """
         return sSQL
     }

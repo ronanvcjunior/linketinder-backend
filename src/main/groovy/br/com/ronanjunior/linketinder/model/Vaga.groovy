@@ -30,4 +30,40 @@ class Vaga implements Serializable {
         this.empresa = empresa
         this.competencias = competencias
     }
+
+    Vaga(Map vagaMap, Empresa empresa, List<Competencia> competencias) {
+        this.id = vagaMap.get("id_vaga") as Integer
+        this.nome = vagaMap.get("nome") as String
+        this.descricao = vagaMap.get("descricao") as String
+        this.estado = vagaMap.get("estado") as String
+        this.cidade = vagaMap.get("cidade") as String
+        this.empresa = empresa
+        this.competencias = competencias
+    }
+
+    Vaga(Map vagaMap, List<Competencia> competencias) {
+        this.id = vagaMap.get("id_vaga") as Integer
+        this.nome = vagaMap.get("nome") as String
+        this.descricao = vagaMap.get("descricao") as String
+        this.estado = vagaMap.get("estado") as String
+        this.cidade = vagaMap.get("cidade") as String
+        this.competencias = competencias
+    }
+
+    Vaga(Map vagaMap, Empresa empresa) {
+        this.id = vagaMap.get("id_vaga") as Integer
+        this.nome = vagaMap.get("nome") as String
+        this.descricao = vagaMap.get("descricao") as String
+        this.estado = vagaMap.get("estado") as String
+        this.cidade = vagaMap.get("cidade") as String
+        this.empresa = empresa
+    }
+
+    Vaga(Map vagaMap) {
+        this.id = vagaMap.get("id_vaga") as Integer
+        this.nome = vagaMap.get("nome") as String
+        this.descricao = vagaMap.get("descricao") as String
+        this.estado = vagaMap.get("estado") as String
+        this.cidade = vagaMap.get("cidade") as String
+    }
 }
