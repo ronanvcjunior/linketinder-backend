@@ -14,7 +14,7 @@ class Competencia implements Serializable {
     }
 
     Competencia(Map competenciaMap) {
-        this.id = competenciaMap.get("id_competencia") as String
+        this.id = competenciaMap.get("id_competencia") as Integer
         this.nome = competenciaMap.get("nome") as String
     }
 
