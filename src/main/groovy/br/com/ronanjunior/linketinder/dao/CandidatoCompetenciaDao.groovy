@@ -56,7 +56,7 @@ class CandidatoCompetenciaDao {
 
     Boolean cadastrarCompetenciaCandidato(Integer idCandidato, Integer idCompetencia) {
         try {
-            String sSQL = this.montarInserirCompetenciaCandidato();
+            String sSQL = this.montarInserirCompetenciaCandidato()
 
             Map<String, Integer> parametros = [
                     idCandidato: idCandidato,
