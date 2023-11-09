@@ -45,27 +45,26 @@ class ContaDaoTest extends GroovyTestCase {
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
         Mockito.doNothing().when(conexao).abrirConexao()
-        Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(Empresa.class))).thenReturn([
-                "id"       : null,
+        Map parametrosEsperados = [
                 "email"     : "teste@gmail.com",
-                "senha"     : "teste",
-                "candidato"     : null,
-                "empresa"     : null
-        ])
+                "senha"     : "teste"
+        ]
 
         Mockito.when(conexao.obterPrimeiraLinha(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
             String sSQL = args[0]
+            Map<String, Integer> parametros = args[1]
 
             List<String> atualiza = sSQL.split("\n").collect { it.trim()}
 
             assertEquals(atualizaEsperado, atualiza)
+            assertEquals(parametrosEsperados, parametros)
 
             return retornoEsperado
         }
 
         // Chamar o método que está sendo testado
-        Map retorno = contaDao.buscarContaPorEmailSenha(conta)
+        Map retorno = contaDao.buscarContaPorEmailSenha(conta.email, conta.senha)
 
         // Verificar se os resultados correspondem ao esperado
         assertEquals(retornoEsperado, retorno)

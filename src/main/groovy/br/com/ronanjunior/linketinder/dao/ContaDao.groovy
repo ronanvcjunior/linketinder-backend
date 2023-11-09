@@ -34,11 +34,14 @@ class ContaDao {
         return sSQL
     }
 
-    Map buscarContaPorEmailSenha(Conta conta) {
+    Map buscarContaPorEmailSenha(String emailConta, String senhaConta) {
         try {
             String sSQL = this.construirConsultaContaPorEmailSenha()
 
-            Map<String, Object> parametros = mapperUtils.converterObjectToMap(conta)
+            Map<String, Object> parametros = [
+                    email: emailConta,
+                    senha: senhaConta
+            ]
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
