@@ -3,6 +3,7 @@ package br.com.ronanjunior.linketinder.service
 import br.com.ronanjunior.linketinder.dao.VagaDao
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
+import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
@@ -99,13 +100,19 @@ class VagaServiceTest extends GroovyTestCase {
 
     @Test
     void testInserirVaga() {
-        Vaga vagaEsperado = new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, [])
+        List<Competencia> competencias = [
+                new Competencia(1, "Java"),
+                new Competencia(2, "Groovy")
+        ]
+        Vaga vagaEnviada = new Vaga(null, "Vaga 1", "", "GO", "Goiânia", null, competencias)
+        Vaga vagaEsperado = new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, competencias)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.when(vagaCompetenciaService.montarInserirCompeteciaParaVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(true)
         Mockito.when(vagaDao.inserirVaga(Mockito.any(Vaga.class))).thenReturn(1)
 
-        Vaga vaga = vagaService.inserirVaga(vagaEsperado)
+        Vaga vaga = vagaService.inserirVaga(vagaEnviada)
 
         assertEquals(vagaEsperado, vaga)
     }

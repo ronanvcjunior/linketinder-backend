@@ -65,6 +65,10 @@ class VagaService {
     Vaga inserirVaga(Vaga vaga) {
         try {
             conexao.abrirConexao()
+
+            vaga.competencias.each { Competencia competencia -> {
+                vagaCompetenciaService.montarInserirCompeteciaParaVaga(vaga.id, competencia.id)
+            }}
             return this.montarInserirVaga(vaga)
         } catch (Exception e) {
             throw new Exception(e.message, e)
