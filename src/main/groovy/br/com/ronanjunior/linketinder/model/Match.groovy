@@ -23,15 +23,15 @@ class Match implements Serializable {
 
     Match(Map matchMap, Candidato candidato, Vaga vaga) {
         this.id = matchMap.get("id_match") as Integer
-        this.dataCurtidaCandidato = LocalDate.parse(matchMap.get("data_curtida_candidato") as String)
-        this.dataCurtidaVaga = LocalDate.parse(matchMap.get("data_curtida_vaga") as String)
+        this.dataCurtidaCandidato = matchMap.get("data_curtida_candidato") ? LocalDate.parse(matchMap.get("data_curtida_candidato") as String) : null
+        this.dataCurtidaVaga = matchMap.get("data_curtida_vaga") ? LocalDate.parse(matchMap.get("data_curtida_vaga") as String) : null
         this.candidato = candidato
         this.vaga = vaga
     }
 
     Match(Map matchMap) {
         this.id = matchMap.get("id_match") as Integer
-        this.dataCurtidaCandidato = LocalDate.parse(matchMap.get("data_curtida_candidato") as String)
-        this.dataCurtidaVaga = LocalDate.parse(matchMap.get("data_curtida_vaga") as String)
+        this.dataCurtidaCandidato = matchMap.get("data_curtida_candidato") ? LocalDate.parse(matchMap.get("data_curtida_candidato") as String) : null
+        this.dataCurtidaVaga = matchMap.get("data_curtida_vaga") ? LocalDate.parse(matchMap.get("data_curtida_vaga") as String) : null
     }
 }

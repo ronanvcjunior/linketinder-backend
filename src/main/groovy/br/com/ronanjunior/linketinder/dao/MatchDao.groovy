@@ -1,6 +1,6 @@
 package br.com.ronanjunior.linketinder.dao
 
-
+import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Match
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 import br.com.ronanjunior.linketinder.utils.Conexao
@@ -17,16 +17,35 @@ class MatchDao {
         this.mapperUtils = mapperUtils
     }
 
-    Integer inserirMatch(Match match) {
+    Map buscarMatchPorIdCandidatoIdVaga(Integer idCandidato, Integer idVaga) {
+        try {
+            String sSQL = this.construirConsultaMatchPorIdCandidatoIdVaga()
+
+            Map<String, Object> parametros = [
+                    idCandidato: idCandidato,
+                    idVaga: idVaga
+            ]
+
+            return conexao.obterPrimeiraLinha(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao buscar match por id da vaga e id do candidato", e)
+        }
+    }
+
+    private String construirConsultaMatchPorIdCandidatoIdVaga() {
+        String sSQL = """
+            SELECT * FROM Match
+            WHERE id_candidato = :idCandidato
+            AND id_vaga = :idVaga
+        """
+        return sSQL
+    }
+
+    Integer inserirMatch(MatchComIdVagaEIdCandidatoDto match) {
         try {
             String sSQL = montarInserirMatch()
 
-            Map<String, Object> parametros = [
-                    dataCurtidaCandidato: match.dataCurtidaCandidato,
-                    dataCurtidaVaga: match.dataCurtidaVaga,
-                    idCandidato: match.candidato.id,
-                    idVaga: match.vaga.id
-            ]
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(match)
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
@@ -42,15 +61,11 @@ class MatchDao {
         return sSQL
     }
 
-    Boolean atualizarMatch(Match match) {
+    Boolean atualizarMatch(MatchComIdVagaEIdCandidatoDto match) {
         try {
             String sSQL = construirAtualizaMatch()
 
-            Map<String, Object> parametros = [
-                    dataCurtidaCandidato: match.dataCurtidaCandidato,
-                    dataCurtidaVaga: match.dataCurtidaVaga,
-                    idMatch: match.id,
-            ]
+            Map<String, Object> parametros = mapperUtils.converterObjectToMap(match)
 
             conexao.executar(sSQL, parametros)
             return true
@@ -66,30 +81,6 @@ class MatchDao {
                     data_curtida_vaga = :dataCurtidaVaga
                 WHERE id_match = :idMatch
             """
-        return sSQL
-    }
-
-    Map buscarMatchPorIdCandidatoIdVaga(Match match) {
-        try {
-            String sSQL = this.construirConsultaMatchPorIdCandidatoIdVaga()
-
-            Map<String, Object> parametros = [
-                    idCandidato: match.candidato.id,
-                    idVaga: match.vaga.id
-            ]
-
-            return conexao.obterPrimeiraLinha(sSQL, parametros)
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar match por id da vaga e id do candidato", e)
-        }
-    }
-
-    private String construirConsultaMatchPorIdCandidatoIdVaga() {
-        String sSQL = """
-            SELECT * FROM Match
-            WHERE id_candidato = :idCandidato
-            AND id_vaga = :idVaga
-        """
         return sSQL
     }
 

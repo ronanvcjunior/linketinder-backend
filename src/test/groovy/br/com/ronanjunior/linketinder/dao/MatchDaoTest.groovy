@@ -1,5 +1,6 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
@@ -40,7 +41,7 @@ class MatchDaoTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        Match match = new Match(null, LocalDate.now(), null, candidato, vaga)
+        MatchComIdVagaEIdCandidatoDto match = new MatchComIdVagaEIdCandidatoDto(null, LocalDate.now(), null, 1, 1)
         String sSQLEsperdao = """
             INSERT INTO Match (id_candidato, id_vaga, data_curtida_candidato, data_curtida_vaga)
             VALUES (:idCandidato, :idVaga, :dataCurtidaCandidato, :dataCurtidaVaga)
@@ -49,13 +50,14 @@ class MatchDaoTest extends GroovyTestCase {
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
         Map parametrosEsperados = [
-                idCandidato: match.candidato.id,
-                idVaga: match.vaga.id,
+                idCandidato: match.idCandidato,
+                idVaga: match.idVaga,
                 dataCurtidaCandidato: match.dataCurtidaCandidato,
                 dataCurtidaVaga: match.dataCurtidaVaga
         ]
 
-        Mockito.doNothing().when(conexao).abrirConexao()
+
+        Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(parametrosEsperados)
 
         Mockito.when(conexao.inserir(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
@@ -83,7 +85,7 @@ class MatchDaoTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        Match match = new Match(1, LocalDate.now(), LocalDate.now(), candidato, vaga)
+        MatchComIdVagaEIdCandidatoDto match = new MatchComIdVagaEIdCandidatoDto(null, LocalDate.now(), null, 1, 1)
         String sSQLEsperdao = """
                 UPDATE Match
                 SET data_curtida_candidato = :dataCurtidaCandidato,
@@ -99,7 +101,7 @@ class MatchDaoTest extends GroovyTestCase {
                 idMatch: match.id
         ]
 
-        Mockito.doNothing().when(conexao).abrirConexao()
+        Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(parametrosEsperados)
 
         Mockito.when(conexao.executar(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
@@ -156,7 +158,7 @@ class MatchDaoTest extends GroovyTestCase {
         }
 
         // Chamar o método que está sendo testado
-        Map retorno = matchDao.buscarMatchPorIdCandidatoIdVaga(match)
+        Map retorno = matchDao.buscarMatchPorIdCandidatoIdVaga(match.candidato.id, match.vaga.id)
 
         // Verificar se os resultados correspondem ao esperado
         assertEquals(retornoEsperado, retorno)
