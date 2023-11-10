@@ -59,7 +59,7 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.listarCandidatosParaEmpresa(Mockito.any(Integer))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
-        List<CandidatoListaDaEmpresaDto> retorno = candidatoService.listarCandidatosParaEmpresa(empresa)
+        List<CandidatoListaDaEmpresaDto> retorno = candidatoService.listarCandidatosParaEmpresa(empresa.id)
 
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
@@ -78,7 +78,7 @@ class CandidatoServiceTest extends GroovyTestCase {
     }
 
     @Test
-    void testBuscarCandidatoPorCpf() {
+    void testVerificaraExistenciaCandidatoPorCpfEncontrado() {
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Map candidatoMap = [
                 id_candidato: 1,
@@ -97,9 +97,23 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
-        Candidato candidato = candidatoService.buscarCandidatoPorCpf(candidatoEsperado)
+        Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidatoEsperado.cpf)
 
-        assertEquals(candidatoEsperado, candidato)
+        assertTrue(encontrado)
+    }
+
+    @Test
+    void testVerificaraExistenciaCandidatoPorCpfNaoEncontrado() {
+        Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
+
+        Mockito.doNothing().when(conexao).abrirConexao()
+        Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn([:])
+        Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
+
+        Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidatoEsperado.cpf)
+
+        assertFalse(encontrado)
     }
 
     @Test
@@ -122,7 +136,7 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.buscarCandidatoPorId(Mockito.any(Integer.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
-        Candidato candidato = candidatoService.buscarCandidatoPorId(candidatoEsperado)
+        Candidato candidato = candidatoService.buscarCandidatoPorId(candidatoEsperado.id)
 
         assertEquals(candidatoEsperado, candidato)
     }

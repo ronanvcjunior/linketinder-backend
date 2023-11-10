@@ -28,10 +28,10 @@ class CandidatoService {
         this.candidatoCompetenciaService = candidatoCompetenciaService
     }
 
-    List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {
+    List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Integer idEmpresa) {
         try {
             conexao.abrirConexao()
-            return this.montarListaCandidatosParaEmpresa(empresa.id)
+            return this.montarListaCandidatosParaEmpresa(idEmpresa)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao listar de candidatos para empresa: ${e.message}", e)
         } finally {
@@ -39,10 +39,10 @@ class CandidatoService {
         }
     }
 
-    Candidato buscarCandidatoPorId(Candidato candidato) {
+    Candidato buscarCandidatoPorId(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCandidatoPorId(candidato.id)
+            return this.montarBuscarCandidatoPorId(idCandidato)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -50,10 +50,13 @@ class CandidatoService {
         }
     }
 
-    Candidato buscarCandidatoPorCpf(Candidato candidato) {
+    Boolean verificaraExistenciaCandidatoPorCpf(String cpf) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCandidatoPorCpf(candidato.cpf)
+            Candidato candidato = this.montarBuscarCandidatoPorCpf(cpf)
+            if (candidato.id)
+                return true
+            return false
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
