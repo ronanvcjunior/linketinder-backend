@@ -36,8 +36,6 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
-        Mockito.doNothing().when(conexao).abrirConexao()
-
         Mockito.when(conexao.executar(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
             String sSQL = args[0]
@@ -96,8 +94,6 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
-        Mockito.doNothing().when(conexao).abrirConexao()
-
         Mockito.when(conexao.obterPrimeiraLinha(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
             String sSQL = args[0]
@@ -129,8 +125,6 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
         """
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
-
-        Mockito.doNothing().when(conexao).abrirConexao()
 
         Mockito.when(conexao.obterLinhas(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()

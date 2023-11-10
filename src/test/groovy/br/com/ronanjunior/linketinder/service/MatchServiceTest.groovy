@@ -46,6 +46,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
 
         MatchComIdVagaEIdCandidatoDto retorno = matchService.buscarMatchPorIdCandidatoIdVaga(candidato, vaga)
@@ -66,6 +67,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
@@ -83,6 +85,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
@@ -99,6 +102,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
@@ -116,6 +120,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 

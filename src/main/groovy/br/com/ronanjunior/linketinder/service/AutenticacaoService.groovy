@@ -37,7 +37,7 @@ class AutenticacaoService {
 
             if (conta.candidato) {
                 conta.candidato.competencias.each { Competencia competencia ->
-                    candidatoCompetenciaService.inserirCompetenciaParaCandidato(conta.candidato, competencia)
+                    candidatoCompetenciaService.montarInserirCompeteciaParaCandidato(conta.candidato.id, competencia.id)
                 }
                 conta.candidato = candidatoService.montarInserirCandidato(conta.candidato)
             }
@@ -45,6 +45,7 @@ class AutenticacaoService {
             if (conta.empresa)
                 conta.empresa = empresaService.montarInserirEmpresa(conta.empresa)
 
+            conexao.commitTransacao()
             return  contaService.montarInserirConta(conta)
         } catch (Exception e) {
             conexao.rollbackTransacao()
@@ -58,6 +59,7 @@ class AutenticacaoService {
         try {
             conexao.abrirConexao()
 
+            conexao.commitTransacao()
             return  contaService.montarBuscarContaPorEmailSenha(conta.email, conta.senha)
         } catch (Exception e) {
             conexao.rollbackTransacao()

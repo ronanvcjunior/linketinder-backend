@@ -27,8 +27,13 @@ class VagaCompetenciaService {
     Competencia buscarCompetenciaDaVaga(Integer idVaga, Integer idCompetencia) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCompetenciaDoVaga(idVaga, idCompetencia)
+
+            Competencia competencia = this.montarBuscarCompetenciaDoVaga(idVaga, idCompetencia)
+
+            conexao.commitTransacao()
+            return competencia
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -38,8 +43,13 @@ class VagaCompetenciaService {
     List<Competencia> listarCompetenciasDoVaga(Integer idVaga) {
         try {
             conexao.abrirConexao()
-            return this.montarListaCompetenciaParaVaga(idVaga)
+
+            List<Competencia> competencias = this.montarListaCompetenciaParaVaga(idVaga)
+
+            conexao.commitTransacao()
+            return competencias
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -54,8 +64,10 @@ class VagaCompetenciaService {
                 this.montarInserirCompeteciaParaVaga(idVaga, idCompetencia)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -70,8 +82,10 @@ class VagaCompetenciaService {
                 this.montarExcluirCompeteciaDoVaga(idVaga, idCompetencia)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

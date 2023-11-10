@@ -40,6 +40,7 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.buscarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
         Competencia retorno = candidatoCompetenciaService.buscarCompetenciaDoCandidato(candidato, retornoEsperado)
@@ -55,6 +56,7 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.listarCompetenciasPorCandidatoID(Mockito.any(Integer.class))).thenReturn(competenciasMap)
 
         List<Competencia> retorno = candidatoCompetenciaService.listarCompetenciasDoCandidato(candidato)
@@ -72,6 +74,7 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.cadastrarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean inserido = candidatoCompetenciaService.inserirCompetenciasParaCandidato(candidato.id, competencias.collect { it.id })
@@ -89,6 +92,7 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.excluirCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean inserido = candidatoCompetenciaService.excluirCompetenciaDoCandidato(candidato.id, competencias.collect { it.id })

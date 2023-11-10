@@ -53,6 +53,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
@@ -75,6 +76,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
@@ -90,6 +92,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.buscarVagaPorId(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
@@ -109,6 +112,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaCompetenciaService.montarInserirCompeteciaParaVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(true)
         Mockito.when(vagaDao.inserirVaga(Mockito.any(Vaga.class))).thenReturn(1)
 
@@ -123,6 +127,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.atualizarVaga(Mockito.any(Vaga.class))).thenReturn(true)
 
         Boolean atualizado = vagaService.alterarVaga(vaga)
@@ -136,6 +141,7 @@ class VagaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.excluirVaga(Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean excluido = vagaService.excluirVaga(vaga.id)

@@ -31,10 +31,13 @@ class MatchService {
     MatchComIdVagaEIdCandidatoDto buscarMatchPorIdCandidatoIdVaga(Candidato candidato, Vaga vaga) {
         try {
             conexao.abrirConexao()
+
             MatchComIdVagaEIdCandidatoDto match =  this.montarBuscarMatchPorIdCandidatoIdVaga(candidato.id, vaga.id)
 
+            conexao.commitTransacao()
             return match
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -58,8 +61,10 @@ class MatchService {
                     this.montaAtualizarMatch(match)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -83,8 +88,10 @@ class MatchService {
                     this.montaAtualizarMatch(match)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

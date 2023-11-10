@@ -39,6 +39,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaCompetenciaDao.buscarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
         Competencia retorno = vagaCompetenciaService.buscarCompetenciaDaVaga(vaga.id, retornoEsperado.id)
@@ -54,6 +55,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaCompetenciaDao.listarCompetenciasPorVagaID(Mockito.any(Integer.class))).thenReturn(competenciasMap)
 
         List<Competencia> retorno = vagaCompetenciaService.listarCompetenciasDoVaga(vaga.id)
@@ -71,6 +73,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaCompetenciaDao.cadastrarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean inserido = vagaCompetenciaService.inserirCompetenciasParaVaga(vaga.id, competencias.collect { it.id })
@@ -88,6 +91,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaCompetenciaDao.excluirCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean inserido = vagaCompetenciaService.excluirCompetenciasDoVaga(vaga.id, competencias.collect { it.id })

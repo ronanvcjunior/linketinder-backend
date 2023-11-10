@@ -47,6 +47,7 @@ class ContaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn(contaMap)
 
         Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
@@ -60,6 +61,7 @@ class ContaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn([:])
 
         Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
@@ -76,6 +78,7 @@ class ContaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn(contaMap)
         Mockito.when(candidatoService.montarBuscarCandidatoPorId(Mockito.any(Integer))).thenReturn(candidato)
         Mockito.when(empresaService.montarBuscarEmpresaPorId(Mockito.any(Integer))).thenReturn(empresa)
@@ -92,6 +95,7 @@ class ContaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn([:])
 
         Conta retorno = contaService.montarBuscarContaPorEmailSenha(conta.email, conta.senha)
@@ -106,6 +110,7 @@ class ContaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.inserirConta(Mockito.any(Conta))).thenReturn(1)
 
         Conta retorno = contaService.montarInserirConta(conta)

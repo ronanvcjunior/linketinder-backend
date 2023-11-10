@@ -43,7 +43,6 @@ class EmpresaDaoTest extends GroovyTestCase {
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
-        Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(Empresa.class))).thenReturn([
                 "id"       : null,
                 "nome"     : "Empresa",
@@ -87,7 +86,6 @@ class EmpresaDaoTest extends GroovyTestCase {
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
-        Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(Empresa.class))).thenReturn([
                 "id"       : 1,
                 "nome"     : "Empresa",

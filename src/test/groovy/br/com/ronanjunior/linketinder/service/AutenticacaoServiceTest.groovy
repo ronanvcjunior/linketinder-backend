@@ -57,6 +57,7 @@ class AutenticacaoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaService.montarInserirCompeteciaParaCandidato(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(true)
         Mockito.when(candidatoService.montarInserirCandidato(Mockito.any(Candidato))).thenReturn(candidato)
         Mockito.when(contaService.montarInserirConta(Mockito.any(Conta))).thenReturn(contaEsperada)
@@ -74,6 +75,7 @@ class AutenticacaoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaService.montarInserirCompeteciaParaCandidato(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(true)
         Mockito.when(empresaService.montarInserirEmpresa(Mockito.any(Empresa))).thenReturn(empresa)
         Mockito.when(contaService.montarInserirConta(Mockito.any(Conta))).thenReturn(contaEsperada)
@@ -91,6 +93,7 @@ class AutenticacaoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaService.montarBuscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn(contaEsperada)
 
         Conta conta = autenticacaoService.Login(contaEnvio)

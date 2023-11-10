@@ -26,8 +26,13 @@ class EmpresaService {
     Empresa buscarEmpresaPorId(Empresa empresa) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarEmpresaPorId(empresa.id)
+
+            empresa = this.montarBuscarEmpresaPorId(empresa.id)
+
+            conexao.commitTransacao()
+            return empresa
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -37,12 +42,15 @@ class EmpresaService {
     Boolean verificarExistenciaEmpresaPorCnpj(String cnpj) {
         try {
             conexao.abrirConexao()
+
             Empresa empresa = this.montarBuscarEmpresaPorCnpj(cnpj)
 
+            conexao.commitTransacao()
             if (empresa.id)
                 return true
             return false
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -52,8 +60,13 @@ class EmpresaService {
     Empresa inserirEmpresa(Empresa empresa) {
         try {
             conexao.abrirConexao()
-            return this.montarInserirEmpresa(empresa)
+
+            Empresa empresaGravada = this.montarInserirEmpresa(empresa)
+
+            conexao.commitTransacao()
+            return empresaGravada
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -63,8 +76,13 @@ class EmpresaService {
     Boolean alterarEmpresa(Empresa empresa) {
         try {
             conexao.abrirConexao()
-            return this.montarAlterarEmpresa(empresa)
+
+            this.montarAlterarEmpresa(empresa)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -74,8 +92,13 @@ class EmpresaService {
     Boolean excluirEmpresa(Empresa empresa) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirEmpresa(empresa.id)
+
+            this.montarExcluirEmpresa(empresa.id)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

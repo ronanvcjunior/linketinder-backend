@@ -29,8 +29,13 @@ class CandidatoCompetenciaService {
     Competencia buscarCompetenciaDoCandidato(Candidato candidato, Competencia competencia) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCompetenciaDoCandidato(candidato.id, competencia.id)
+
+            competencia = this.montarBuscarCompetenciaDoCandidato(candidato.id, competencia.id)
+
+            conexao.commitTransacao()
+            return competencia
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -40,15 +45,20 @@ class CandidatoCompetenciaService {
     List<Competencia> listarCompetenciasDoCandidato(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarListaCompetenciaParaCandidato(candidato.id)
+
+            List<Competencia> competencias = this.montarListaCompetenciaParaCandidato(candidato.id)
+
+            conexao.commitTransacao()
+            return competencias
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
         }
     }
 
-    Boolean inserirCompetenciaParaCandidato(Integer idCandidato, List<Integer> idCompetencias) {
+    Boolean inserirCompetenciasParaCandidato(Integer idCandidato, List<Integer> idCompetencias) {
         try {
             conexao.abrirConexao()
 
@@ -56,8 +66,10 @@ class CandidatoCompetenciaService {
                 this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -72,8 +84,10 @@ class CandidatoCompetenciaService {
                 this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
             }
 
+            conexao.commitTransacao()
             return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

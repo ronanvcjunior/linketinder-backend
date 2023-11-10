@@ -44,7 +44,6 @@ class ContaDaoTest extends GroovyTestCase {
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
 
-        Mockito.doNothing().when(conexao).abrirConexao()
         Map parametrosEsperados = [
                 "email"     : "teste@gmail.com",
                 "senha"     : "teste"
@@ -147,8 +146,6 @@ class ContaDaoTest extends GroovyTestCase {
         ]
 
         List<String> inserirEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
-
-        Mockito.doNothing().when(conexao).abrirConexao()
 
         Mockito.when(conexao.inserir(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()

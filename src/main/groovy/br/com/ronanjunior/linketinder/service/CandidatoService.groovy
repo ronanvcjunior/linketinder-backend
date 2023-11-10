@@ -31,8 +31,13 @@ class CandidatoService {
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Integer idEmpresa) {
         try {
             conexao.abrirConexao()
-            return this.montarListaCandidatosParaEmpresa(idEmpresa)
+
+            List<CandidatoListaDaEmpresaDto> candidatos = this.montarListaCandidatosParaEmpresa(idEmpresa)
+
+            conexao.commitTransacao()
+            return candidatos
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception("Houve um erro ao listar de candidatos para empresa: ${e.message}", e)
         } finally {
             conexao.fecharConexao()
@@ -42,8 +47,13 @@ class CandidatoService {
     Candidato buscarCandidatoPorId(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCandidatoPorId(idCandidato)
+
+            Candidato candidato = this.montarBuscarCandidatoPorId(idCandidato)
+
+            conexao.commitTransacao()
+            return candidato
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -54,10 +64,13 @@ class CandidatoService {
         try {
             conexao.abrirConexao()
             Candidato candidato = this.montarBuscarCandidatoPorCpf(cpf)
+
+            conexao.commitTransacao()
             if (candidato.id)
                 return true
             return false
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -67,8 +80,13 @@ class CandidatoService {
     Candidato inserirCandidato(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarInserirCandidato(candidato)
+
+            Candidato candidatoGravado = this.montarInserirCandidato(candidato)
+
+            conexao.commitTransacao()
+            return candidatoGravado
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -78,8 +96,13 @@ class CandidatoService {
     Boolean alterarCandidato(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarAlterarCandidato(candidato)
+
+            this.montarAlterarCandidato(candidato)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -89,8 +112,13 @@ class CandidatoService {
     Boolean excluirCandidato(Candidato candidato) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirCandidato(candidato.id)
+
+            this.montarExcluirCandidato(candidato.id)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

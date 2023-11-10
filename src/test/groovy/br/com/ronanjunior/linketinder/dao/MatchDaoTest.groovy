@@ -142,8 +142,6 @@ class MatchDaoTest extends GroovyTestCase {
                 idVaga: match.vaga.id,
         ]
 
-        Mockito.doNothing().when(conexao).abrirConexao()
-
         Mockito.when(conexao.obterPrimeiraLinha(Mockito.anyString(), Mockito.anyMap())).thenAnswer { invocation ->
             List<Object> args = invocation.getArguments()
             String sSQL = args[0]

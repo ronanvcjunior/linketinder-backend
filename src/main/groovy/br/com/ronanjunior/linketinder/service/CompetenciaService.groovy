@@ -26,8 +26,13 @@ class CompetenciaService {
     List<Competencia> listarTodasCompetencias() {
         try {
             conexao.abrirConexao()
-            return this.montarListaTodasCompetencias()
+
+            List<Competencia> competencias = this.montarListaTodasCompetencias()
+
+            conexao.commitTransacao()
+            return competencias
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

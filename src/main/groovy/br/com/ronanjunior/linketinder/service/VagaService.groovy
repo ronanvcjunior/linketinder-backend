@@ -32,8 +32,13 @@ class VagaService {
     List<VagaListaDoCandidatoDto> listarVagasParaCandidato(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarListaVagasParaCandidato(idCandidato)
+
+            List<VagaListaDoCandidatoDto> vagas = this.montarListaVagasParaCandidato(idCandidato)
+
+            conexao.commitTransacao()
+            return vagas
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -43,8 +48,13 @@ class VagaService {
     List<Vaga> listarVagasParaEmpresa(Integer idEmpresa) {
         try {
             conexao.abrirConexao()
-            return this.montarListaVagasParaEmpresa(idEmpresa)
+
+            List<Vaga> vagas = this.montarListaVagasParaEmpresa(idEmpresa)
+
+            conexao.commitTransacao()
+            return vagas
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -54,8 +64,13 @@ class VagaService {
     Vaga buscarVagaPorId(Vaga vaga) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarVagaPorId(vaga.id)
+
+            vaga = this.montarBuscarVagaPorId(vaga.id)
+
+            conexao.commitTransacao()
+            return vaga
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -69,8 +84,13 @@ class VagaService {
             vaga.competencias.each { Competencia competencia -> {
                 vagaCompetenciaService.montarInserirCompeteciaParaVaga(vaga.id, competencia.id)
             }}
-            return this.montarInserirVaga(vaga)
+
+            vaga = this.montarInserirVaga(vaga)
+
+            conexao.commitTransacao()
+            return vaga
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -80,8 +100,13 @@ class VagaService {
     Boolean alterarVaga(Vaga vaga) {
         try {
             conexao.abrirConexao()
-            return this.montarAlterarVaga(vaga)
+
+            this.montarAlterarVaga(vaga)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
@@ -91,8 +116,13 @@ class VagaService {
     Boolean excluirVaga(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirVaga(idCandidato)
+
+            this.montarExcluirVaga(idCandidato)
+
+            conexao.commitTransacao()
+            return true
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()

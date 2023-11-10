@@ -21,43 +21,16 @@ class Conexao {
         }
     }
 
-    Sql obterConexao() {
-        try {
-            this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
-            return this.sql
-        } catch (ConnectException e) {
-            throw new ConnectException("Erro ao abrir conexão com o banco de dados: \n" + e.getMessage())
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
-        } catch (PSQLException e) {
-            throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
-        }
-    }
-
     void abrirConexao() {
         try {
             this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
+            this.sql.getConnection().setAutoCommit(false)
         } catch (ConnectException e) {
             throw new ConnectException("Erro ao abrir conexão com o banco de dados: \n" + e.getMessage())
         } catch (NullPointerException e) {
             throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
         } catch (PSQLException e) {
             throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
-        }
-    }
-
-    <T> T executarComTransacao(Closure<T> closure) {
-        try {
-            return sql.withTransaction { status ->
-                try {
-                    return closure.call(sql)
-                } catch (Exception e) {
-                    status.setRollbackOnly()
-                    throw new Exception("Erro na transação: " + e.message, e)
-                }
-            }
-        } catch (Exception e) {
-            throw new Exception("Erro na consulta com rows: " + e.message, e)
         }
     }
 
@@ -105,22 +78,9 @@ class Conexao {
         }
     }
 
-    void iniciarTransacao() {
-        try {
-            this.sql.getConnection().setAutoCommit(false)
-        } catch (ConnectException e) {
-            throw new ConnectException("Erro ao iniciar transação no banco de dados: \n" + e.getMessage())
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Erro ao iniciar transação no banco de dados, não há conexão: \n" + e.getMessage())
-        } catch (PSQLException e) {
-            throw new PSQLException("Erro ao iniciar transação no banco de dados.", null, e)
-        }
-    }
-
     void commitTransacao() {
         try {
             this.sql.getConnection().commit()
-            this.sql.getConnection().setAutoCommit(true)
         } catch (ConnectException e) {
             throw new ConnectException("Erro ao fazer commit da transação no banco de dados: \n" + e.getMessage())
         } catch (NullPointerException e) {
@@ -133,7 +93,6 @@ class Conexao {
     void rollbackTransacao() {
         try {
             this.sql.getConnection().rollback()
-            this.sql.getConnection().setAutoCommit(true)
         } catch (ConnectException e) {
             throw new ConnectException("Erro ao fazer rollback da transação no banco de dados: \n" + e.getMessage())
         } catch (NullPointerException e) {

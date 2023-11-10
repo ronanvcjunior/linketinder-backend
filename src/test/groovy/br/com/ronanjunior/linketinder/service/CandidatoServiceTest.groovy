@@ -56,6 +56,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.listarCandidatosParaEmpresa(Mockito.any(Integer))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
@@ -70,6 +71,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.atualizarCandidato(Mockito.any(Candidato.class))).thenReturn(true)
 
         Boolean atualizado = candidatoService.alterarCandidato(candidato)
@@ -94,6 +96,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
@@ -108,6 +111,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn([:])
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
@@ -133,6 +137,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.buscarCandidatoPorId(Mockito.any(Integer.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
@@ -147,6 +152,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.excluirCandidato(Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean excluido = candidatoService.excluirCandidato(candidato)
@@ -160,6 +166,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.inserirCandidato(Mockito.any(Candidato.class))).thenReturn(1)
 
         Candidato candidato = candidatoService.inserirCandidato(candidatoEsperado)

@@ -38,6 +38,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.buscarEmpresaPorId(Mockito.any(Integer))).thenReturn(empresaMap)
 
         Empresa retorno = empresaService.buscarEmpresaPorId(retornoEsperado)
@@ -52,6 +53,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.buscarEmpresaPorCnpj(Mockito.any(String))).thenReturn(empresaMap)
 
         Boolean existe = empresaService.verificarExistenciaEmpresaPorCnpj(retornoEsperado.cnpj)
@@ -65,6 +67,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.buscarEmpresaPorCnpj(Mockito.any(String))).thenReturn([:])
 
         Boolean existe = empresaService.verificarExistenciaEmpresaPorCnpj(retornoEsperado.cnpj)
@@ -78,6 +81,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.inserirEmpresa(Mockito.any(Empresa.class))).thenReturn(1)
 
         Empresa empresa = empresaService.inserirEmpresa(empresaEsperado)
@@ -91,6 +95,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.atualizarEmpresa(Mockito.any(Empresa.class))).thenReturn(true)
 
         Boolean atualizado = empresaService.alterarEmpresa(empresa)
@@ -104,6 +109,7 @@ class EmpresaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(empresaDao.excluirEmpresa(Mockito.any(Integer.class))).thenReturn(true)
 
         Boolean excluido = empresaService.excluirEmpresa(empresa)

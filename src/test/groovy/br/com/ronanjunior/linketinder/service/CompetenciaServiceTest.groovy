@@ -43,6 +43,7 @@ class CompetenciaServiceTest extends GroovyTestCase {
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(competenciaDao.listarTodasCompetencias()).thenReturn(competenciasMap)
 
         List<Competencia> retorno = competenciaService.listarTodasCompetencias()

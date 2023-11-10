@@ -35,16 +35,18 @@ class ContaService {
     Boolean verificarExistenciaContaComEmail(String email) {
         try {
             conexao.abrirConexao()
+
             Conta contaEncontrada =  this.montarBuscarContaPorEmail(email)
 
+            conexao.commitTransacao()
             switch (contaEncontrada.id) {
                 case null:
                     return false
                 default:
                     return true
             }
-
         } catch (Exception e) {
+            conexao.rollbackTransacao()
             throw new Exception(e.message, e)
         } finally {
             conexao.fecharConexao()
