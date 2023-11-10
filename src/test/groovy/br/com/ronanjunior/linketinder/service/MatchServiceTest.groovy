@@ -69,13 +69,9 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
-        MatchComIdVagaEIdCandidatoDto retorno = matchService.curtirVaga(candidato, vaga)
+        Boolean curtido = matchService.curtirVaga(candidato.id, vaga.id)
 
-        assertEquals(retornoEsperado.id, retorno.id)
-        assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
-        assertEquals(retornoEsperado.idVaga, retorno.idVaga)
-        assertEquals(retornoEsperado.dataCurtidaCandidato, retorno.dataCurtidaCandidato)
-        assertEquals(retornoEsperado.dataCurtidaVaga, retorno.dataCurtidaVaga)
+        assertTrue(curtido)
     }
 
     @Test
@@ -83,7 +79,6 @@ class MatchServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(1, LocalDate.parse("2023-11-02"), LocalDate.now(), 1, 1)
         Map matchMap = [id_match: 1, data_curtida_candidato: "2023-11-02", data_curtida_vaga: "", id_candidato: 1, id_vaga: 1]
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -91,13 +86,9 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
-        MatchComIdVagaEIdCandidatoDto retorno = matchService.curtirVaga(candidato, vaga)
+        Boolean curtido = matchService.curtirVaga(candidato.id, vaga.id)
 
-        assertEquals(retornoEsperado.id, retorno.id)
-        assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
-        assertEquals(retornoEsperado.idVaga, retorno.idVaga)
-        assertEquals(retornoEsperado.dataCurtidaCandidato, retorno.dataCurtidaCandidato)
-        assertEquals(retornoEsperado.dataCurtidaVaga, retorno.dataCurtidaVaga)
+        assertTrue(curtido)
     }
 
     @Test
@@ -105,20 +96,15 @@ class MatchServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(1, LocalDate.now(), null, 1, 1)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
-        MatchComIdVagaEIdCandidatoDto retorno = matchService.curtirCandidato(candidato, vaga)
+        Boolean curtido = matchService.curtirCandidato(candidato.id, vaga.id)
 
-        assertEquals(retornoEsperado.id, retorno.id)
-        assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
-        assertEquals(retornoEsperado.idVaga, retorno.idVaga)
-        assertEquals(retornoEsperado.dataCurtidaCandidato, retorno.dataCurtidaCandidato)
-        assertEquals(retornoEsperado.dataCurtidaVaga, retorno.dataCurtidaVaga)
+        assertTrue(curtido)
     }
 
     @Test
@@ -126,7 +112,6 @@ class MatchServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(1, LocalDate.now(), LocalDate.parse("2023-11-02"), 1, 1)
         Map matchMap = [id_match: 1, data_curtida_candidato: null, data_curtida_vaga: "2023-11-02", id_candidato: 1, id_vaga: 1]
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -134,12 +119,8 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
-        MatchComIdVagaEIdCandidatoDto retorno = matchService.curtirCandidato(candidato, vaga)
+        Boolean curtido = matchService.curtirCandidato(candidato.id, vaga.id)
 
-        assertEquals(retornoEsperado.id, retorno.id)
-        assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
-        assertEquals(retornoEsperado.idVaga, retorno.idVaga)
-        assertEquals(retornoEsperado.dataCurtidaCandidato, retorno.dataCurtidaCandidato)
-        assertEquals(retornoEsperado.dataCurtidaVaga, retorno.dataCurtidaVaga)
+        assertTrue(curtido)
     }
 }

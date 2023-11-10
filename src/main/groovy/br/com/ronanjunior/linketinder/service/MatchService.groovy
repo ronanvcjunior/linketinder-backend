@@ -41,24 +41,24 @@ class MatchService {
         }
     }
 
-    MatchComIdVagaEIdCandidatoDto curtirVaga(Candidato candidato, Vaga vaga) {
+    Boolean curtirVaga(Integer idCandidato, Integer idVaga) {
         try {
             conexao.abrirConexao()
 
-            MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(candidato.id, vaga.id)
+            MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(idCandidato, idVaga)
             match.setDataCurtidaVaga(LocalDate.now())
 
             switch (match.id) {
                 case null:
-                    match.setIdCandidato(candidato.id)
-                    match.setIdVaga(vaga.id)
-                    match = this.montarInserirMatch(match)
+                    match.setIdCandidato(idCandidato)
+                    match.setIdVaga(idVaga)
+                    this.montarInserirMatch(match)
                     break
                 default:
                     this.montaAtualizarMatch(match)
             }
 
-            return match
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -66,23 +66,24 @@ class MatchService {
         }
     }
 
-    MatchComIdVagaEIdCandidatoDto curtirCandidato(Candidato candidato, Vaga vaga) {
+    Boolean curtirCandidato(Integer idCandidato, Integer idVaga) {
         try {
             conexao.abrirConexao()
 
-            MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(candidato.id, vaga.id)
+            MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(idCandidato, idVaga)
             match.setDataCurtidaCandidato(LocalDate.now())
 
             switch (match.id) {
                 case null:
-                    match.setIdCandidato(candidato.id)
-                    match.setIdVaga(vaga.id)
-                    match = this.montarInserirMatch(match)
+                    match.setIdCandidato(idCandidato)
+                    match.setIdVaga(idVaga)
+                    this.montarInserirMatch(match)
                     break
                 default:
                     this.montaAtualizarMatch(match)
             }
-            return match
+
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {

@@ -3,17 +3,28 @@ package br.com.ronanjunior.linketinder.controller
 import br.com.ronanjunior.linketinder.dao.MatchDao
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Vaga
+import br.com.ronanjunior.linketinder.service.MatchService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import io.github.cdimascio.dotenv.Dotenv
 
 class MatchController {
-    MatchDao matchDao = new MatchDao(new Conexao())
+    MatchService matchService = new MatchService()
 
-    Boolean curtirVaga(Candidato candidato, Vaga vaga) {
-        return matchDao.curtirVaga(candidato, vaga)
+    Boolean curtirVaga(Integer idCandidato, Integer idVaga) {
+        try {
+            return matchService.curtirVaga(idCandidato, idVaga)
+        } catch (Exception e) {
+            println e.message
+            return false
+        }
     }
 
-    Boolean curtirCandidato(Candidato candidato, Vaga vaga) {
-        return matchDao.curtirCandidato(candidato, vaga)
+    Boolean curtirCandidato(Integer idCandidato, Integer idVaga) {
+        try {
+            return matchService.curtirCandidato(idCandidato, idVaga)
+        } catch (Exception e) {
+            println e.message
+            return false
+        }
     }
 }
