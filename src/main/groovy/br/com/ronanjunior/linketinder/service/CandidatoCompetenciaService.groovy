@@ -48,10 +48,15 @@ class CandidatoCompetenciaService {
         }
     }
 
-    Boolean inserirCompetenciaParaCandidato(Candidato candidato, Competencia competencia) {
+    Boolean inserirCompetenciaParaCandidato(Integer idCandidato, List<Integer> idCompetencias) {
         try {
             conexao.abrirConexao()
-            return this.montarInserirCompeteciaParaCandidato(candidato.id, competencia.id)
+
+            idCompetencias.each { Integer idCompetencia ->
+                this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
+            }
+
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -59,10 +64,15 @@ class CandidatoCompetenciaService {
         }
     }
 
-    Boolean excluirCompetenciaDoCandidato(Candidato candidato, Competencia competencia) {
+    Boolean excluirCompetenciaDoCandidato(Integer idCandidato, List<Integer> idCompetencias) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirCompeteciaDoCandidato(candidato.id, competencia.id)
+
+            idCompetencias.each { Integer idCompetencia ->
+                this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
+            }
+
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {

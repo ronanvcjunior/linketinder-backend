@@ -64,28 +64,34 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
     @Test
     void testInserirCompetenciaParaCandidato() {
-        Competencia competencia = new Competencia(1, "Java")
+        List<Competencia> competencias = [
+                new Competencia(1, "Java"),
+                new Competencia(2, "Groovy")
+        ]
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(candidatoCompetenciaDao.cadastrarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
-        Boolean inserido = candidatoCompetenciaService.inserirCompetenciaParaCandidato(candidato, competencia)
+        Boolean inserido = candidatoCompetenciaService.inserirCompetenciasParaCandidato(candidato.id, competencias.collect { it.id })
 
         assertTrue(inserido)
     }
 
     @Test
     void testExcluirCompetenciaParaCandidato() {
-        Competencia competencia = new Competencia(1, "Java")
+        List<Competencia> competencias = [
+                new Competencia(1, "Java"),
+                new Competencia(2, "Groovy")
+        ]
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(candidatoCompetenciaDao.excluirCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
-        Boolean inserido = candidatoCompetenciaService.excluirCompetenciaDoCandidato(candidato, competencia)
+        Boolean inserido = candidatoCompetenciaService.excluirCompetenciaDoCandidato(candidato.id, competencias.collect { it.id })
 
         assertTrue(inserido)
     }

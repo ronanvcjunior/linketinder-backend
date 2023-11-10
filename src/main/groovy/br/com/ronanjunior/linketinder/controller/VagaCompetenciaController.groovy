@@ -23,4 +23,13 @@ class VagaCompetenciaController {
             return null
         }
     }
+
+    Boolean excluirCompetenciasParaVaga(Integer idVaga, List<Integer> idCompetencias) {
+        try {
+            return vagaCompetenciaService.excluirCompetenciasDoVaga(idVaga, idCompetencias)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
+    }
 }
