@@ -32,10 +32,10 @@ class ContaService {
         this.empresaService = empresaService
     }
 
-    Boolean verificarExistenciaContaComEmail(Conta conta) {
+    Boolean verificarExistenciaContaComEmail(String email) {
         try {
             conexao.abrirConexao()
-            Conta contaEncontrada =  this.montarBuscarContaPorEmail(conta.email)
+            Conta contaEncontrada =  this.montarBuscarContaPorEmail(email)
 
             switch (contaEncontrada.id) {
                 case null:

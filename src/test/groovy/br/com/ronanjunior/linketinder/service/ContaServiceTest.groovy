@@ -49,7 +49,7 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn(contaMap)
 
-        Boolean retorno = contaService.verificarExistenciaContaComEmail(conta)
+        Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
 
         assertTrue(retorno)
     }
@@ -62,7 +62,7 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn([:])
 
-        Boolean retorno = contaService.verificarExistenciaContaComEmail(conta)
+        Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
 
         assertFalse(retorno)
     }
