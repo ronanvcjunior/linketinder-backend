@@ -46,7 +46,7 @@ class EmpresaServiceTest extends GroovyTestCase {
     }
 
     @Test
-    void testBuscarEmpresaPorCnpj() {
+    void testVerificarExistenciaEmpresaPorCnpjExiste() {
         Empresa retornoEsperado = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Map empresaMap = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
 
@@ -54,9 +54,22 @@ class EmpresaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(empresaDao.buscarEmpresaPorCnpj(Mockito.any(String))).thenReturn(empresaMap)
 
-        Empresa retorno = empresaService.buscarEmpresaPorCnpj(retornoEsperado)
+        Boolean existe = empresaService.verificarExistenciaEmpresaPorCnpj(retornoEsperado.cnpj)
 
-        assertEquals(retornoEsperado, retorno)
+        assertTrue(existe)
+    }
+
+    @Test
+    void testVerificarExistenciaEmpresaPorCnpjNaoExiste() {
+        Empresa retornoEsperado = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
+
+        Mockito.doNothing().when(conexao).abrirConexao()
+        Mockito.doNothing().when(conexao).fecharConexao()
+        Mockito.when(empresaDao.buscarEmpresaPorCnpj(Mockito.any(String))).thenReturn([:])
+
+        Boolean existe = empresaService.verificarExistenciaEmpresaPorCnpj(retornoEsperado.cnpj)
+
+        assertFalse(existe)
     }
 
     @Test

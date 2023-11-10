@@ -34,10 +34,14 @@ class EmpresaService {
         }
     }
 
-    Empresa buscarEmpresaPorCnpj(Empresa empresa) {
+    Boolean verificarExistenciaEmpresaPorCnpj(String cnpj) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarEmpresaPorCnpj(empresa.cnpj)
+            Empresa empresa = this.montarBuscarEmpresaPorCnpj(cnpj)
+
+            if (empresa.id)
+                return true
+            return false
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
