@@ -24,10 +24,10 @@ class VagaCompetenciaService {
         this.vagaCompetenciaDao = vagaCompetenciaDao
     }
 
-    Competencia buscarCompetenciaDoVaga(Vaga vaga, Competencia competencia) {
+    Competencia buscarCompetenciaDaVaga(Integer idVaga, Integer idCompetencia) {
         try {
             conexao.abrirConexao()
-            return this.montarBuscarCompetenciaDoVaga(vaga.id, competencia.id)
+            return this.montarBuscarCompetenciaDoVaga(idVaga, idCompetencia)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -35,10 +35,10 @@ class VagaCompetenciaService {
         }
     }
 
-    List<Competencia> listarCompetenciasDoVaga(Vaga vaga) {
+    List<Competencia> listarCompetenciasDoVaga(Integer idVaga) {
         try {
             conexao.abrirConexao()
-            return this.montarListaCompetenciaParaVaga(vaga.id)
+            return this.montarListaCompetenciaParaVaga(idVaga)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -46,10 +46,15 @@ class VagaCompetenciaService {
         }
     }
 
-    Boolean inserirCompetenciaParaVaga(Vaga vaga, Competencia competencia) {
+    Boolean inserirCompetenciasParaVaga(Integer idVaga, List<Integer> idCompetencias) {
         try {
             conexao.abrirConexao()
-            return this.montarInserirCompeteciaParaVaga(vaga.id, competencia.id)
+
+            idCompetencias.each { Integer idCompetencia ->
+                this.montarInserirCompeteciaParaVaga(idVaga, idCompetencia)
+            }
+
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -57,10 +62,15 @@ class VagaCompetenciaService {
         }
     }
 
-    Boolean excluirCompetenciaDoVaga(Vaga vaga, Competencia competencia) {
+    Boolean excluirCompetenciasDoVaga(Integer idVaga, List<Integer> idCompetencias) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirCompeteciaDoVaga(vaga.id, competencia.id)
+
+            idCompetencias.each { Integer idCompetencia ->
+                this.montarExcluirCompeteciaDoVaga(idVaga, idCompetencia)
+            }
+
+            return true
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {

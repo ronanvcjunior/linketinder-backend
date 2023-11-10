@@ -32,7 +32,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
     }
 
     @Test
-    void testBuscarVagaCompetenciaPorId() {
+    void testBuscarCompetenciaDaVaga() {
         Competencia retornoEsperado = new Competencia(1, "Java")
         Vaga vaga = new Vaga(1, null, null, null, null, null, null)
         Map competenciaMap = [id_competencia: 1, nome: "Java"]
@@ -41,7 +41,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(vagaCompetenciaDao.buscarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
-        Competencia retorno = vagaCompetenciaService.buscarCompetenciaDoVaga(vaga, retornoEsperado)
+        Competencia retorno = vagaCompetenciaService.buscarCompetenciaDaVaga(vaga.id, retornoEsperado.id)
 
         assertEquals(retornoEsperado, retorno)
     }
@@ -56,35 +56,41 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(vagaCompetenciaDao.listarCompetenciasPorVagaID(Mockito.any(Integer.class))).thenReturn(competenciasMap)
 
-        List<Competencia> retorno = vagaCompetenciaService.listarCompetenciasDoVaga(vaga)
+        List<Competencia> retorno = vagaCompetenciaService.listarCompetenciasDoVaga(vaga.id)
 
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 
     @Test
-    void testInserirCompetenciaParaVaga() {
-        Competencia competencia = new Competencia(1, "Java")
+    void testInserirCompetenciasParaVaga() {
+        List<Competencia> competencias = [
+                new Competencia(1, "Java"),
+                new Competencia(2, "Groovy")
+        ]
         Vaga vaga = new Vaga(1, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(vagaCompetenciaDao.cadastrarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
-        Boolean inserido = vagaCompetenciaService.inserirCompetenciaParaVaga(vaga, competencia)
+        Boolean inserido = vagaCompetenciaService.inserirCompetenciasParaVaga(vaga.id, competencias.collect { it.id })
 
         assertTrue(inserido)
     }
 
     @Test
-    void testExcluirCompetenciaParaVaga() {
-        Competencia competencia = new Competencia(1, "Java")
+    void testExcluirCompetenciasParaVaga() {
+        List<Competencia> competencias = [
+                new Competencia(1, "Java"),
+                new Competencia(2, "Groovy")
+        ]
         Vaga vaga = new Vaga(1, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(vagaCompetenciaDao.excluirCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
-        Boolean inserido = vagaCompetenciaService.excluirCompetenciaDoVaga(vaga, competencia)
+        Boolean inserido = vagaCompetenciaService.excluirCompetenciasDoVaga(vaga.id, competencias.collect { it.id })
 
         assertTrue(inserido)
     }
