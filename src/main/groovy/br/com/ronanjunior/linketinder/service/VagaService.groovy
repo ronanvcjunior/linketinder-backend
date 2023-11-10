@@ -29,10 +29,10 @@ class VagaService {
         this.vagaCompetenciaService = vagaCompetenciaService
     }
 
-    List<VagaListaDoCandidatoDto> listarVagasParaCandidato(Candidato candidato) {
+    List<VagaListaDoCandidatoDto> listarVagasParaCandidato(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarListaVagasParaCandidato(candidato.id)
+            return this.montarListaVagasParaCandidato(idCandidato)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -40,10 +40,10 @@ class VagaService {
         }
     }
 
-    List<Vaga> listarVagasParaEmpresa(Empresa empresa) {
+    List<Vaga> listarVagasParaEmpresa(Integer idEmpresa) {
         try {
             conexao.abrirConexao()
-            return this.montarListaVagasParaEmpresa(empresa.id)
+            return this.montarListaVagasParaEmpresa(idEmpresa)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {
@@ -88,10 +88,10 @@ class VagaService {
         }
     }
 
-    Boolean excluirVaga(Vaga vaga) {
+    Boolean excluirVaga(Integer idCandidato) {
         try {
             conexao.abrirConexao()
-            return this.montarExcluirVaga(vaga.id)
+            return this.montarExcluirVaga(idCandidato)
         } catch (Exception e) {
             throw new Exception(e.message, e)
         } finally {

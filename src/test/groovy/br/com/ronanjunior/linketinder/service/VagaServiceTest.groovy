@@ -56,7 +56,7 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
-        List<VagaListaDoCandidatoDto> retorno = vagaService.listarVagasParaCandidato(candidato)
+        List<VagaListaDoCandidatoDto> retorno = vagaService.listarVagasParaCandidato(candidato.id)
 
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
@@ -78,7 +78,7 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
-        List<Vaga> retorno = vagaService.listarVagasParaEmpresa(empresa)
+        List<Vaga> retorno = vagaService.listarVagasParaEmpresa(empresa.id)
 
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
@@ -138,7 +138,7 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.when(vagaDao.excluirVaga(Mockito.any(Integer.class))).thenReturn(true)
 
-        Boolean excluido = vagaService.excluirVaga(vaga)
+        Boolean excluido = vagaService.excluirVaga(vaga.id)
 
         assertTrue(excluido)
     }

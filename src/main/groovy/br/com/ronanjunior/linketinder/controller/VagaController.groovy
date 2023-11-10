@@ -6,63 +6,46 @@ import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
+import br.com.ronanjunior.linketinder.service.VagaService
 import br.com.ronanjunior.linketinder.utils.Conexao
 
 class VagaController {
-    VagaDao vagaDao = new VagaDao(new Conexao())
-    CompetenciaController competenciaController = new CompetenciaController()
+    VagaService vagaService = new VagaService()
 
-    List<VagaListaDoCandidatoDto> listarTodasVagasParaCandidato(Candidato candidato) {
-        return vagaDao.listarTodasVagasParaCandidato(candidato)
+    List<VagaListaDoCandidatoDto> listarTodasVagasParaCandidato(Integer idCandidato) {
+        try {
+            return vagaService.listarVagasParaCandidato(idCandidato)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
     }
 
-    List<Vaga> listarTodasVagasParaEmpresa(Empresa empresa) {
-        return vagaDao.listarVagasPorEmpresa(empresa.id)
-    }
-
-    Vaga registrarVaga(Vaga novaVaga) {
-        Integer idVaga =  vagaDao.cadastrarVaga(novaVaga)
-
-        return vagaDao.buscarVagaPorId(idVaga)
+    List<Vaga> listarTodasVagasParaEmpresa(Integer idEmpresa) {
+        try {
+            return vagaService.listarVagasParaEmpresa(idEmpresa)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
     }
 
     Boolean alterarVaga(Vaga vaga) {
-        return vagaDao.atualizarVaga(vaga)
+        try {
+            return vagaService.alterarVaga(vaga)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
     }
 
-    Boolean adicionarCompetenciaVaga(Vaga vaga) {
-        return vagaDao.cadastrarCompetenciaVaga(vaga)
+    Boolean deletarVaga(Integer idCandidato) {
+        try {
+            return vagaService.excluirVaga(idCandidato)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
     }
 
-    Boolean removerCompetenciaVaga(Vaga vagaAlterado, Vaga vagaAntigo) {
-        return vagaDao.removerCompetenciaVaga(vagaAlterado, vagaAntigo)
-    }
-
-    Boolean deletarVaga(Vaga vaga) {
-        return vagaDao.excluirVaga(vaga.id)
-    }
-
-    Vaga procurarVagaDaEmpresaPorId(Integer idVaga, Integer idEmpresa) {
-        return vagaDao.buscarVagaDaEmpresaPorId(idVaga, idEmpresa)
-    }
-
-    Vaga procurarVagaPorId(Integer idVaga) {
-        return vagaDao.buscarVagaPorId(idVaga)
-    }
-
-    Vaga copiarVaga(Vaga vaga) {
-        List<Competencia> competencias = []
-        vaga.competencias.forEach {Competencia competencia -> {
-            competencias.add(competenciaController.copiarCompetencia(competencia))
-        }}
-        return new Vaga(
-                vaga.id,
-                vaga.nome,
-                vaga.descricao,
-                vaga.estado,
-                vaga.cidade,
-                vaga.empresa,
-                competencias
-        )
-    }
 }
