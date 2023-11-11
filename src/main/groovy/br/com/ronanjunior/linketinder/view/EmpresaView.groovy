@@ -17,7 +17,7 @@ class EmpresaView {
     }
 
     Empresa alterarNome(Empresa empresa) {
-        Empresa empresaAlterada = empresaController.copiarEmpresa(empresa)
+        Empresa empresaAlterada = empresa.clone()
 
         String nome
 
@@ -43,7 +43,7 @@ class EmpresaView {
     }
 
     Empresa alterarCnpj(Empresa empresa) {
-        Empresa empresaAlterada = empresaController.copiarEmpresa(empresa)
+        Empresa empresaAlterada = empresa.clone()
 
         String cnpj
 
@@ -74,7 +74,7 @@ class EmpresaView {
     }
 
     Empresa alterarPais(Empresa empresa) {
-        Empresa empresaAlterada = empresaController.copiarEmpresa(empresa)
+        Empresa empresaAlterada = empresa.clone()
 
         String pais
 
@@ -100,7 +100,7 @@ class EmpresaView {
     }
 
     Empresa alterarCep(Empresa empresa) {
-        Empresa empresaAlterada = empresaController.copiarEmpresa(empresa)
+        Empresa empresaAlterada = empresa.clone()
 
         String cep
 
@@ -127,7 +127,7 @@ class EmpresaView {
     }
 
     Empresa alterarDescricao(Empresa empresa) {
-        Empresa empresaAlterada = empresaController.copiarEmpresa(empresa)
+        Empresa empresaAlterada = empresa.clone()
 
         print "Descrição Atual: ${empresa.descricao}\n"
         print "Descrição Novo: "

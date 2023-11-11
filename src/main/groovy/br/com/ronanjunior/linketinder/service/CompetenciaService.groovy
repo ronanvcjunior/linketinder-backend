@@ -17,6 +17,12 @@ class CompetenciaService {
         this.competenciaDao = new CompetenciaDao(conexao, mapperUtils)
     }
 
+    CompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.competenciaDao = new CompetenciaDao(conexao, mapperUtils)
+    }
+
     CompetenciaService(Conexao conexao, MapperUtils mapperUtils, CompetenciaDao competenciaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils

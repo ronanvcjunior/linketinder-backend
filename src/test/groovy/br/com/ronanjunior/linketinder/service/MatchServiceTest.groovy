@@ -4,7 +4,6 @@ import br.com.ronanjunior.linketinder.dao.MatchDao
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.model.Match
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
@@ -51,7 +50,7 @@ class MatchServiceTest extends GroovyTestCase {
 
         MatchComIdVagaEIdCandidatoDto retorno = matchService.buscarMatchPorIdCandidatoIdVaga(candidato, vaga)
 
-        assertEquals(retornoEsperado.id, retorno.id)
+        assertEquals(retornoEsperado.idMatch, retorno.idMatch)
         assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
         assertEquals(retornoEsperado.idVaga, retorno.idVaga)
         assertEquals(retornoEsperado.dataCurtidaCandidato, retorno.dataCurtidaCandidato)

@@ -156,7 +156,7 @@ class VagaDao {
     private String montarExcluirVaga() {
         String sSQL = """
             DELETE FROM Vaga
-            WHERE id_vaga = : idVaga
+            WHERE id_vaga = :idVaga
         """
         return sSQL
     }

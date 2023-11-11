@@ -198,7 +198,7 @@ class VagaDaoTest extends GroovyTestCase {
         // Defina a consulta diretamente no teste
         String sSQLEsperdao = """
             DELETE FROM Vaga
-            WHERE id_vaga = : idVaga
+            WHERE id_vaga = :idVaga
         """
 
         List<String> consultaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}

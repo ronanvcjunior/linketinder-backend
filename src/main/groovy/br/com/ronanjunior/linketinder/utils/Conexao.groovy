@@ -31,12 +31,16 @@ class Conexao {
             throw new NullPointerException("Erro ao abrir conexão com o banco de dados, não há conexão: \n" + e.getMessage())
         } catch (PSQLException e) {
             throw new PSQLException("Erro ao abrir conexão com o banco de dados.", null, e)
+        } catch (Exception e ) {
+            throw new Exception("Erro", e)
         }
     }
 
     List<Map> obterLinhas(String sSQL, Map parametros = [:]) {
         try {
-            return sql.rows(sSQL, parametros)
+            List<Map> linhas = sql.rows(sSQL, parametros)
+
+            return linhas ? linhas : []
         } catch (Exception e) {
             throw new Exception("Erro na consulta com rows: " + e.message, e)
         }
@@ -52,7 +56,8 @@ class Conexao {
 
     Integer inserir(String sSQL, Map parametros = [:]) {
         try {
-            return sql.executeInsert(sSQL, parametros) as Integer
+            List<List<Object>> inserido = sql.executeInsert(sSQL, parametros)
+            return inserido[0][0]
         } catch (Exception e) {
             throw new Exception("Erro ao inserir informações no banco de dados: " + e.message, e)
         }
@@ -60,7 +65,8 @@ class Conexao {
 
     Map obterPrimeiraLinha(String sSQL, Map parametros = [:]) {
         try {
-            return sql.firstRow(sSQL, parametros)
+            Map linha = sql.firstRow(sSQL, parametros)
+            return linha ? linha : [:]
         } catch (Exception e) {
             throw new Exception("Erro na consulta com firstRow: " + e.message, e)
         }

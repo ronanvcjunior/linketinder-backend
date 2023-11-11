@@ -1,11 +1,10 @@
 package br.com.ronanjunior.linketinder.service
 
-import br.com.ronanjunior.linketinder.dao.CandidatoDao
+
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 import groovy.test.GroovyTestCase
@@ -96,7 +95,7 @@ class AutenticacaoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaService.montarBuscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn(contaEsperada)
 
-        Conta conta = autenticacaoService.Login(contaEnvio)
+        Conta conta = autenticacaoService.login(contaEnvio.email, contaEnvio.senha)
 
         assertEquals(contaEsperada, conta)
     }

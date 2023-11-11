@@ -22,6 +22,13 @@ class VagaService {
         this.vagaCompetenciaService = new VagaCompetenciaService()
     }
 
+    VagaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.vagaDao = new VagaDao(conexao, mapperUtils)
+        this.vagaCompetenciaService = new VagaCompetenciaService(conexao, mapperUtils)
+    }
+
     VagaService(Conexao conexao, MapperUtils mapperUtils, VagaDao vagaDao, VagaCompetenciaService vagaCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
@@ -61,11 +68,11 @@ class VagaService {
         }
     }
 
-    Vaga buscarVagaPorId(Vaga vaga) {
+    Vaga buscarVagaPorId(Integer idVaga) {
         try {
             conexao.abrirConexao()
 
-            vaga = this.montarBuscarVagaPorId(vaga.id)
+            Vaga vaga = this.montarBuscarVagaPorId(idVaga)
 
             conexao.commitTransacao()
             return vaga
@@ -81,11 +88,11 @@ class VagaService {
         try {
             conexao.abrirConexao()
 
+            vaga = this.montarInserirVaga(vaga)
+
             vaga.competencias.each { Competencia competencia -> {
                 vagaCompetenciaService.montarInserirCompeteciaParaVaga(vaga.id, competencia.id)
             }}
-
-            vaga = this.montarInserirVaga(vaga)
 
             conexao.commitTransacao()
             return vaga
@@ -113,11 +120,11 @@ class VagaService {
         }
     }
 
-    Boolean excluirVaga(Integer idCandidato) {
+    Boolean excluirVaga(Integer idVaga) {
         try {
             conexao.abrirConexao()
 
-            this.montarExcluirVaga(idCandidato)
+            this.montarExcluirVaga(idVaga)
 
             conexao.commitTransacao()
             return true
@@ -149,8 +156,8 @@ class VagaService {
         try {
             List<Vaga> vagas = []
 
-            List<Map> vagasParaCandidatoMap = vagaDao.listarVagasParaCandidato(idEmpresa)
-            vagasParaCandidatoMap.forEach { Map vagaMap ->
+            List<Map> vagasParaEmpresaMap = vagaDao.buscarVagasPorIdEmpresa(idEmpresa)
+            vagasParaEmpresaMap.forEach { Map vagaMap ->
                 List<Competencia> competencias = this.vagaCompetenciaService
                         .montarListaCompetenciaParaVaga(vagaMap.get("id_vaga") as Integer)
                 vagas.push(new Vaga(vagaMap, competencias))

@@ -2,9 +2,13 @@ package br.com.ronanjunior.linketinder.controller
 
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.service.VagaCompetenciaService
+import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaCompetenciaController {
-    private final VagaCompetenciaService vagaCompetenciaService = new VagaCompetenciaService()
+    private final Conexao conexao = new Conexao()
+    private final MapperUtils mapperUtils = new MapperUtils()
+    private final VagaCompetenciaService vagaCompetenciaService = new VagaCompetenciaService(this.conexao, this.mapperUtils)
 
     List<Competencia> listarCompetenciasDoCandidato(Integer idVaga) {
         try {

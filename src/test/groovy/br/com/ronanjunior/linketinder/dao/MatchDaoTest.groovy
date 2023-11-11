@@ -2,7 +2,6 @@ package br.com.ronanjunior.linketinder.dao
 
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Match
 import br.com.ronanjunior.linketinder.model.Vaga
@@ -98,7 +97,7 @@ class MatchDaoTest extends GroovyTestCase {
         Map parametrosEsperados = [
                 dataCurtidaCandidato: match.dataCurtidaCandidato,
                 dataCurtidaVaga: match.dataCurtidaVaga,
-                idMatch: match.id
+                idMatch: match.idMatch
         ]
 
         Mockito.when(mapperUtils.converterObjectToMap(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(parametrosEsperados)

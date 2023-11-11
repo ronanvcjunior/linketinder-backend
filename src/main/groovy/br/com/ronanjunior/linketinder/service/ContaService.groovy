@@ -24,6 +24,14 @@ class ContaService {
         this.empresaService = new EmpresaService()
     }
 
+    ContaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.contaDao = new ContaDao(conexao, mapperUtils)
+        this.candidatoService = new CandidatoService(conexao, mapperUtils)
+        this.empresaService = new EmpresaService(conexao, mapperUtils)
+    }
+
     ContaService(Conexao conexao, MapperUtils mapperUtils, ContaDao contaDao, CandidatoService candidatoService, EmpresaService empresaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
@@ -84,7 +92,7 @@ class ContaService {
 
             return conta
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar conta por email: ${e.message}", e)
+            throw new Exception("Houve um erro ao buscar conta por email e senha: ${e.message}", e)
         }
     }
 

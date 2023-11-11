@@ -1,6 +1,7 @@
 package br.com.ronanjunior.linketinder.view
 
 import br.com.ronanjunior.linketinder.controller.CompetenciaController
+import br.com.ronanjunior.linketinder.controller.VagaCompetenciaController
 import br.com.ronanjunior.linketinder.controller.VagaController
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
@@ -10,8 +11,8 @@ import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
 
 class VagaView {
-
     VagaController vagaController = new VagaController()
+    VagaCompetenciaController vagaCompetenciaController = new VagaCompetenciaController()
     Scanner scanner = new Scanner(System.in)
 
     List<Competencia> competenciasCadastradas = []
@@ -23,7 +24,7 @@ class VagaView {
 
     VagaView(List<Competencia> competenciasCadastradas) {
         this.competenciasCadastradas = competenciasCadastradas
-        this.competenciaController = new CompetenciaController(this.competenciasCadastradas)
+        this.competenciaController = new CompetenciaController()
     }
 
     Vaga cadastrarVaga(Conta login) {
@@ -73,7 +74,7 @@ class VagaView {
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
@@ -99,7 +100,7 @@ class VagaView {
                 competencias
         )
 
-        return vagaController.registrarVaga(novaVaga)
+        return vagaController.cadastrarVaga(novaVaga)
     }
 
     void alterarVaga(Empresa empresa) {
@@ -110,7 +111,7 @@ class VagaView {
         Integer idVaga = scanner.nextInt()
         scanner.nextLine()
 
-        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id)
+        Vaga vaga = vagaController.buscarVagaPorId(idVaga)
         if (vagas.contains(vaga)) {
             println "Digite um campo para alterar (nome, esdato, cidade, descricao, add competencias, sub competencias)"
             print ">>> "
@@ -144,7 +145,7 @@ class VagaView {
     }
 
     Vaga alterarNome(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
+        Vaga vagaAlterado = vaga.clone()
 
         String nome
 
@@ -170,7 +171,7 @@ class VagaView {
     }
 
     Vaga alterarEstado(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
+        Vaga vagaAlterado = vaga.clone()
 
         String estado
 
@@ -196,7 +197,7 @@ class VagaView {
     }
 
     Vaga alterarCidade(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
+        Vaga vagaAlterado = vaga.clone()
 
         String cidade
 
@@ -222,7 +223,7 @@ class VagaView {
     }
 
     Vaga alterarDescricao(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
+        Vaga vagaAlterado = vaga.clone()
 
         print "Descricao Atual: ${vaga.descricao}\n"
         print "Descricao Novo: "
@@ -239,7 +240,7 @@ class VagaView {
     }
 
     Vaga adicionarCompetenciasVaga(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
+        Vaga vagaAlterado = vaga.clone()
 
 
         this.competenciasCadastradas.forEach {Competencia competencia -> {
@@ -253,7 +254,7 @@ class VagaView {
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
@@ -267,7 +268,7 @@ class VagaView {
 
         vagaAlterado.competencias = competencias
 
-        Boolean alterado = vagaController.adicionarCompetenciaVaga(vagaAlterado)
+        Boolean alterado = vagaCompetenciaController.cadastrarCompetenciasParaVaga(vagaAlterado.id, vagaAlterado.competencias.collect { it.id })
 
         if (alterado)
             return vagaAlterado
@@ -276,29 +277,28 @@ class VagaView {
     }
 
     Vaga removerCompetenciasVaga(Vaga vaga) {
-        Vaga vagaAlterado = vagaController.copiarVaga(vaga)
-
-
+        List<Competencia> competenciasParaExcluir = []
+        Vaga vagaAlterado = vaga.clone()
 
         print "Competências Atuais: ${vagaAlterado.competencias}\n"
-        List<Competencia> competencias = vagaAlterado.competencias
         while (true) {
             print "Nome da competência (ou deixe em branco para encerrar): "
             String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
-            if (competencias.contains(competencia)) {
-                competencias.remove(competencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
+            if (vagaAlterado.competencias.contains(competencia)) {
+                vagaAlterado.competencias.remove(competencia)
+                competenciasParaExcluir.add(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de suas competências\n" +
-                        "${competencias}"
+                        "${vagaAlterado.competencias}"
             }
 
         }
 
-        Boolean alterado = vagaController.removerCompetenciaVaga(vagaAlterado, vaga)
+        Boolean alterado = vagaCompetenciaController.excluirCompetenciasParaVaga(vagaAlterado.id, competenciasParaExcluir.collect { it.id })
 
         if (alterado)
             return vagaAlterado
@@ -315,9 +315,8 @@ class VagaView {
         Integer idVaga = scanner.nextInt()
         scanner.nextLine()
 
-        Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id)
-        if (vagas.contains(vaga)) {
-            vagaDeletada = vagaController.deletarVaga(vaga)
+        if (vagas.find{ it.id == idVaga }) {
+            vagaDeletada = vagaController.deletarVaga(idVaga)
         } else {
             println "Não exite a vaga de número ${idVaga} registrada\n"
         }
@@ -331,7 +330,7 @@ class VagaView {
 
 
     List<VagaListaDoCandidatoDto> listarVagasParaCandidato(Candidato candidato) {
-        List<VagaListaDoCandidatoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato)
+        List<VagaListaDoCandidatoDto> vagas = vagaController.listarTodasVagasParaCandidato(candidato.id)
 
         vagas.forEach { VagaListaDoCandidatoDto vaga -> {
             println "" +
@@ -347,7 +346,7 @@ class VagaView {
     }
 
     List<Vaga> listarVagasParaEmpresa(Empresa empresa) {
-        List<Vaga> vagas = vagaController.listarTodasVagasParaEmpresa(empresa)
+        List<Vaga> vagas = vagaController.listarTodasVagasParaEmpresa(empresa.id)
 
         this.mostrarVagasParaEmpresa(vagas)
 

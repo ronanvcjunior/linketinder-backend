@@ -3,8 +3,6 @@ package br.com.ronanjunior.linketinder.service
 import br.com.ronanjunior.linketinder.dao.MatchDao
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.model.Match
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
@@ -19,6 +17,12 @@ class MatchService {
     MatchService() {
         this.conexao = new Conexao()
         this.mapperUtils = new MapperUtils()
+        this.matchDao = new MatchDao(conexao, mapperUtils)
+    }
+
+    MatchService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
         this.matchDao = new MatchDao(conexao, mapperUtils)
     }
 
@@ -51,7 +55,7 @@ class MatchService {
             MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(idCandidato, idVaga)
             match.setDataCurtidaVaga(LocalDate.now())
 
-            switch (match.id) {
+            switch (match.idMatch) {
                 case null:
                     match.setIdCandidato(idCandidato)
                     match.setIdVaga(idVaga)
@@ -78,7 +82,7 @@ class MatchService {
             MatchComIdVagaEIdCandidatoDto match = this.montarBuscarMatchPorIdCandidatoIdVaga(idCandidato, idVaga)
             match.setDataCurtidaCandidato(LocalDate.now())
 
-            switch (match.id) {
+            switch (match.idMatch) {
                 case null:
                     match.setIdCandidato(idCandidato)
                     match.setIdVaga(idVaga)
@@ -102,7 +106,7 @@ class MatchService {
         try {
             Integer idMatch = matchDao.inserirMatch(match)
 
-            match.setId(idMatch)
+            match.setIdMatch(idMatch)
 
             return match
         } catch (Exception e) {

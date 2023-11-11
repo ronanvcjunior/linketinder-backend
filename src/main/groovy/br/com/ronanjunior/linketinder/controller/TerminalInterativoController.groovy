@@ -16,8 +16,8 @@ class TerminalInterativoController {
     Boolean runnigIncial = true
     Boolean runnigCandidatoOuEmpresa = false
 
-    CompetenciaDao competenciaDao = new CompetenciaDao(new Conexao())
-    List<Competencia> competenciasCadastradas = competenciaDao.listarTodasCompetencias()
+    CompetenciaController competenciaController = new CompetenciaController()
+    List<Competencia> competenciasCadastradas = competenciaController.listarTodasCompetencias()
 
     TerminalInterativoView terminalInterativoView = new TerminalInterativoView()
     ContaView contaView = new ContaView(competenciasCadastradas)

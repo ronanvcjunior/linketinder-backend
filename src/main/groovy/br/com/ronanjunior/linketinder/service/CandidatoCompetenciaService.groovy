@@ -20,6 +20,12 @@ class CandidatoCompetenciaService {
         this.candidatoCompetenciaDao = new CandidatoCompetenciaDao(conexao, mapperUtils)
     }
 
+    CandidatoCompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.candidatoCompetenciaDao = new CandidatoCompetenciaDao(conexao, mapperUtils)
+    }
+
     CandidatoCompetenciaService(Conexao conexao, MapperUtils mapperUtils, CandidatoCompetenciaDao candidatoCompetenciaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
@@ -63,7 +69,9 @@ class CandidatoCompetenciaService {
             conexao.abrirConexao()
 
             idCompetencias.each { Integer idCompetencia ->
-                this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
+                Competencia competencia = this.montarBuscarCompetenciaDoCandidato(idCandidato, idCompetencia)
+                if (!competencia.id)
+                    this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
             }
 
             conexao.commitTransacao()
@@ -81,7 +89,7 @@ class CandidatoCompetenciaService {
             conexao.abrirConexao()
 
             idCompetencias.each { Integer idCompetencia ->
-                this.montarInserirCompeteciaParaCandidato(idCandidato, idCompetencia)
+                this.montarExcluirCompeteciaDoCandidato(idCandidato, idCompetencia)
             }
 
             conexao.commitTransacao()

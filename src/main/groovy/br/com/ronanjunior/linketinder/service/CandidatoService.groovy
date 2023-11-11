@@ -21,6 +21,13 @@ class CandidatoService {
         this.candidatoCompetenciaService = new CandidatoCompetenciaService()
     }
 
+    CandidatoService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.candidatoDao = new CandidatoDao(conexao, mapperUtils)
+        this.candidatoCompetenciaService = new CandidatoCompetenciaService(conexao, mapperUtils)
+    }
+
     CandidatoService(Conexao conexao, MapperUtils mapperUtils, CandidatoDao candidatoDao, CandidatoCompetenciaService candidatoCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils

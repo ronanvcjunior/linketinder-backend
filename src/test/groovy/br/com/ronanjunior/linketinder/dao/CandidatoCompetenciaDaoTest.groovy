@@ -64,8 +64,8 @@ class CandidatoCompetenciaDaoTest extends GroovyTestCase {
         // Defina a consulta diretamente no teste
         String sSQLEsperdao = """
             DELETE FROM Candidato_Competencia
-            WHERE id_candidato = : idCandidato
-            AND id_competencia = : idCompetencia
+            WHERE id_candidato = :idCandidato
+            AND id_competencia = :idCompetencia
         """
 
         List<String> consultaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
@@ -92,9 +92,10 @@ class CandidatoCompetenciaDaoTest extends GroovyTestCase {
         // Defina a consulta diretamente no teste
         Map retornoEsperado = [id_candidato_competencia: 1]
         String sSQLEsperdao = """
-            SELECT id_candidato_competencia FROM Candidato_Competencia
-            WHERE id_candidato = : idCandidato
-            AND id_competencia = : idCompetencia
+            SELECT c.id_competencia, c.nome FROM Candidato_Competencia cc
+            INNER JOIN Competencia c ON c.id_competencia = cc.id_competencia
+            WHERE cc.id_candidato = :idCandidato
+            AND cc.id_competencia = :idCompetencia
         """
 
         List<String> atualizaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}

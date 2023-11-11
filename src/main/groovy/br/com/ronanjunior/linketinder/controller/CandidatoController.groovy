@@ -7,10 +7,13 @@ import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.service.CandidatoService
 import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 import io.github.cdimascio.dotenv.Dotenv
 
 class CandidatoController {
-    private final CandidatoService candidatoService = new CandidatoService()
+    private final Conexao conexao = new Conexao()
+    private final MapperUtils mapperUtils = new MapperUtils()
+    private final CandidatoService candidatoService = new CandidatoService(this.conexao, this.mapperUtils)
 
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Integer idEmpresa) {
         try {

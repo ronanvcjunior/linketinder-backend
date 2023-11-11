@@ -3,7 +3,7 @@ package br.com.ronanjunior.linketinder.model
 import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
-class Empresa implements Serializable {
+class Empresa implements Serializable, Cloneable {
 
     Integer id
     String nome
@@ -28,5 +28,10 @@ class Empresa implements Serializable {
         this.pais = empresaMap.get("pais") as String
         this.cep = empresaMap.get("cep") as String
         this.descricao = empresaMap.get("descricao") as String
+    }
+
+    @Override
+    Empresa clone() throws CloneNotSupportedException {
+        return super.clone() as Empresa
     }
 }

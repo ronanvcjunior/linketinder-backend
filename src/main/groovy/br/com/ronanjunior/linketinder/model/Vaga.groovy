@@ -3,7 +3,7 @@ package br.com.ronanjunior.linketinder.model
 import groovy.transform.EqualsAndHashCode
 
 @EqualsAndHashCode
-class Vaga implements Serializable {
+class Vaga implements Serializable, Cloneable {
 
     Integer id
     String nome
@@ -65,5 +65,13 @@ class Vaga implements Serializable {
         this.descricao = vagaMap.get("descricao") as String
         this.estado = vagaMap.get("estado") as String
         this.cidade = vagaMap.get("cidade") as String
+    }
+
+    @Override
+    Vaga clone() {
+        Vaga clonedVaga = (Vaga) super.clone()
+        clonedVaga.empresa = empresa?.clone()
+        clonedVaga.competencias = competencias.collect { it.clone() }
+        return clonedVaga
     }
 }

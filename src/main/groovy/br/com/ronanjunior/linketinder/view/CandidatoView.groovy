@@ -1,5 +1,6 @@
 package br.com.ronanjunior.linketinder.view
 
+import br.com.ronanjunior.linketinder.controller.CandidatoCompetenciaController
 import br.com.ronanjunior.linketinder.controller.CandidatoController
 import br.com.ronanjunior.linketinder.controller.CompetenciaController
 import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
@@ -8,11 +9,13 @@ import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.DataUtils
 
+import java.time.LocalDate
+
 class CandidatoView {
     CandidatoController candidatoController = new CandidatoController()
+    CandidatoCompetenciaController CandidatoCompetenciaController = new CandidatoCompetenciaController()
     Scanner scanner = new Scanner(System.in)
     List<Competencia> competenciasCadastradas = []
-    DataUtils manipulacaoData = new DataUtils()
 
     CompetenciaController competenciaController
 
@@ -20,14 +23,14 @@ class CandidatoView {
 
     CandidatoView(List<Competencia> competenciasCadastradas) {
         this.competenciasCadastradas = competenciasCadastradas
-        this.competenciaController = new CompetenciaController(this.competenciasCadastradas)
+        this.competenciaController = new CompetenciaController()
     }
 
     void exibirCandidato(Candidato candidato) {
     println """   |Nome: ${candidato.nome}
                 |Sobrenome: ${candidato.sobrenome}
                 |CPF: ${candidato.cpf}
-                |Data de nascimento: ${candidato.dataNascimento}
+                |Data de nascimento: ${candidato.dataNascimento.format("dd/MM/yyyy")}
                 |Pais: ${candidato.pais}
                 |Estado: ${candidato.estado}
                 |CEP: ${candidato.cep}
@@ -37,7 +40,7 @@ class CandidatoView {
     }
 
     Candidato alterarNome(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String nome
 
@@ -63,7 +66,7 @@ class CandidatoView {
     }
 
     Candidato alterarSobrenome(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String sobrenome
 
@@ -89,7 +92,7 @@ class CandidatoView {
     }
 
     Candidato alterarCPF(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String cpf
 
@@ -120,11 +123,11 @@ class CandidatoView {
     }
 
     Candidato alterarDataNascimento(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String dataNascimento
 
-        print "Data de nascimento Atual: ${candidato.dataNascimento}\n"
+        print "Data de nascimento Atual: ${candidato.dataNascimento.format("dd/MM/yyyy")}\n"
         while (true) {
             print "Data de nascimento nova: "
             dataNascimento = scanner.nextLine()
@@ -136,7 +139,7 @@ class CandidatoView {
                 println "Data de nascimento Inválida"
         }
 
-        candidatoAlterado.dataNascimento = manipulacaoData.stringParaDate(dataNascimento)
+        candidatoAlterado.dataNascimento = LocalDate.parse(dataNascimento, "dd/MM/yyyy")
 
         Boolean alterado = candidatoController.alterarCandidato(candidatoAlterado)
 
@@ -147,7 +150,7 @@ class CandidatoView {
     }
 
     Candidato alterarPais(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String pais
 
@@ -173,7 +176,7 @@ class CandidatoView {
     }
 
     Candidato alterarCEP(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String cep
 
@@ -200,7 +203,7 @@ class CandidatoView {
     }
 
     Candidato alterarEstado(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         String estado
 
@@ -226,7 +229,7 @@ class CandidatoView {
     }
 
     Candidato alterarDescricao(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
         print "Descricao Atual: ${candidato.descricao}\n"
         print "Descricao Novo: "
@@ -243,7 +246,7 @@ class CandidatoView {
     }
 
     Candidato adicionarCompetenciasCandidato(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
+        Candidato candidatoAlterado = candidato.clone()
 
 
         this.competenciasCadastradas.forEach {Competencia competencia -> {
@@ -257,7 +260,7 @@ class CandidatoView {
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
@@ -271,7 +274,7 @@ class CandidatoView {
 
         candidatoAlterado.competencias = competencias
 
-        Boolean alterado = candidatoController.adicionarCompetenciaCandidato(candidatoAlterado)
+        Boolean alterado = CandidatoCompetenciaController.cadastrarCompetenciasParaCandidato(candidatoAlterado.id, candidatoAlterado.competencias.collect { it.id})
 
         if (alterado)
             return candidatoAlterado
@@ -280,29 +283,27 @@ class CandidatoView {
     }
 
     Candidato removerCompetenciasCandidato(Candidato candidato) {
-        Candidato candidatoAlterado = candidatoController.copiarCandidato(candidato)
-
-
+        List<Competencia> competenciasParaExcluir = []
+        Candidato candidatoAlterado = candidato.clone()
 
         print "Competências Atuais: ${candidatoAlterado.competencias}\n"
-        List<Competencia> competencias = candidatoAlterado.competencias
         while (true) {
             print "Nome da competência (ou deixe em branco para encerrar): "
             String nomeCompetencia = scanner.nextLine()
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
-            if (competencias.contains(competencia)) {
-                competencias.remove(competencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
+            if (candidatoAlterado.competencias.contains(competencia)) {
+                candidatoAlterado.competencias.remove(competencia)
+                competenciasParaExcluir.add(competencia)
             } else {
                 println "a competência ${nomeCompetencia} não está presente na lista de suas competências\n" +
-                        "${competencias}"
+                        "${candidatoAlterado.competencias}"
             }
-
         }
 
-        Boolean alterado = candidatoController.removerCompetenciaCandidato(candidatoAlterado, candidato)
+        Boolean alterado = CandidatoCompetenciaController.excluirCompetenciasParaCandidato(candidatoAlterado.id, competenciasParaExcluir.collect { it.id})
 
         if (alterado)
             return candidatoAlterado
@@ -312,7 +313,7 @@ class CandidatoView {
 
 
     List<CandidatoListaDaEmpresaDto> listarCandidatosParaEmpresa(Empresa empresa) {
-        List<CandidatoListaDaEmpresaDto> candidatos = candidatoController.listarCandidatosParaEmpresa(empresa)
+        List<CandidatoListaDaEmpresaDto> candidatos = candidatoController.listarCandidatosParaEmpresa(empresa.id)
 
         candidatos.forEach {CandidatoListaDaEmpresaDto candidato -> {
             println "" +

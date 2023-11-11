@@ -5,7 +5,7 @@ import groovy.transform.EqualsAndHashCode
 import java.time.LocalDate
 
 @EqualsAndHashCode
-class Candidato implements Serializable {
+class Candidato implements Serializable, Cloneable {
 
     Integer id
     String nome
@@ -65,5 +65,12 @@ class Candidato implements Serializable {
         this.estado = candidatoMap.get("estado") as String
         this.cep = candidatoMap.get("cep") as String
         this.descricao = candidatoMap.get("descricao") as String
+    }
+
+    @Override
+    Candidato clone() throws CloneNotSupportedException {
+        Candidato clone = (Candidato) super.clone()
+        clone.competencias = competencias.collect(({ it.clone() })) as List<Competencia>
+        return clone
     }
 }

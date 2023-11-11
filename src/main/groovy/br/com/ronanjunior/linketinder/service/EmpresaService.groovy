@@ -17,6 +17,12 @@ class EmpresaService {
         this.empresaDao = new EmpresaDao(conexao, mapperUtils)
     }
 
+    EmpresaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.empresaDao = new EmpresaDao(conexao, mapperUtils)
+    }
+
     EmpresaService(Conexao conexao, MapperUtils mapperUtils, EmpresaDao empresaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils

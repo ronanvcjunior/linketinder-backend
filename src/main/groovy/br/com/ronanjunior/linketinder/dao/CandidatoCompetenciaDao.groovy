@@ -24,15 +24,16 @@ class CandidatoCompetenciaDao {
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir competência candidato", e)
+            throw new Exception("Erro ao buscar competência candidato", e)
         }
     }
 
     private String montarBuscarCompetenciaCandidato() {
         String sSQL = """
-            SELECT id_candidato_competencia FROM Candidato_Competencia
-            WHERE id_candidato = : idCandidato
-            AND id_competencia = : idCompetencia
+            SELECT c.id_competencia, c.nome FROM Candidato_Competencia cc
+            INNER JOIN Competencia c ON c.id_competencia = cc.id_competencia
+            WHERE cc.id_candidato = :idCandidato
+            AND cc.id_competencia = :idCompetencia
         """
         return sSQL
     }
@@ -99,8 +100,8 @@ class CandidatoCompetenciaDao {
     private String montarExcluirCompetenciaCandidato() {
         String sSQL = """
             DELETE FROM Candidato_Competencia
-            WHERE id_candidato = : idCandidato
-            AND id_competencia = : idCompetencia
+            WHERE id_candidato = :idCandidato
+            AND id_competencia = :idCompetencia
         """
         return sSQL
     }

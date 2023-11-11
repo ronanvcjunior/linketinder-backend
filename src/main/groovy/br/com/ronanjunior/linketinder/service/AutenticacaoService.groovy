@@ -31,22 +31,34 @@ class AutenticacaoService {
         this.candidatoCompetenciaService = candidatoCompetenciaService
     }
 
+    AutenticacaoService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.contaService = new ContaService(conexao, mapperUtils)
+        this.candidatoService = new CandidatoService(conexao, mapperUtils)
+        this.empresaService = new EmpresaService(conexao, mapperUtils)
+        this.candidatoCompetenciaService = new CandidatoCompetenciaService(conexao, mapperUtils)
+    }
+
     Conta registrarUsuario(Conta conta) {
         try {
             conexao.abrirConexao()
 
             if (conta.candidato) {
+                conta.candidato = candidatoService.montarInserirCandidato(conta.candidato)
+
                 conta.candidato.competencias.each { Competencia competencia ->
                     candidatoCompetenciaService.montarInserirCompeteciaParaCandidato(conta.candidato.id, competencia.id)
                 }
-                conta.candidato = candidatoService.montarInserirCandidato(conta.candidato)
             }
 
             if (conta.empresa)
                 conta.empresa = empresaService.montarInserirEmpresa(conta.empresa)
 
+            Conta contaInserida = contaService.montarInserirConta(conta)
+
             conexao.commitTransacao()
-            return  contaService.montarInserirConta(conta)
+            return  contaInserida
         } catch (Exception e) {
             conexao.rollbackTransacao()
             throw new Exception(e.message, e)
@@ -55,12 +67,13 @@ class AutenticacaoService {
         }
     }
 
-    Conta Login(Conta conta) {
+    Conta login(String email, String senha) {
         try {
             conexao.abrirConexao()
 
+            Conta conta = contaService.montarBuscarContaPorEmailSenha(email, senha)
             conexao.commitTransacao()
-            return  contaService.montarBuscarContaPorEmailSenha(conta.email, conta.senha)
+            return  conta
         } catch (Exception e) {
             conexao.rollbackTransacao()
             throw new Exception(e.message, e)

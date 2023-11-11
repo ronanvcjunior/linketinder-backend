@@ -110,7 +110,7 @@ class CandidatoDao {
 
     private String montarInserirCandidato() {
         String sSQL = """
-            INSERT INTO Empresa (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
+            INSERT INTO Candidato (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
             VALUES (:nome, :sobrenome, :cpf, :dataNascimento, :pais, :cep, :estado, :descricao)
         """
         return sSQL
@@ -162,7 +162,7 @@ class CandidatoDao {
     private String montarExcluirCandidato() {
         String sSQL = """
             DELETE FROM Candidato
-            WHERE id_candidato = : idCandidato
+            WHERE id_candidato = :idCandidato
         """
         return sSQL
     }

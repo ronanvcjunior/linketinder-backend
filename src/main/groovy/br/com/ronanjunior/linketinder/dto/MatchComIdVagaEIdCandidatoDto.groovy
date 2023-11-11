@@ -3,20 +3,20 @@ package br.com.ronanjunior.linketinder.dto
 import java.time.LocalDate
 
 class MatchComIdVagaEIdCandidatoDto {
-    Integer id
+    Integer idMatch
     LocalDate dataCurtidaCandidato
     LocalDate dataCurtidaVaga
     Integer idCandidato
     Integer idVaga
 
     MatchComIdVagaEIdCandidatoDto(
-            Integer id,
+            Integer idMatch,
             LocalDate dataCurtidaCandidato,
             LocalDate dataCurtidaVaga,
             Integer idCandidato,
             Integer idVaga
     ) {
-        this.id = id
+        this.idMatch = idMatch
         this.dataCurtidaCandidato = dataCurtidaCandidato
         this.dataCurtidaVaga = dataCurtidaVaga
         this.idCandidato = idCandidato
@@ -24,7 +24,7 @@ class MatchComIdVagaEIdCandidatoDto {
     }
 
     MatchComIdVagaEIdCandidatoDto(Map matchMap) {
-        this.id = matchMap.get("id_match") as Integer
+        this.idMatch = matchMap.get("id_match") as Integer
         this.dataCurtidaCandidato = matchMap.get("data_curtida_candidato") ? LocalDate.parse(matchMap.get("data_curtida_candidato") as String) : null
         this.dataCurtidaVaga = matchMap.get("data_curtida_vaga") ? LocalDate.parse(matchMap.get("data_curtida_vaga") as String) : null
         this.idCandidato = matchMap.get("id_candidato") as Integer

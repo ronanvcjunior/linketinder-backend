@@ -33,17 +33,8 @@ class MatchView {
         Integer idVaga = scanner.nextInt()
         scanner.nextLine()
 
-        Vaga vagaEncontrada = vagaController.procurarVagaPorId(idVaga)
-
-        VagaListaDoCandidatoDto vaga = new VagaListaDoCandidatoDto(
-                vagaEncontrada.id,
-                vagaEncontrada.nome,
-                vagaEncontrada.descricao,
-                null,
-                vagaEncontrada.competencias
-        )
-        if (vagas.contains(vaga)) {
-            vagaCurtida = matchController.curtirVaga(candidato, vagaEncontrada)
+        if (vagasEncontradas.find { it.id == idVaga}) {
+            vagaCurtida = matchController.curtirVaga(candidato.id, idVaga)
         } else {
             println "Não exite a vaga de número ${idVaga} registrada\n"
         }
@@ -89,9 +80,8 @@ class MatchView {
             Integer idVaga = scanner.nextInt()
             scanner.nextLine()
 
-            Vaga vaga = vagaController.procurarVagaDaEmpresaPorId(idVaga, empresa.id)
-            if (vagas.contains(vaga)) {
-                candidatoCurtido = matchController.curtirCandidato(candidatoEncontrado, vaga)
+            if (vagas.find { it.id == idVaga}) {
+                candidatoCurtido = matchController.curtirCandidato(candidatoEncontrado.id, idVaga)
             } else {
                 println "Não exite a vaga de número ${idVaga} registrada\n"
             }
@@ -100,11 +90,9 @@ class MatchView {
         }
 
         if(candidatoCurtido)
-            println "Vaga Curtida com sucesso!"
+            println "Candidato Curtida com sucesso!"
         else
-            println "Não foi possível curtir a vaga!"
-
+            println "Não foi possível curtir o candidato!"
     }
-
 
 }

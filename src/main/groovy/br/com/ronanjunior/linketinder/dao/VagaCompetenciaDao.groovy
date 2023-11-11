@@ -29,9 +29,10 @@ class VagaCompetenciaDao {
 
     private String montarBuscarCompetenciaVaga() {
         String sSQL = """
-            SELECT id_vaga_competencia FROM Vaga_Competencia
-            WHERE id_vaga = : idVaga
-            AND id_competencia = : idCompetencia
+            SELECT c.id_competencia, c.nome FROM Vaga_Competencia vc
+            INNER JOIN Competencia c ON c.id_competencia = vc.id_competencia
+            WHERE vc.id_vaga = :idVaga
+            AND vc.id_competencia = :idCompetencia
         """
         return sSQL
     }
@@ -98,8 +99,8 @@ class VagaCompetenciaDao {
     private String montarExcluirCompetenciaVaga() {
         String sSQL = """
             DELETE FROM Vaga_Competencia
-            WHERE id_vaga = : idVaga
-            AND id_competencia = : idCompetencia
+            WHERE id_vaga = :idVaga
+            AND id_competencia = :idCompetencia
         """
         return sSQL
     }

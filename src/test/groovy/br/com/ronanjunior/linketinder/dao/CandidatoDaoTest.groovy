@@ -213,7 +213,7 @@ class CandidatoDaoTest extends GroovyTestCase {
         // Defina a consulta diretamente no teste
         String sSQLEsperdao = """
             DELETE FROM Candidato
-            WHERE id_candidato = : idCandidato
+            WHERE id_candidato = :idCandidato
         """
 
         List<String> consultaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
@@ -240,7 +240,7 @@ class CandidatoDaoTest extends GroovyTestCase {
         // Defina a consulta diretamente no teste
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         String sSQLEsperdao = """
-            INSERT INTO Empresa (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
+            INSERT INTO Candidato (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
             VALUES (:nome, :sobrenome, :cpf, :dataNascimento, :pais, :cep, :estado, :descricao)
         """
 

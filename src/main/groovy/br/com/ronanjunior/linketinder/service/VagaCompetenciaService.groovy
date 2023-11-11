@@ -18,6 +18,12 @@ class VagaCompetenciaService {
         this.vagaCompetenciaDao = new VagaCompetenciaDao(conexao, mapperUtils)
     }
 
+    VagaCompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
+        this.conexao = conexao
+        this.mapperUtils = mapperUtils
+        this.vagaCompetenciaDao = new VagaCompetenciaDao(conexao, mapperUtils)
+    }
+
     VagaCompetenciaService(Conexao conexao, MapperUtils mapperUtils, VagaCompetenciaDao vagaCompetenciaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
@@ -61,7 +67,9 @@ class VagaCompetenciaService {
             conexao.abrirConexao()
 
             idCompetencias.each { Integer idCompetencia ->
-                this.montarInserirCompeteciaParaVaga(idVaga, idCompetencia)
+                Competencia competencia = this.montarBuscarCompetenciaDoVaga(idVaga, idCompetencia)
+                if (!competencia.id)
+                    this.montarInserirCompeteciaParaVaga(idVaga, idCompetencia)
             }
 
             conexao.commitTransacao()
@@ -98,7 +106,7 @@ class VagaCompetenciaService {
 
             return new Competencia(competenciaMap)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao montar busca de competência do candidado: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca de competência da vaga: ${e.message}", e)
         }
     }
 
@@ -112,7 +120,7 @@ class VagaCompetenciaService {
 
             return competencias;
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao montar lista de competências para candidado: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar lista de competências para vaga: ${e.message}", e)
         }
     }
 

@@ -1,5 +1,6 @@
 package br.com.ronanjunior.linketinder.view
 
+import br.com.ronanjunior.linketinder.controller.AutenticacaoController
 import br.com.ronanjunior.linketinder.controller.CandidatoController
 import br.com.ronanjunior.linketinder.controller.CompetenciaController
 import br.com.ronanjunior.linketinder.controller.ContaController
@@ -10,19 +11,21 @@ import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.DataUtils
 
+import java.time.LocalDate
+
 class ContaView {
     ContaController contaController = new ContaController()
+    AutenticacaoController autenticacaoController = new AutenticacaoController()
     CandidatoController candidatoController = new CandidatoController()
     EmpresaController empresaController = new EmpresaController()
     Scanner scanner = new Scanner(System.in)
     List<Competencia> competenciasCadastradas = []
-    DataUtils manipulacaoData = new DataUtils()
 
     CompetenciaController competenciaController
 
     ContaView(List<Competencia> competenciasCadastradas) {
         this.competenciasCadastradas = competenciasCadastradas
-        this.competenciaController = new CompetenciaController(this.competenciasCadastradas)
+        this.competenciaController = new CompetenciaController()
     }
 
     Conta cadastrarContaCandidato() {
@@ -150,7 +153,7 @@ class ContaView {
             if (nomeCompetencia.isEmpty()) {
                 break
             }
-            Competencia competencia = competenciaController.procurarPorNome(nomeCompetencia)
+            Competencia competencia = competenciasCadastradas.find{ it.nome == nomeCompetencia}
             if (competencias.contains(competencia)) {
                 println "a competência ${nomeCompetencia} já está na sua lista de competências\n"
             } else if (competenciasCadastradas.contains(competencia)) {
@@ -175,7 +178,7 @@ class ContaView {
                         nome,
                         sobrenome,
                         cpf,
-                        manipulacaoData.stringParaDate(dataNascimento),
+                        LocalDate.parse(dataNascimento, "dd/MM/yyyy"),
                         pais,
                         estado,
                         cep,
@@ -185,7 +188,7 @@ class ContaView {
                 null
         )
 
-        return contaController.registrarCandidato(novaContaCandidato)
+        return autenticacaoController.cadastrarUsuario(novaContaCandidato)
     }
 
     Conta cadastrarContaEmpresa() {
@@ -287,7 +290,7 @@ class ContaView {
                 )
         )
 
-        return contaController.registrarEmpresa(novaContaEmpresa)
+        return autenticacaoController.cadastrarUsuario(novaContaEmpresa)
     }
 
     Conta fazerLogin() {
@@ -321,7 +324,7 @@ class ContaView {
                 println "Senha Inválida"
         }
 
-        Conta login = contaController.realizarLogin(email, senha)
+        Conta login = autenticacaoController.fazerLogin(email, senha)
 
         if (!login)
             println "Senha incorreta"

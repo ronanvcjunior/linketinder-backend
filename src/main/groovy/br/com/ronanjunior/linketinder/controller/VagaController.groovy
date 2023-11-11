@@ -8,9 +8,12 @@ import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.service.VagaService
 import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaController {
-    VagaService vagaService = new VagaService()
+    private final Conexao conexao = new Conexao()
+    private final MapperUtils mapperUtils = new MapperUtils()
+    VagaService vagaService = new VagaService(this.conexao, this.mapperUtils)
 
     List<VagaListaDoCandidatoDto> listarTodasVagasParaCandidato(Integer idCandidato) {
         try {
@@ -30,6 +33,24 @@ class VagaController {
         }
     }
 
+    Vaga buscarVagaPorId(Integer idVaga) {
+        try {
+            return vagaService.buscarVagaPorId(idVaga)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
+    }
+
+    Vaga cadastrarVaga(Vaga vaga) {
+        try {
+            return vagaService.inserirVaga(vaga)
+        } catch (Exception e) {
+            println e.message
+            return null
+        }
+    }
+
     Boolean alterarVaga(Vaga vaga) {
         try {
             return vagaService.alterarVaga(vaga)
@@ -39,9 +60,9 @@ class VagaController {
         }
     }
 
-    Boolean deletarVaga(Integer idCandidato) {
+    Boolean deletarVaga(Integer idVaga) {
         try {
-            return vagaService.excluirVaga(idCandidato)
+            return vagaService.excluirVaga(idVaga)
         } catch (Exception e) {
             println e.message
             return null

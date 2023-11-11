@@ -97,7 +97,7 @@ class ContaDao {
 
     private String montarInserirConta() {
         String sSQL = """
-            INSERT INTO Empresa (email, senha, id_candidato, id_empresa)
+            INSERT INTO Conta (email, senha, id_candidato, id_empresa)
             VALUES (:email, :senha, :idCandidato, :idEmpresa)
         """
         return sSQL

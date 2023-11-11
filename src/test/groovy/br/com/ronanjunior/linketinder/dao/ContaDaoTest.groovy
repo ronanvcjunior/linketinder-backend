@@ -135,7 +135,7 @@ class ContaDaoTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Conta conta = new Conta(null, "teste@gmail.com", "teste", candidato, null)
         String sSQLEsperdao = """
-            INSERT INTO Empresa (email, senha, id_candidato, id_empresa)
+            INSERT INTO Conta (email, senha, id_candidato, id_empresa)
             VALUES (:email, :senha, :idCandidato, :idEmpresa)
         """
         Map parametrosEsperados = [
