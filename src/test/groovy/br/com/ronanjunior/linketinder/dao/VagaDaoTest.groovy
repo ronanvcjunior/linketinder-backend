@@ -36,7 +36,7 @@ class VagaDaoTest extends GroovyTestCase {
 
     @Test
     void testListarVagasParaCandidato() {
-        // Defina a consulta diretamente no teste
+        //given
         List<Map> resultadoEsperado = [[id_vaga: 1, nome: "Vaga 1", descricao: "", empresa: "Anônimo", match: 0], [id_vaga: 2, nome: "Vaga 2", descricao: "", empresa: "Empresa", match: 1]]
         String sSQLEsperdao = """
                 SELECT
@@ -72,16 +72,16 @@ class VagaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         List<Map> candidatos = vagaDao.listarVagasParaCandidato(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, candidatos)
     }
 
     @Test
     void testBuscarVagasPorIdEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         List<Map> resultadoEsperado = [[id_vaga: 1, nome: "Vaga 1", descricao: "", id_empresa: 1], [id_vaga: 2, nome: "Vaga 2", descricao: "", id_empresa: 2]]
         String sSQLEsperdao = """
                 SELECT * FROM Vaga
@@ -103,16 +103,16 @@ class VagaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         List<Map> candidatos = vagaDao.buscarVagasPorIdEmpresa(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, candidatos)
     }
 
     @Test
     void testInserirVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(null, "Vaga 1", "", "GO", "Goiânia", empresa, [])
         String sSQLEsperdao = """
@@ -143,16 +143,16 @@ class VagaDaoTest extends GroovyTestCase {
             return 1
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Integer idVaga = vagaDao.inserirVaga(vaga)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(1, idVaga)
     }
 
     @Test
     void testAtualizarVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
 
@@ -186,16 +186,16 @@ class VagaDaoTest extends GroovyTestCase {
             assertEquals(atualizaEsperado, atualiza)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean atualizado = vagaDao.atualizarVaga(vaga)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testExcluirVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         String sSQLEsperdao = """
             DELETE FROM Vaga
             WHERE id_vaga = :idVaga
@@ -213,16 +213,16 @@ class VagaDaoTest extends GroovyTestCase {
             assertEquals([idVaga: 1], parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean resultado = vagaDao.excluirVaga(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(resultado)
     }
 
     @Test
     void testBuscarVagaPorId() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_vaga: 1, nome: "Vaga", descricao: "", estado: "SP", cidade: "SP", id_empresa: 1]
         String sSQLEsperdao = """
             SELECT * FROM Vaga
@@ -243,10 +243,10 @@ class VagaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = vagaDao.buscarVagaPorId(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 }

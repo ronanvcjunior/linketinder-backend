@@ -22,7 +22,7 @@ class ContaDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar conta por id", e)
+            throw new Exception("Erro ao buscar conta por id: ${e.message}", e)
         }
     }
 
@@ -45,7 +45,7 @@ class ContaDao {
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar conta por email e senha", e)
+            throw new Exception("Erro ao buscar conta por email e senha: ${e.message}", e)
         }
     }
 
@@ -66,7 +66,7 @@ class ContaDao {
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar conta por email", e)
+            throw new Exception("Erro ao buscar conta por email: ${e.message}", e)
         }
     }
 
@@ -91,7 +91,7 @@ class ContaDao {
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir conta", e)
+            throw new Exception("Erro ao inserir conta: ${e.message}", e)
         }
     }
 

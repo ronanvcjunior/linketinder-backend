@@ -67,7 +67,7 @@ class ContaService {
 
             return new Conta(contaMap)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar conta por email: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca conta por email: ${e.message}", e)
         }
     }
 
@@ -92,7 +92,7 @@ class ContaService {
 
             return conta
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar conta por email e senha: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca conta por email e senha: ${e.message}", e)
         }
     }
 
@@ -104,7 +104,7 @@ class ContaService {
 
             return conta
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir uma nova conta: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir nova conta: ${e.message}", e)
         }
     }
 }

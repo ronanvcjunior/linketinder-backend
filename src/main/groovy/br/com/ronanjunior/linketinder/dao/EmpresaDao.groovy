@@ -24,7 +24,7 @@ class EmpresaDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar empresa por id", e)
+            throw new Exception("Erro ao buscar empresa por id: ${e.message}", e)
         }
     }
 
@@ -45,7 +45,7 @@ class EmpresaDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao verificar existência de empresa por cnpj", e)
+            throw new Exception("Erro ao  buscar empresa por cnpj: ${e.message}", e)
         }
     }
 
@@ -65,7 +65,7 @@ class EmpresaDao {
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao inserir empresa", e)
+            throw new Exception("Erro ao inserir empresa: ${e.message}", e)
         }
     }
 
@@ -86,7 +86,7 @@ class EmpresaDao {
             conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao altera a empresa", e)
+            throw new Exception("Erro ao atualizar a empresa: ${e.message}", e)
         }
     }
 
@@ -113,7 +113,7 @@ class EmpresaDao {
 
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir empresa", e)
+            throw new Exception("Erro ao excluir empresa: ${e.message}", e)
         }
     }
 

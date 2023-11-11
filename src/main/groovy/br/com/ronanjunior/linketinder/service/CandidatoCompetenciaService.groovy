@@ -130,7 +130,7 @@ class CandidatoCompetenciaService {
         try {
             return candidatoCompetenciaDao.cadastrarCompetenciaCandidato(idCandidato, idCompetencia)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um nova competência para o candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir nova competência para o candidato: ${e.message}", e)
         }
     }
 
@@ -138,7 +138,7 @@ class CandidatoCompetenciaService {
         try {
             return candidatoCompetenciaDao.excluirCompetenciaCandidato(idCandidato, idCompetencia)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir a competência do candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar excluir competência do candidato: ${e.message}", e)
         }
     }
 }

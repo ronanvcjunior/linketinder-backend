@@ -37,6 +37,7 @@ class MatchServiceTest extends GroovyTestCase {
 
     @Test
     void testBuscarMatchPorIdCandidatoIdVaga() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -48,8 +49,10 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
 
+        //when
         MatchComIdVagaEIdCandidatoDto retorno = matchService.buscarMatchPorIdCandidatoIdVaga(candidato, vaga)
 
+        //then
         assertEquals(retornoEsperado.idMatch, retorno.idMatch)
         assertEquals(retornoEsperado.idCandidato, retorno.idCandidato)
         assertEquals(retornoEsperado.idVaga, retorno.idVaga)
@@ -59,6 +62,7 @@ class MatchServiceTest extends GroovyTestCase {
 
     @Test
     void testCurtirVagaMatchNovo() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -70,13 +74,16 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
+        //when
         Boolean curtido = matchService.curtirVaga(candidato.id, vaga.id)
 
+        //then
         assertTrue(curtido)
     }
 
     @Test
     void testCurtirVagaMatchAntigo() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -88,13 +95,16 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
+        //when
         Boolean curtido = matchService.curtirVaga(candidato.id, vaga.id)
 
+        //then
         assertTrue(curtido)
     }
 
     @Test
     void testCurtirCandidatoMatchNovo() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -105,13 +115,16 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
+        //when
         Boolean curtido = matchService.curtirCandidato(candidato.id, vaga.id)
 
+        //then
         assertTrue(curtido)
     }
 
     @Test
     void testCurtirCandidatoMatchAntigo() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -123,8 +136,10 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
+        //when
         Boolean curtido = matchService.curtirCandidato(candidato.id, vaga.id)
 
+        //then
         assertTrue(curtido)
     }
 }

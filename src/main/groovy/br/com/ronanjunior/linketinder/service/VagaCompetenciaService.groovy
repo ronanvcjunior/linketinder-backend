@@ -120,7 +120,7 @@ class VagaCompetenciaService {
 
             return competencias;
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao montar lista de competências para vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar lista de competências da vaga: ${e.message}", e)
         }
     }
 
@@ -128,7 +128,7 @@ class VagaCompetenciaService {
         try {
             return vagaCompetenciaDao.cadastrarCompetenciaVaga(idVaga, idCompetencia)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um nova competência para o vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir nova competência para a vaga: ${e.message}", e)
         }
     }
 
@@ -136,7 +136,7 @@ class VagaCompetenciaService {
         try {
             return vagaCompetenciaDao.excluirCompetenciaVaga(idVaga, idCompetencia)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir a competência do vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar excluir competência da vaga: ${e.message}", e)
         }
     }
 }

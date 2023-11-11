@@ -28,7 +28,7 @@ class CompetenciaDaoTest extends GroovyTestCase {
 
     @Test
     void testListarCompetenciasParaEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         List<Map> resultadoEsperado = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
         String sSQLEsperdao = """
             SELECT id_competencia, nome FROM Competencia
@@ -47,10 +47,10 @@ class CompetenciaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         List<Map> competencias = competenciaDao.listarTodasCompetencias()
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, competencias)
     }
 }

@@ -116,7 +116,7 @@ class EmpresaService {
             Map empresaMap = empresaDao.buscarEmpresaPorId(idEmpresa)
             return new Empresa(empresaMap)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar empresa por id: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca empresa por id: ${e.message}", e)
         }
     }
 
@@ -125,7 +125,7 @@ class EmpresaService {
             Map empresaMap = empresaDao.buscarEmpresaPorCnpj(cnpj)
             return new Empresa(empresaMap)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar empresa por cnpj: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca empresa por cnpj: ${e.message}", e)
         }
     }
 
@@ -137,7 +137,7 @@ class EmpresaService {
 
             return empresa
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um nova empresa: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir nova empresa: ${e.message}", e)
         }
     }
 
@@ -145,7 +145,7 @@ class EmpresaService {
         try {
             return empresaDao.atualizarEmpresa(empresa)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao alterar os dados da empresa: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar alterar empresa: ${e.message}", e)
         }
     }
 
@@ -153,7 +153,7 @@ class EmpresaService {
         try {
             return empresaDao.excluirEmpresa(idEmpresa)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir empresa: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar excluir empresa: ${e.message}", e)
         }
     }
 }

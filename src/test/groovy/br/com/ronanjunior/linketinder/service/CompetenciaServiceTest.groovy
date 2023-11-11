@@ -35,6 +35,7 @@ class CompetenciaServiceTest extends GroovyTestCase {
 
     @Test
     void testListarTodasCompetencias() {
+        //given
         List<Competencia> retornoEsperado = [
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
@@ -46,8 +47,10 @@ class CompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(competenciaDao.listarTodasCompetencias()).thenReturn(competenciasMap)
 
+        //when
         List<Competencia> retorno = competenciaService.listarTodasCompetencias()
 
+        //then
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 }

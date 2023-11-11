@@ -41,6 +41,7 @@ class VagaServiceTest extends GroovyTestCase {
 
     @Test
     void testListarVagasParaCandidato() {
+        //given
         List<VagaListaDoCandidatoDto> retornoEsperado = [
                 new VagaListaDoCandidatoDto(1, "Vaga 1", "", "Anônimo", []),
                 new VagaListaDoCandidatoDto(2, "Vaga 2", "", "Empresa", [])
@@ -57,13 +58,16 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
+        //when
         List<VagaListaDoCandidatoDto> retorno = vagaService.listarVagasParaCandidato(candidato.id)
 
+        //then
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 
     @Test
     void testListarVagasParaEmpresa() {
+        //given
         List<Vaga> retornoEsperado = [
                 new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, []),
                 new Vaga(2, "Vaga 2", "", "SP", "SP", null, [])
@@ -80,13 +84,16 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaDao.buscarVagasPorIdEmpresa(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaService.montarListaVagasParaEmpresa(Mockito.any(Integer))).thenReturn([])
 
+        //when
         List<Vaga> retorno = vagaService.listarVagasParaEmpresa(empresa.id)
 
+        //then
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 
     @Test
     void testBuscarVagaPorId() {
+        //given
         Vaga retornoEsperado = new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, [])
         Map vagaMap = [id_vaga: 1, nome: "Vaga 1", descricao: "", estado: "GO", cidade: "Goiânia", id_empresa: 1]
 
@@ -96,13 +103,16 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaDao.buscarVagaPorId(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
+        //when
         Vaga retorno = vagaService.buscarVagaPorId(retornoEsperado.id)
 
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 
     @Test
     void testInserirVaga() {
+        //given
         List<Competencia> competencias = [
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
@@ -116,13 +126,16 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.when(vagaCompetenciaService.montarInserirCompeteciaParaVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(true)
         Mockito.when(vagaDao.inserirVaga(Mockito.any(Vaga.class))).thenReturn(1)
 
+        //when
         Vaga vaga = vagaService.inserirVaga(vagaEnviada)
 
+        //then
         assertEquals(vagaEsperado, vaga)
     }
 
     @Test
     void testAlterarVaga() {
+        //given
         Vaga vaga = new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -130,13 +143,16 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.atualizarVaga(Mockito.any(Vaga.class))).thenReturn(true)
 
+        //when
         Boolean atualizado = vagaService.alterarVaga(vaga)
 
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testExcluirVaga() {
+        //given
         Vaga vaga = new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -144,8 +160,10 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(vagaDao.excluirVaga(Mockito.any(Integer.class))).thenReturn(true)
 
+        //when
         Boolean excluido = vagaService.excluirVaga(vaga.id)
 
+        //then
         assertTrue(excluido)
     }
 }

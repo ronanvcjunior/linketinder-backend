@@ -28,7 +28,7 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
 
     @Test
     void testCadastrarCompetenciaVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         String sSQLEsperdao = """
             INSERT INTO Vaga_Competencia (id_vaga, id_competencia)
             VALUES (:idVaga, :idCompetencia)
@@ -47,16 +47,16 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
             assertEquals([idVaga: 1, idCompetencia: 1], parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean atualizado = vagaCompetenciaDao.cadastrarCompetenciaVaga(1, 1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testExcluirCompetenciaVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         String sSQLEsperdao = """
             DELETE FROM Vaga_Competencia
             WHERE id_vaga = :idVaga
@@ -75,16 +75,16 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
             assertEquals([idVaga: 1, idCompetencia: 1], parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean resultado = vagaCompetenciaDao.excluirCompetenciaVaga(1, 1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(resultado)
     }
 
     @Test
     void testBuscarCompetenciaVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         Map retornoEsperado = [id_vaga_competencia: 1]
         String sSQLEsperdao = """
             SELECT c.id_competencia, c.nome FROM Vaga_Competencia vc
@@ -108,16 +108,16 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
             return retornoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map retorno = vagaCompetenciaDao.buscarCompetenciaVaga(1, 1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 
     @Test
     void testListarCompetenciasPorVagaID() {
-        // Defina a consulta diretamente no teste
+        //given
         List<Map> retornoEsperado = [[id_vaga_competencia: 1, nome: "Java"], [id_vaga_competencia: 2, nome: "Groovy"]]
         String sSQLEsperdao = """
             SELECT con.id_competencia, con.nome FROM Vaga_Competencia cc
@@ -140,10 +140,10 @@ class VagaCompetenciaDaoTest extends GroovyTestCase {
             return retornoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         List<Map> retorno = vagaCompetenciaDao.listarCompetenciasPorVagaID(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 }

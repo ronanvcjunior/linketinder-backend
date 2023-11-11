@@ -28,7 +28,7 @@ class MatchDao {
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar match por id da vaga e id do candidato", e)
+            throw new Exception("Erro ao buscar match por id da vaga e id do candidato: ${e.message}", e)
         }
     }
 
@@ -49,7 +49,7 @@ class MatchDao {
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao inserir match", e)
+            throw new Exception("Erro ao inserir match: ${e.message}", e)
         }
     }
 
@@ -70,7 +70,7 @@ class MatchDao {
             conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao altera o candidato", e)
+            throw new Exception("Erro ao atualizar o match: ${e.message}", e)
         }
     }
 

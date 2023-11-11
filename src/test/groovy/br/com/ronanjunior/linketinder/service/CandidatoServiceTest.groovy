@@ -44,6 +44,7 @@ class CandidatoServiceTest extends GroovyTestCase {
 
     @Test
     void testListarCandidatosParaEmpresa() {
+        //given
         List<CandidatoListaDaEmpresaDto> retornoEsperado = [
                 new CandidatoListaDaEmpresaDto(1, "Anônimo", []),
                 new CandidatoListaDaEmpresaDto(2, "Ana Julia", [])
@@ -60,13 +61,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.listarCandidatosParaEmpresa(Mockito.any(Integer))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
+        //when
         List<CandidatoListaDaEmpresaDto> retorno = candidatoService.listarCandidatosParaEmpresa(empresa.id)
 
+        //then
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 
     @Test
     void testAlterarCandidato() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -74,13 +78,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.atualizarCandidato(Mockito.any(Candidato.class))).thenReturn(true)
 
+        //when
         Boolean atualizado = candidatoService.alterarCandidato(candidato)
 
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testVerificaraExistenciaCandidatoPorCpfEncontrado() {
+        //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Map candidatoMap = [
                 id_candidato: 1,
@@ -100,13 +107,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
+        //when
         Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidatoEsperado.cpf)
 
+        //then
         assertTrue(encontrado)
     }
 
     @Test
     void testVerificaraExistenciaCandidatoPorCpfNaoEncontrado() {
+        //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -115,13 +125,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn([:])
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
+        //when
         Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidatoEsperado.cpf)
 
+        //then
         assertFalse(encontrado)
     }
 
     @Test
     void testBuscarCandidatoPorId() {
+        //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Map candidatoMap = [
                 id_candidato: 1,
@@ -141,13 +154,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoDao.buscarCandidatoPorId(Mockito.any(Integer.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
+        //when
         Candidato candidato = candidatoService.buscarCandidatoPorId(candidatoEsperado.id)
 
+        //then
         assertEquals(candidatoEsperado, candidato)
     }
 
     @Test
     void testExcluirCandidato() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -155,13 +171,16 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.excluirCandidato(Mockito.any(Integer.class))).thenReturn(true)
 
+        //when
         Boolean excluido = candidatoService.excluirCandidato(candidato)
 
+        //then
         assertTrue(excluido)
     }
 
     @Test
     void testInserirCandidato() {
+        //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -169,8 +188,10 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoDao.inserirCandidato(Mockito.any(Candidato.class))).thenReturn(1)
 
+        //when
         Candidato candidato = candidatoService.inserirCandidato(candidatoEsperado)
 
+        //then
         assertEquals(candidatoEsperado, candidato)
     }
 }

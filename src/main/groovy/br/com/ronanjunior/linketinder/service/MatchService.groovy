@@ -110,7 +110,7 @@ class MatchService {
 
             return match
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir novo match: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir match: ${e.message}", e)
         }
     }
 
@@ -118,7 +118,7 @@ class MatchService {
         try {
             return matchDao.atualizarMatch(match)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir novo match: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar atualizar match: ${e.message}", e)
         }
     }
 
@@ -128,7 +128,7 @@ class MatchService {
 
             return new MatchComIdVagaEIdCandidatoDto(matchMap)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar match por id de candidato e competência: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar buscar match por id de candidato e vaga: ${e.message}", e)
         }
     }
 }

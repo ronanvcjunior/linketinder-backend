@@ -42,6 +42,7 @@ class ContaServiceTest extends GroovyTestCase {
 
     @Test
     void testVerificarExistenciaContaComEmailEncontrado() {
+        //given
         Conta conta = new Conta(null, "teste@gmail.com", "null", null, null)
         Map contaMap = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
 
@@ -50,13 +51,16 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn(contaMap)
 
+        //when
         Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
 
+        //then
         assertTrue(retorno)
     }
 
     @Test
     void testVerificarExistenciaContaComEmailNaoEncontrado() {
+        //given
         Conta conta = new Conta(null, "teste@gmail.com", null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
@@ -64,13 +68,16 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn([:])
 
+        //when
         Boolean retorno = contaService.verificarExistenciaContaComEmail(conta.email)
 
+        //then
         assertFalse(retorno)
     }
 
     @Test
     void testMontarBuscarContaPorEmailSenhaEncontrado() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Conta conta = new Conta(1, "teste@gmail.com", "teste", candidato, empresa)
@@ -83,13 +90,16 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.when(candidatoService.montarBuscarCandidatoPorId(Mockito.any(Integer))).thenReturn(candidato)
         Mockito.when(empresaService.montarBuscarEmpresaPorId(Mockito.any(Integer))).thenReturn(empresa)
 
+        //when
         Conta retorno = contaService.montarBuscarContaPorEmailSenha(conta.email, conta.senha)
 
+        //then
         assertEquals(conta, retorno)
     }
 
     @Test
     void testMontarBuscarContaPorEmailSenhaNaoEncontrado() {
+        //given
         Conta conta = new Conta(null, "teste@gmail.com", "teste", null, null)
         Conta contaEsperada = new Conta([:])
 
@@ -98,13 +108,16 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.buscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn([:])
 
+        //when
         Conta retorno = contaService.montarBuscarContaPorEmailSenha(conta.email, conta.senha)
 
+        //then
         assertEquals(contaEsperada, retorno)
     }
 
     @Test
     void testMontarInserirConta() {
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Conta conta = new Conta(1, "teste@gmail.com", "teste", candidato, null)
 
@@ -113,8 +126,10 @@ class ContaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaDao.inserirConta(Mockito.any(Conta))).thenReturn(1)
 
+        //when
         Conta retorno = contaService.montarInserirConta(conta)
 
+        //then
         assertEquals(conta, retorno)
     }
 }

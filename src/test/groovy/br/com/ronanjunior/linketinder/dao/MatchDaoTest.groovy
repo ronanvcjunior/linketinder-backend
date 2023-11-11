@@ -36,7 +36,7 @@ class MatchDaoTest extends GroovyTestCase {
 
     @Test
     void testInserirMatch() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -71,16 +71,16 @@ class MatchDaoTest extends GroovyTestCase {
             return 1
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Integer idMatch = matchDao.inserirMatch(match)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(1, idMatch)
     }
 
     @Test
     void testAtualizarMatch() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -113,16 +113,16 @@ class MatchDaoTest extends GroovyTestCase {
             assertEquals(parametrosEsperados, parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean atualizado = matchDao.atualizarMatch(match)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testBuscarMatchPorIdCandidatoIdVaga() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
@@ -154,10 +154,10 @@ class MatchDaoTest extends GroovyTestCase {
             return retornoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map retorno = matchDao.buscarMatchPorIdCandidatoIdVaga(match.candidato.id, match.vaga.id)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 }

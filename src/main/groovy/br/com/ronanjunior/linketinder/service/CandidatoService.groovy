@@ -155,7 +155,7 @@ class CandidatoService {
                     .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
             return new Candidato(candidatoMap, competencias)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar os dados do candidato por id: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca de candidato por id: ${e.message}", e)
         }
     }
 
@@ -166,7 +166,7 @@ class CandidatoService {
                     .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
             return new Candidato(candidatoMap, competencias)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar os dados do candidato por cpf: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar busca de candidato por cpf: ${e.message}", e)
         }
     }
 
@@ -178,7 +178,7 @@ class CandidatoService {
 
             return candidato
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um novo candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir novo candidato: ${e.message}", e)
         }
     }
 
@@ -186,7 +186,7 @@ class CandidatoService {
         try {
             return candidatoDao.atualizarCandidato(candidato)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao alterar os dados do candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar alterar candidato: ${e.message}", e)
         }
     }
 
@@ -194,7 +194,7 @@ class CandidatoService {
         try {
             return candidatoDao.excluirCandidato(idCandidato)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar excluir candidato: ${e.message}", e)
         }
     }
 }

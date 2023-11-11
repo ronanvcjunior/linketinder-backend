@@ -23,7 +23,7 @@ class VagaCompetenciaDao {
 
             return conexao.obterPrimeiraLinha(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir competência vaga", e)
+            throw new Exception("Erro ao buscar competência vaga: ${e.message}", e)
         }
     }
 
@@ -38,11 +38,15 @@ class VagaCompetenciaDao {
     }
 
     List<Map> listarCompetenciasPorVagaID(Integer idVaga) {
-        String sSQL = montarListarCompetenciasPorVagaID()
+        try {
+            String sSQL = montarListarCompetenciasPorVagaID()
 
-        Map<String, Integer> parametros = [ idVaga: idVaga ]
+            Map<String, Integer> parametros = [ idVaga: idVaga ]
 
-        return conexao.obterLinhas(sSQL, parametros)
+            return conexao.obterLinhas(sSQL, parametros)
+        } catch (Exception e) {
+            throw new Exception("Erro ao listar competências da vaga: ${e.message}", e)
+        }
     }
 
     private String montarListarCompetenciasPorVagaID() {
@@ -67,7 +71,7 @@ class VagaCompetenciaDao {
 
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao cadastrar competência para vaga", e)
+            throw new Exception("Erro ao cadastrar competência para vaga: ${e.message}", e)
         }
     }
 
@@ -92,7 +96,7 @@ class VagaCompetenciaDao {
 
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir competência vaga", e)
+            throw new Exception("Erro ao excluir competência vaga: ${e.message}", e)
         }
     }
 

@@ -34,6 +34,7 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
 
     @Test
     void testBuscarCandidatoCompetenciaPorId() {
+        //given
         Competencia retornoEsperado = new Competencia(1, "Java")
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
         Map competenciaMap = [id_competencia: 1, nome: "Java"]
@@ -43,13 +44,16 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.buscarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
+        //when
         Competencia retorno = candidatoCompetenciaService.buscarCompetenciaDoCandidato(candidato, retornoEsperado)
 
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 
     @Test
     void testListarCompetenciasDoCandidato() {
+        //given
         List<Competencia> retornoEsperado = [new Competencia(1, "Java"), new Competencia(2, "Groovy")]
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
         List<Map> competenciasMap = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
@@ -59,13 +63,16 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.listarCompetenciasPorCandidatoID(Mockito.any(Integer.class))).thenReturn(competenciasMap)
 
+        //when
         List<Competencia> retorno = candidatoCompetenciaService.listarCompetenciasDoCandidato(candidato)
 
+        //then
         assertEquals(retornoEsperado.sort(), retorno.sort())
     }
 
     @Test
     void testInserirCompetenciaParaCandidato() {
+        //given
         List<Competencia> competencias = [
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
@@ -77,13 +84,16 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.cadastrarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
+        //when
         Boolean inserido = candidatoCompetenciaService.inserirCompetenciasParaCandidato(candidato.id, competencias.collect { it.id })
 
+        //then
         assertTrue(inserido)
     }
 
     @Test
     void testExcluirCompetenciaParaCandidato() {
+        //given
         List<Competencia> competencias = [
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
@@ -95,8 +105,10 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(candidatoCompetenciaDao.excluirCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
+        //when
         Boolean inserido = candidatoCompetenciaService.excluirCompetenciaDoCandidato(candidato.id, competencias.collect { it.id })
 
+        //then
         assertTrue(inserido)
     }
 }

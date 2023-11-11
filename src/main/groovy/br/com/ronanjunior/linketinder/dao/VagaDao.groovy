@@ -55,7 +55,7 @@ class VagaDao {
             return conexao.obterLinhas(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar candidato por id", e)
+            throw new Exception("Erro ao buscar vagas da empresa: ${e.message}", e)
         }
     }
 
@@ -76,7 +76,7 @@ class VagaDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar vaga por id", e)
+            throw new Exception("Erro ao buscar vaga por id: ${e.message}", e)
         }
     }
 
@@ -102,7 +102,7 @@ class VagaDao {
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao inserir vaga", e)
+            throw new Exception("Erro ao inserir vaga: ${e.message}", e)
         }
     }
 
@@ -123,7 +123,7 @@ class VagaDao {
             conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao altera a vaga", e)
+            throw new Exception("Erro ao atualizar a vaga: ${e.message}", e)
         }
     }
 
@@ -149,7 +149,7 @@ class VagaDao {
 
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir candidato", e)
+            throw new Exception("Erro ao excluir a vaga: ${e.message}", e)
         }
     }
 

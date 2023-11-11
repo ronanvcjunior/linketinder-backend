@@ -63,7 +63,7 @@ class CandidatoDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao buscar candidato por id", e)
+            throw new Exception("Erro ao buscar candidato por id: ${e.message}", e)
         }
     }
 
@@ -84,7 +84,7 @@ class CandidatoDao {
             return conexao.obterPrimeiraLinha(sSQL, parametros)
 
         } catch (Exception e) {
-            throw new Exception("Erro ao verificar existência de candidato por cpf", e)
+            throw new Exception("Erro ao verificar existência de candidato por cpf: ${e.message}", e)
         }
     }
 
@@ -104,7 +104,7 @@ class CandidatoDao {
 
             return conexao.inserir(sSQL, parametros)
         } catch (Exception e) {
-            throw new Exception("Erro ao inserir candidato", e)
+            throw new Exception("Erro ao inserir candidato: ${e.message}", e)
         }
     }
 
@@ -125,7 +125,7 @@ class CandidatoDao {
             conexao.executar(sSQL, parametros)
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao altera o candidato", e)
+            throw new Exception("Erro ao atualizar o candidato: ${e.message}", e)
         }
     }
 
@@ -155,7 +155,7 @@ class CandidatoDao {
 
             return true
         } catch (Exception e) {
-            throw new Exception("Erro ao excluir candidato", e)
+            throw new Exception("Erro ao excluir candidato: ${e.message}", e)
         }
     }
 

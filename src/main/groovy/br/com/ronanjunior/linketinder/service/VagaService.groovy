@@ -176,7 +176,7 @@ class VagaService {
 
             return new Vaga(vagaMap, competencias)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao buscar vaga por id: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar buscar vaga por id: ${e.message}", e)
         }
     }
 
@@ -188,7 +188,7 @@ class VagaService {
 
             return vaga
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao inserir um nova vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar inserir nova vaga: ${e.message}", e)
         }
     }
 
@@ -196,7 +196,7 @@ class VagaService {
         try {
             return vagaDao.atualizarVaga(vaga)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao alterar os dados da vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar alterar vaga: ${e.message}", e)
         }
     }
 
@@ -204,7 +204,7 @@ class VagaService {
         try {
             return vagaDao.excluirVaga(idVaga)
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao excluir vaga: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar excluir vaga: ${e.message}", e)
         }
     }
 }

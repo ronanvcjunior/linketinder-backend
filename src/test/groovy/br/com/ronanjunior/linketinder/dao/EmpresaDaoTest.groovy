@@ -34,7 +34,7 @@ class EmpresaDaoTest extends GroovyTestCase {
 
     @Test
     void testInserirEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         Empresa empresa = new Empresa(null, "Empresa", "012345678901234", "Brasil", "12345678", "")
         String sSQLEsperdao = """
             INSERT INTO Empresa (nome, cnpj, descricao, pais, cep)
@@ -63,16 +63,16 @@ class EmpresaDaoTest extends GroovyTestCase {
             return 1
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Integer idEmpresa = empresaDao.inserirEmpresa(empresa)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(1, idEmpresa)
     }
 
     @Test
     void testAtualizarEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         String sSQLEsperdao = """
                 UPDATE Empresa
@@ -104,16 +104,16 @@ class EmpresaDaoTest extends GroovyTestCase {
             assertEquals(atualizaEsperado, atualiza)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean atualizado = empresaDao.atualizarEmpresa(empresa)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testExcluirEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         String sSQLEsperdao = """
             DELETE FROM Empresa
             WHERE id_empresa = :idEmpresa
@@ -131,16 +131,16 @@ class EmpresaDaoTest extends GroovyTestCase {
             assertEquals([idEmpresa: 1], parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean resultado = empresaDao.excluirEmpresa(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(resultado)
     }
 
     @Test
     void testBuscarEmpresaPorId() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
         String sSQLEsperdao = """
             SELECT * FROM Empresa
@@ -161,16 +161,16 @@ class EmpresaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = empresaDao.buscarEmpresaPorId(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 
     @Test
     void testBuscarEmpresaPorCnpj() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
         String sSQLEsperdao = """
             SELECT * FROM Empresa
@@ -191,10 +191,10 @@ class EmpresaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = empresaDao.buscarEmpresaPorCnpj("01234567890")
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 }

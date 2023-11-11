@@ -33,7 +33,7 @@ class ContaDaoTest extends GroovyTestCase {
 
     @Test
     void testBuscarContaPorEmailSenha() {
-        // Defina a consulta diretamente no teste
+        //given
         Conta conta = new Conta(null, "teste@gmail.com", "teste", null, null)
         Map retornoEsperado = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
         String sSQLEsperdao = """
@@ -62,16 +62,16 @@ class ContaDaoTest extends GroovyTestCase {
             return retornoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map retorno = contaDao.buscarContaPorEmailSenha(conta.email, conta.senha)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(retornoEsperado, retorno)
     }
 
     @Test
     void testBuscarContaPorId() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
         String sSQLEsperdao = """
             SELECT * FROM Conta
@@ -92,16 +92,16 @@ class ContaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = contaDao.buscarContaPorId(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 
     @Test
     void testBuscarCandidatoPorEmail() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
         String sSQLEsperdao = """
             SELECT * FROM Conta
@@ -122,16 +122,16 @@ class ContaDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = contaDao.buscarContaPorEmail("teste@gmail.com")
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 
     @Test
     void testInserirContaCandidato() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Conta conta = new Conta(null, "teste@gmail.com", "teste", candidato, null)
         String sSQLEsperdao = """
@@ -160,10 +160,10 @@ class ContaDaoTest extends GroovyTestCase {
             return 1
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Integer idConta = contaDao.inserirConta(conta)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(1, idConta)
     }
 }

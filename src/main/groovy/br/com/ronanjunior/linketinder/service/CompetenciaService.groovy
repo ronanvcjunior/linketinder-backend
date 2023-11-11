@@ -55,7 +55,7 @@ class CompetenciaService {
             }
             return competencias
         } catch (Exception e) {
-            throw new Exception("Houve um erro ao montar lista de competencias para candidato: ${e.message}", e)
+            throw new Exception("Houve um erro ao montar lista de todas as competências: ${e.message}", e)
         }
     }
 }

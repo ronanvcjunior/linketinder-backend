@@ -33,7 +33,7 @@ class CandidatoDaoTest extends GroovyTestCase {
 
     @Test
     void testListarCandidatosParaEmpresa() {
-        // Defina a consulta diretamente no teste
+        //given
         List<Map> resultadoEsperado = [[id_candidato: 1, nome: "Anônimo", match: 1], [id_candidato: 2, nome: "Maria Roberta", match: 0]]
         String sSQLEsperdao = """
                 SELECT
@@ -78,31 +78,32 @@ class CandidatoDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         List<Map> candidatos = candidatoDao.listarCandidatosParaEmpresa(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, candidatos)
     }
 
     @Test
     void testListarCandidatosParaEmpresaErro() {
+        //given
         Mockito.when(conexao.obterLinhas(Mockito.anyString(), Mockito.anyMap())).then {
             throw new Exception("Erro na consulta com rows: ")
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Exception exception = assertThrows(Exception.class, () -> {
             candidatoDao.listarCandidatosParaEmpresa(1)
         })
 
-        // Verificar se a exceção foi lançada com a mensagem de erro esperada
+        //then
         assertEquals("Erro ao listar candidatos para a empresa: Erro na consulta com rows: ", exception.getMessage())
     }
 
     @Test
     void testAtualizarCandidato() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         String sSQLEsperdao = """
             UPDATE Candidato
@@ -141,16 +142,16 @@ class CandidatoDaoTest extends GroovyTestCase {
             assertEquals(atualizaEsperado, atualiza)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean atualizado = candidatoDao.atualizarCandidato(candidato)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(atualizado)
     }
 
     @Test
     void testBuscarCandidatoPorCpf() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_candidato: 1, nome: "João", sobrenome: "Rezende", cpf: "01234567890", data_nascimento: "1995-02-04", pais: "Brasil", estado: "SP", cep: "69206729", descricao: ""]
         String sSQLEsperdao = """
             SELECT * FROM Candidato
@@ -171,16 +172,16 @@ class CandidatoDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = candidatoDao.buscarCandidatoPorCpf("01234567890")
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 
     @Test
     void testBuscarCandidatoPorId() {
-        // Defina a consulta diretamente no teste
+        //given
         Map resultadoEsperado = [id_candidato: 1, nome: "João", sobrenome: "Rezende", cpf: "01234567890", data_nascimento: "1995-02-04", pais: "Brasil", estado: "SP", cep: "69206729", descricao: ""]
         String sSQLEsperdao = """
             SELECT * FROM Candidato
@@ -201,16 +202,16 @@ class CandidatoDaoTest extends GroovyTestCase {
             return resultadoEsperado
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Map resultado = candidatoDao.buscarCandidatoPorId(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(resultadoEsperado, resultado)
     }
 
     @Test
     void testExcluirCandidato() {
-        // Defina a consulta diretamente no teste
+        //given
         String sSQLEsperdao = """
             DELETE FROM Candidato
             WHERE id_candidato = :idCandidato
@@ -228,16 +229,16 @@ class CandidatoDaoTest extends GroovyTestCase {
             assertEquals([idCandidato: 1], parametros)
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Boolean resultado = candidatoDao.excluirCandidato(1)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertTrue(resultado)
     }
 
     @Test
     void testInserirCandidato() {
-        // Defina a consulta diretamente no teste
+        //given
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         String sSQLEsperdao = """
             INSERT INTO Candidato (nome, sobrenome, cpf, data_nascimento, pais, cep, estado, descricao)
@@ -270,10 +271,10 @@ class CandidatoDaoTest extends GroovyTestCase {
             return 1
         }
 
-        // Chamar o método que está sendo testado
+        //when
         Integer idCandidato = candidatoDao.inserirCandidato(candidato)
 
-        // Verificar se os resultados correspondem ao esperado
+        //then
         assertEquals(1, idCandidato)
     }
 }

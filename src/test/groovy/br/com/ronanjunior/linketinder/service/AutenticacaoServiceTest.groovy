@@ -46,6 +46,7 @@ class AutenticacaoServiceTest extends GroovyTestCase {
 
     @Test
     void testInserirUsuarioCandidato() {
+        //given
         List<Competencia> competencias = [
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
@@ -61,13 +62,16 @@ class AutenticacaoServiceTest extends GroovyTestCase {
         Mockito.when(candidatoService.montarInserirCandidato(Mockito.any(Candidato))).thenReturn(candidato)
         Mockito.when(contaService.montarInserirConta(Mockito.any(Conta))).thenReturn(contaEsperada)
 
+        //when
         Conta conta = autenticacaoService.registrarUsuario(contaEnvio)
 
+        //then
         assertEquals(contaEsperada, conta)
     }
 
     @Test
     void testInserirUsuarioEmpresa() {
+        //given
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Conta contaEnvio = new Conta(null, "teste@gmail.com", "teste", null, empresa)
         Conta contaEsperada = new Conta(1, "teste@gmail.com", "teste", null, empresa)
@@ -79,13 +83,16 @@ class AutenticacaoServiceTest extends GroovyTestCase {
         Mockito.when(empresaService.montarInserirEmpresa(Mockito.any(Empresa))).thenReturn(empresa)
         Mockito.when(contaService.montarInserirConta(Mockito.any(Conta))).thenReturn(contaEsperada)
 
+        //when
         Conta conta = autenticacaoService.registrarUsuario(contaEnvio)
 
+        //then
         assertEquals(contaEsperada, conta)
     }
 
     @Test
     void testLogin() {
+        //given
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Conta contaEnvio = new Conta(null, "teste@gmail.com", "teste", null, null)
         Conta contaEsperada = new Conta(1, "teste@gmail.com", "teste", null, empresa)
@@ -95,8 +102,10 @@ class AutenticacaoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).commitTransacao()
         Mockito.when(contaService.montarBuscarContaPorEmailSenha(Mockito.any(String), Mockito.any(String))).thenReturn(contaEsperada)
 
+        //when
         Conta conta = autenticacaoService.login(contaEnvio.email, contaEnvio.senha)
 
+        //then
         assertEquals(contaEsperada, conta)
     }
 }

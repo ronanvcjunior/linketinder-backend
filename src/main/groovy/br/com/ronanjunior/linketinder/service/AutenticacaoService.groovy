@@ -52,8 +52,9 @@ class AutenticacaoService {
                 }
             }
 
-            if (conta.empresa)
+            if (conta.empresa) {
                 conta.empresa = empresaService.montarInserirEmpresa(conta.empresa)
+            }
 
             Conta contaInserida = contaService.montarInserirConta(conta)
 
