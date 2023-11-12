@@ -2,8 +2,6 @@ package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.dao.ContaDao
 import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
@@ -15,14 +13,6 @@ class ContaService {
     private final ContaDao contaDao
     private final CandidatoService candidatoService
     private final EmpresaService empresaService
-
-    ContaService() {
-        this.conexao = new Conexao()
-        this.mapperUtils = new MapperUtils()
-        this.contaDao = new ContaDao(conexao, mapperUtils)
-        this.candidatoService = new CandidatoService()
-        this.empresaService = new EmpresaService()
-    }
 
     ContaService(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao

@@ -1,14 +1,10 @@
 package br.com.ronanjunior.linketinder.controller
 
-import br.com.ronanjunior.linketinder.dao.CandidatoDao
 import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.service.CandidatoService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
-import io.github.cdimascio.dotenv.Dotenv
 
 class CandidatoController {
     private final Conexao conexao = new Conexao()

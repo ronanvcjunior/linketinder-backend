@@ -1,16 +1,12 @@
 package br.com.ronanjunior.linketinder.dao
 
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
-import br.com.ronanjunior.linketinder.model.Match
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 import br.com.ronanjunior.linketinder.utils.Conexao
-import br.com.ronanjunior.linketinder.utils.DataUtils
 
 class MatchDao {
     private final Conexao conexao
     private final MapperUtils mapperUtils
-
-    DataUtils manipulacaoData = new DataUtils()
 
     MatchDao(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao

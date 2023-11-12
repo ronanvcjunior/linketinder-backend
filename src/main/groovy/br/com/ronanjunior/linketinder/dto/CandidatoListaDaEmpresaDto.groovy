@@ -1,12 +1,9 @@
 package br.com.ronanjunior.linketinder.dto
 
-import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import groovy.transform.EqualsAndHashCode
-import groovy.transform.MapConstructor
 
 @EqualsAndHashCode
-@MapConstructor
 class CandidatoListaDaEmpresaDto {
     Integer id
     String nomeCompleto

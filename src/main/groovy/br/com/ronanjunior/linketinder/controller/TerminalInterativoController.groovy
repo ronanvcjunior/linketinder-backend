@@ -1,16 +1,13 @@
 package br.com.ronanjunior.linketinder.controller
 
-import br.com.ronanjunior.linketinder.dao.CompetenciaDao
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Conta
-import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.view.CandidatoView
 import br.com.ronanjunior.linketinder.view.ContaView
 import br.com.ronanjunior.linketinder.view.EmpresaView
 import br.com.ronanjunior.linketinder.view.MatchView
 import br.com.ronanjunior.linketinder.view.TerminalInterativoView
 import br.com.ronanjunior.linketinder.view.VagaView
-import io.github.cdimascio.dotenv.Dotenv
 
 class TerminalInterativoController {
     Boolean runnigIncial = true

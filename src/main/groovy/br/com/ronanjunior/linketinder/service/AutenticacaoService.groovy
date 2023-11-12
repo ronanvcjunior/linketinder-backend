@@ -13,15 +13,6 @@ class AutenticacaoService {
     private final EmpresaService empresaService
     private final CandidatoCompetenciaService candidatoCompetenciaService
 
-    AutenticacaoService() {
-        this.conexao = new Conexao()
-        this.mapperUtils = new MapperUtils()
-        this.contaService = new ContaService()
-        this.candidatoService = new CandidatoService()
-        this.empresaService = new EmpresaService()
-        this.candidatoCompetenciaService = new CandidatoCompetenciaService()
-    }
-
     AutenticacaoService(Conexao conexao, MapperUtils mapperUtils, ContaService contaService, CandidatoService candidatoService, EmpresaService empresaService, CandidatoCompetenciaService candidatoCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils

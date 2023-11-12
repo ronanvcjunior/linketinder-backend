@@ -7,8 +7,6 @@ import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.utils.DataUtils
-
 import java.time.LocalDate
 
 class CandidatoView {

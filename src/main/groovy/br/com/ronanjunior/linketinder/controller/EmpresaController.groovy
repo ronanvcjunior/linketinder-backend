@@ -1,11 +1,9 @@
 package br.com.ronanjunior.linketinder.controller
 
-import br.com.ronanjunior.linketinder.dao.EmpresaDao
 import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.service.EmpresaService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
-import io.github.cdimascio.dotenv.Dotenv
 
 class EmpresaController {
     private final Conexao conexao = new Conexao()

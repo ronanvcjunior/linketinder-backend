@@ -1,10 +1,6 @@
 package br.com.ronanjunior.linketinder.controller
 
-import br.com.ronanjunior.linketinder.dao.VagaDao
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
-import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.service.VagaService
 import br.com.ronanjunior.linketinder.utils.Conexao

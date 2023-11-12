@@ -2,7 +2,6 @@ package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.dao.EmpresaDao
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.model.Empresa
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
@@ -10,12 +9,6 @@ class EmpresaService {
     private final Conexao conexao
     private final MapperUtils mapperUtils
     private final EmpresaDao empresaDao
-
-    EmpresaService() {
-        this.conexao = new Conexao()
-        this.mapperUtils = new MapperUtils()
-        this.empresaDao = new EmpresaDao(conexao, mapperUtils)
-    }
 
     EmpresaService(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao

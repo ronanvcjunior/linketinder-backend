@@ -14,12 +14,6 @@ class MatchService {
     private final MapperUtils mapperUtils
     private final MatchDao matchDao
 
-    MatchService() {
-        this.conexao = new Conexao()
-        this.mapperUtils = new MapperUtils()
-        this.matchDao = new MatchDao(conexao, mapperUtils)
-    }
-
     MatchService(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils

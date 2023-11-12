@@ -1,11 +1,8 @@
 package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.dao.CandidatoCompetenciaDao
-import br.com.ronanjunior.linketinder.dao.CandidatoCompetenciaDao
-import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
@@ -13,12 +10,6 @@ class CandidatoCompetenciaService {
     private final Conexao conexao
     private final MapperUtils mapperUtils
     private final CandidatoCompetenciaDao candidatoCompetenciaDao
-
-    CandidatoCompetenciaService() {
-        this.conexao = new Conexao()
-        this.mapperUtils = new MapperUtils()
-        this.candidatoCompetenciaDao = new CandidatoCompetenciaDao(conexao, mapperUtils)
-    }
 
     CandidatoCompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
         this.conexao = conexao

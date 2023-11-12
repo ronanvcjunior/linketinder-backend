@@ -1,12 +1,8 @@
 package br.com.ronanjunior.linketinder.controller
 
-import br.com.ronanjunior.linketinder.dao.MatchDao
-import br.com.ronanjunior.linketinder.model.Candidato
-import br.com.ronanjunior.linketinder.model.Vaga
 import br.com.ronanjunior.linketinder.service.MatchService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
-import io.github.cdimascio.dotenv.Dotenv
 
 class MatchController {
     private final Conexao conexao = new Conexao()
