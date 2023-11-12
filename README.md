@@ -35,3 +35,14 @@ Os arquivos de criação e teste do banco estão na pasta [modelo-linketinder](.
 ## Gradle
 
 Com o uso do Gradle é possível gerenciar as dependências do projeto de forma mais simples, com isso a forma de utilização da conexão com o banco de dados mudou. Agora usa-se o .env para manter as informações seguras (URL, USUARIO e SENHA).
+
+## Clean Code
+
+1. Nomes alto explicativos: busquei ao máximo desde o início do projeto em colocar nomes autoexplicativos, então não teve grandes alterações no projeto;
+2. Regra do escoteiro: revisei a maioria do código, fazendo melhorias onde coube;
+3. Crie funções pequenas: onde observei que fosse necessário, extrai partes da função para mantelá pequena;
+4. Don't Repeat Yourself (DRY): removi as replicações de código que ocorria na inserção de dados de candidato, empresa e competências para os dois;
+5. Somente comente se for estritamente necessário: Apenas têm comentários básicos nos testes (given, when, then);
+6. Tratamento de erros: busquei tratar sempre os erros usando try/catch nas classes de controller, service, dao e util;
+7. Testagem: Fiz testes unitários para as classes service e dao, além da classe mapperUtils;
+8. Princípio da Responsabilidade Única: Criei novas classes de controller, service e dao para dividir as classes de competência e conta, criando novas classes CandidatoCOmpetencia, VagaCompetencia e Autenticacao para manter uma clareza maior das classes;
