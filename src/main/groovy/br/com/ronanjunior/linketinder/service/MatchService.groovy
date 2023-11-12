@@ -4,23 +4,23 @@ import br.com.ronanjunior.linketinder.dao.MatchDao
 import br.com.ronanjunior.linketinder.dto.MatchComIdVagaEIdCandidatoDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Vaga
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 import java.time.LocalDate
 
 class MatchService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final MatchDao matchDao
 
-    MatchService(Conexao conexao, MapperUtils mapperUtils) {
+    MatchService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.matchDao = new MatchDao(conexao, mapperUtils)
     }
 
-    MatchService(Conexao conexao, MapperUtils mapperUtils, MatchDao matchDao) {
+    MatchService(ConexaoRepository conexao, MapperUtils mapperUtils, MatchDao matchDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.matchDao = matchDao

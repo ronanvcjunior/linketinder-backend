@@ -2,12 +2,13 @@ package br.com.ronanjunior.linketinder.controller
 
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Vaga
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.service.VagaService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaController {
-    private final Conexao conexao = new Conexao()
+    private final ConexaoRepository conexao = new Conexao()
     private final MapperUtils mapperUtils = new MapperUtils()
     VagaService vagaService = new VagaService(this.conexao, this.mapperUtils)
 

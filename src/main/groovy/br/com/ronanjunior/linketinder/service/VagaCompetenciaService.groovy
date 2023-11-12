@@ -2,21 +2,21 @@ package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.dao.VagaCompetenciaDao
 import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaCompetenciaService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final VagaCompetenciaDao vagaCompetenciaDao
 
-    VagaCompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
+    VagaCompetenciaService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.vagaCompetenciaDao = new VagaCompetenciaDao(conexao, mapperUtils)
     }
 
-    VagaCompetenciaService(Conexao conexao, MapperUtils mapperUtils, VagaCompetenciaDao vagaCompetenciaDao) {
+    VagaCompetenciaService(ConexaoRepository conexao, MapperUtils mapperUtils, VagaCompetenciaDao vagaCompetenciaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.vagaCompetenciaDao = vagaCompetenciaDao

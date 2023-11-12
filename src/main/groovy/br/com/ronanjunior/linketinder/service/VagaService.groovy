@@ -4,23 +4,23 @@ import br.com.ronanjunior.linketinder.dao.VagaDao
 import br.com.ronanjunior.linketinder.dto.VagaListaDoCandidatoDto
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Vaga
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final VagaDao vagaDao
     private final VagaCompetenciaService vagaCompetenciaService
 
-    VagaService(Conexao conexao, MapperUtils mapperUtils) {
+    VagaService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.vagaDao = new VagaDao(conexao, mapperUtils)
         this.vagaCompetenciaService = new VagaCompetenciaService(conexao, mapperUtils)
     }
 
-    VagaService(Conexao conexao, MapperUtils mapperUtils, VagaDao vagaDao, VagaCompetenciaService vagaCompetenciaService) {
+    VagaService(ConexaoRepository conexao, MapperUtils mapperUtils, VagaDao vagaDao, VagaCompetenciaService vagaCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.vagaDao = vagaDao

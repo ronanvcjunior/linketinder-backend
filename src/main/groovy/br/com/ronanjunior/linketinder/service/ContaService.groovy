@@ -4,17 +4,17 @@ import br.com.ronanjunior.linketinder.dao.ContaDao
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Conta
 import br.com.ronanjunior.linketinder.model.Empresa
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class ContaService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final ContaDao contaDao
     private final CandidatoService candidatoService
     private final EmpresaService empresaService
 
-    ContaService(Conexao conexao, MapperUtils mapperUtils) {
+    ContaService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.contaDao = new ContaDao(conexao, mapperUtils)
@@ -22,7 +22,7 @@ class ContaService {
         this.empresaService = new EmpresaService(conexao, mapperUtils)
     }
 
-    ContaService(Conexao conexao, MapperUtils mapperUtils, ContaDao contaDao, CandidatoService candidatoService, EmpresaService empresaService) {
+    ContaService(ConexaoRepository conexao, MapperUtils mapperUtils, ContaDao contaDao, CandidatoService candidatoService, EmpresaService empresaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.contaDao = contaDao

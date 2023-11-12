@@ -4,23 +4,23 @@ import br.com.ronanjunior.linketinder.dao.CandidatoDao
 import br.com.ronanjunior.linketinder.dto.CandidatoListaDaEmpresaDto
 import br.com.ronanjunior.linketinder.model.Candidato
 import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class CandidatoService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final CandidatoDao candidatoDao
     private final CandidatoCompetenciaService candidatoCompetenciaService
 
-    CandidatoService(Conexao conexao, MapperUtils mapperUtils) {
+    CandidatoService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.candidatoDao = new CandidatoDao(conexao, mapperUtils)
         this.candidatoCompetenciaService = new CandidatoCompetenciaService(conexao, mapperUtils)
     }
 
-    CandidatoService(Conexao conexao, MapperUtils mapperUtils, CandidatoDao candidatoDao, CandidatoCompetenciaService candidatoCompetenciaService) {
+    CandidatoService(ConexaoRepository conexao, MapperUtils mapperUtils, CandidatoDao candidatoDao, CandidatoCompetenciaService candidatoCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.candidatoDao = candidatoDao

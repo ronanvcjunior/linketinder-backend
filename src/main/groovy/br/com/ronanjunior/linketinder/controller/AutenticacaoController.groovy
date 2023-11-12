@@ -1,12 +1,13 @@
 package br.com.ronanjunior.linketinder.controller
 
 import br.com.ronanjunior.linketinder.model.Conta
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.service.AutenticacaoService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class AutenticacaoController {
-    private final Conexao conexao = new Conexao()
+    private final ConexaoRepository conexao = new Conexao()
     private final MapperUtils mapperUtils = new MapperUtils()
     private final AutenticacaoService autenticacaoService = new AutenticacaoService(this.conexao, this.mapperUtils)
 

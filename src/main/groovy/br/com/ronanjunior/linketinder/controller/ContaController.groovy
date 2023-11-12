@@ -1,11 +1,12 @@
 package br.com.ronanjunior.linketinder.controller
 
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.service.ContaService
 import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class ContaController {
-    private final Conexao conexao = new Conexao()
+    private final ConexaoRepository conexao = new Conexao()
     private final MapperUtils mapperUtils = new MapperUtils()
     private final ContaService contaService = new ContaService(this.conexao, this.mapperUtils)
 

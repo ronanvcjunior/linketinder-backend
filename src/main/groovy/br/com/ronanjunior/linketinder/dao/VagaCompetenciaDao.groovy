@@ -1,13 +1,13 @@
 package br.com.ronanjunior.linketinder.dao
 
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaCompetenciaDao {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
 
-    VagaCompetenciaDao(Conexao conexao, MapperUtils mapperUtils) {
+    VagaCompetenciaDao(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
     }

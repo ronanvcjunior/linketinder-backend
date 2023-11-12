@@ -2,18 +2,18 @@ package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.model.Competencia
 import br.com.ronanjunior.linketinder.model.Conta
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class AutenticacaoService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final ContaService contaService
     private final CandidatoService candidatoService
     private final EmpresaService empresaService
     private final CandidatoCompetenciaService candidatoCompetenciaService
 
-    AutenticacaoService(Conexao conexao, MapperUtils mapperUtils, ContaService contaService, CandidatoService candidatoService, EmpresaService empresaService, CandidatoCompetenciaService candidatoCompetenciaService) {
+    AutenticacaoService(ConexaoRepository conexao, MapperUtils mapperUtils, ContaService contaService, CandidatoService candidatoService, EmpresaService empresaService, CandidatoCompetenciaService candidatoCompetenciaService) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.contaService = contaService
@@ -22,7 +22,7 @@ class AutenticacaoService {
         this.candidatoCompetenciaService = candidatoCompetenciaService
     }
 
-    AutenticacaoService(Conexao conexao, MapperUtils mapperUtils) {
+    AutenticacaoService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.contaService = new ContaService(conexao, mapperUtils)

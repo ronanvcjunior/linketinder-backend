@@ -1,10 +1,11 @@
 package br.com.ronanjunior.linketinder.utils
 
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import groovy.sql.Sql
 import io.github.cdimascio.dotenv.Dotenv
 import org.postgresql.util.PSQLException
 
-class Conexao {
+class Conexao implements ConexaoRepository {
     private String url
     private String usuario
     private String senha
@@ -21,6 +22,7 @@ class Conexao {
         }
     }
 
+    @Override
     void abrirConexao() {
         try {
             this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
@@ -36,6 +38,7 @@ class Conexao {
         }
     }
 
+    @Override
     List<Map> obterLinhas(String sSQL, Map parametros = [:]) {
         try {
             List<Map> linhas = sql.rows(sSQL, parametros)
@@ -46,6 +49,7 @@ class Conexao {
         }
     }
 
+    @Override
     void executar(String sSQL, Map parametros = [:]) {
         try {
             sql.execute(sSQL, parametros)
@@ -54,6 +58,7 @@ class Conexao {
         }
     }
 
+    @Override
     Integer inserir(String sSQL, Map parametros = [:]) {
         try {
             List<List<Object>> inserido = sql.executeInsert(sSQL, parametros)
@@ -63,6 +68,7 @@ class Conexao {
         }
     }
 
+    @Override
     Map obterPrimeiraLinha(String sSQL, Map parametros = [:]) {
         try {
             Map linha = sql.firstRow(sSQL, parametros)
@@ -72,6 +78,7 @@ class Conexao {
         }
     }
 
+    @Override
     void fecharConexao() {
         try {
             this.sql.close()
@@ -84,6 +91,7 @@ class Conexao {
         }
     }
 
+    @Override
     void commitTransacao() {
         try {
             this.sql.getConnection().commit()
@@ -96,6 +104,7 @@ class Conexao {
         }
     }
 
+    @Override
     void rollbackTransacao() {
         try {
             this.sql.getConnection().rollback()

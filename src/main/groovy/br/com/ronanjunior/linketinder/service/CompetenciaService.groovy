@@ -2,21 +2,21 @@ package br.com.ronanjunior.linketinder.service
 
 import br.com.ronanjunior.linketinder.dao.CompetenciaDao
 import br.com.ronanjunior.linketinder.model.Competencia
-import br.com.ronanjunior.linketinder.utils.Conexao
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class CompetenciaService {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
     private final CompetenciaDao competenciaDao
 
-    CompetenciaService(Conexao conexao, MapperUtils mapperUtils) {
+    CompetenciaService(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.competenciaDao = new CompetenciaDao(conexao, mapperUtils)
     }
 
-    CompetenciaService(Conexao conexao, MapperUtils mapperUtils, CompetenciaDao competenciaDao) {
+    CompetenciaService(ConexaoRepository conexao, MapperUtils mapperUtils, CompetenciaDao competenciaDao) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
         this.competenciaDao = competenciaDao

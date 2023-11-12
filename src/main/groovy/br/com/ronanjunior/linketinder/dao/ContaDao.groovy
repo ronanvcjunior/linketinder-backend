@@ -1,14 +1,14 @@
 package br.com.ronanjunior.linketinder.dao
 
+import br.com.ronanjunior.linketinder.repository.ConexaoRepository
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 import br.com.ronanjunior.linketinder.model.Conta
-import br.com.ronanjunior.linketinder.utils.Conexao
 
 class ContaDao {
-    private final Conexao conexao
+    private final ConexaoRepository conexao
     private final MapperUtils mapperUtils
 
-    ContaDao(Conexao conexao, MapperUtils mapperUtils) {
+    ContaDao(ConexaoRepository conexao, MapperUtils mapperUtils) {
         this.conexao = conexao
         this.mapperUtils = mapperUtils
     }
