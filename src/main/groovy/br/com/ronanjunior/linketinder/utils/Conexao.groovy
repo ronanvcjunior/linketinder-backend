@@ -12,7 +12,7 @@ class Conexao implements ConexaoRepository {
     private String senha
     private Sql sql
 
-    Conexao() {
+    private Conexao() {
         try  {
             Dotenv dotenv = Dotenv.configure().load()
             this.url = dotenv.get("URL")
