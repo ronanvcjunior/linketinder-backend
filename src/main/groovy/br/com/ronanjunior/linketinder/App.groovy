@@ -1,11 +1,11 @@
 package br.com.ronanjunior.linketinder
 
-import br.com.ronanjunior.linketinder.controller.TerminalInterativoController
+import br.com.ronanjunior.linketinder.view.TerminalInterativoView
 
 class App {
-    static TerminalInterativoController terminalInterativoController = new TerminalInterativoController()
+    static TerminalInterativoView terminalInterativoView = new TerminalInterativoView()
 
     static void main(String[] args) {
-        terminalInterativoController.iniciar()
+        terminalInterativoView.iniciar()
     }
 }

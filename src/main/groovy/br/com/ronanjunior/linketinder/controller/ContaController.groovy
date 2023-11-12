@@ -6,7 +6,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class ContaController {
-    private final ConexaoRepository conexao = new Conexao()
+    private final ConexaoRepository conexao = Conexao.obterInstancia()
     private final MapperUtils mapperUtils = new MapperUtils()
     private final ContaService contaService = new ContaService(this.conexao, this.mapperUtils)
 

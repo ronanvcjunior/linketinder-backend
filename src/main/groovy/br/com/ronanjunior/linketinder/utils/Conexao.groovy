@@ -6,6 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv
 import org.postgresql.util.PSQLException
 
 class Conexao implements ConexaoRepository {
+    private static Conexao instancia
     private String url
     private String usuario
     private String senha
@@ -20,6 +21,13 @@ class Conexao implements ConexaoRepository {
         } catch (NullPointerException e) {
             throw new NullPointerException("A variável dotenv não pode ser nula: \n" + e.getMessage())
         }
+    }
+
+    static Conexao obterInstancia() {
+        if (instancia == null) {
+            instancia = new Conexao()
+        }
+        return instancia
     }
 
     @Override

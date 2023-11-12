@@ -7,7 +7,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaCompetenciaController {
-    private final ConexaoRepository conexao = new Conexao()
+    private final ConexaoRepository conexao = Conexao.obterInstancia()
     private final MapperUtils mapperUtils = new MapperUtils()
     private final VagaCompetenciaService vagaCompetenciaService = new VagaCompetenciaService(this.conexao, this.mapperUtils)
 

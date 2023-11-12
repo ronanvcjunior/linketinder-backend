@@ -7,7 +7,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class AutenticacaoController {
-    private final ConexaoRepository conexao = new Conexao()
+    private final ConexaoRepository conexao = Conexao.obterInstancia()
     private final MapperUtils mapperUtils = new MapperUtils()
     private final AutenticacaoService autenticacaoService = new AutenticacaoService(this.conexao, this.mapperUtils)
 

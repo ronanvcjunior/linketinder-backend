@@ -8,7 +8,7 @@ import br.com.ronanjunior.linketinder.utils.Conexao
 import br.com.ronanjunior.linketinder.utils.MapperUtils
 
 class VagaController {
-    private final ConexaoRepository conexao = new Conexao()
+    private final ConexaoRepository conexao = Conexao.obterInstancia()
     private final MapperUtils mapperUtils = new MapperUtils()
     VagaService vagaService = new VagaService(this.conexao, this.mapperUtils)
 
