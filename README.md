@@ -54,3 +54,7 @@ Com o uso do Gradle é possível gerenciar as dependências do projeto de forma 
 3. Princípio de substituição de Liskov: Não há nenhuma herança no sistema, por uma escolha de design, busquei evitar o uso de herança;
 4. princípio da segregação de interface: Foi implementado a classe ConexaoRepository, para fazer com que seja possível a partir de qualquer biblioteca de manipulação de banco, seja facilmente alterada no sistema;
 5. princípio da inversão de dependência: As dependências são gerenciadas pelas classes Controller;
+
+## Design Pattern 
+
+1. Singleton: Foi utilizado para criar e gerenciar uma única isntância de conexão com o banco de dados.
