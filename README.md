@@ -58,3 +58,8 @@ Com o uso do Gradle é possível gerenciar as dependências do projeto de forma 
 ## Design Pattern 
 
 1. Singleton: Foi utilizado para criar e gerenciar uma única isntância de conexão com o banco de dados.
+
+## REST/RESTFUL API
+
+Foi utilizado o apache tomcat e servelet para criar endpoints.
+É possível cadastrar um novo usuário, seja Candidato ou Empresa, fazer login, listar vagas para candidato e listar candidatos para empresa.
