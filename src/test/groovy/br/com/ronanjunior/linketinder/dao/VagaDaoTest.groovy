@@ -40,13 +40,13 @@ class VagaDaoTest extends GroovyTestCase {
         List<Map> resultadoEsperado = [[id_vaga: 1, nome: "Vaga 1", descricao: "", empresa: "Anônimo", match: 0], [id_vaga: 2, nome: "Vaga 2", descricao: "", empresa: "Empresa", match: 1]]
         String sSQLEsperdao = """
                 SELECT
-                    va.id_vaga,
+                    va.id_vaga AS id,
                     va.nome,
                     va.descricao,
                     CASE
                         WHEN MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) = 1 THEN em.nome
                         ELSE 'Anônimo'
-                    END AS empresa,
+                    END AS nomeEmpresa,
                     MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) AS match
                 FROM Vaga va
                 LEFT JOIN (
@@ -84,7 +84,14 @@ class VagaDaoTest extends GroovyTestCase {
         //given
         List<Map> resultadoEsperado = [[id_vaga: 1, nome: "Vaga 1", descricao: "", id_empresa: 1], [id_vaga: 2, nome: "Vaga 2", descricao: "", id_empresa: 2]]
         String sSQLEsperdao = """
-                SELECT * FROM Vaga
+                SELECT 
+                    id_vaga AS id,
+                    nome,
+                    descricao,
+                    estado,
+                    cidade,
+                    id_empresa
+                FROM Vaga
                 WHERE id_empresa = :idEmpresa
             """
 
@@ -225,7 +232,14 @@ class VagaDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_vaga: 1, nome: "Vaga", descricao: "", estado: "SP", cidade: "SP", id_empresa: 1]
         String sSQLEsperdao = """
-            SELECT * FROM Vaga
+            SELECT 
+                    id_vaga AS id,
+                    nome,
+                    descricao,
+                    estado,
+                    cidade,
+                    id_empresa
+                FROM Vaga
             WHERE id_vaga = :idVaga
         """
 

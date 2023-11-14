@@ -31,7 +31,10 @@ class CompetenciaDaoTest extends GroovyTestCase {
         //given
         List<Map> resultadoEsperado = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
         String sSQLEsperdao = """
-            SELECT id_competencia, nome FROM Competencia
+            SELECT 
+                id_competencia id, 
+                nome 
+            FROM Competencia
         """
 
         List<String> consultaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}

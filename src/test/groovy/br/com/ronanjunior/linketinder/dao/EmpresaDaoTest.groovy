@@ -143,7 +143,14 @@ class EmpresaDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
         String sSQLEsperdao = """
-            SELECT * FROM Empresa
+            SELECT 
+                id_empresa AS id,
+                nome,
+                cnpj,
+                descricao,
+                pais,
+                cep
+            FROM Empresa
             WHERE id_empresa = :idEmpresa
         """
 
@@ -173,7 +180,14 @@ class EmpresaDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
         String sSQLEsperdao = """
-            SELECT * FROM Empresa
+            SELECT 
+                id_empresa,
+                nome,
+                cnpj,
+                descricao,
+                pais,
+                cep
+            FROM Empresa
             WHERE cnpj = :cnpj
         """
 

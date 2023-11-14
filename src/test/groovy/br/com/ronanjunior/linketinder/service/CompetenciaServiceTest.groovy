@@ -40,7 +40,7 @@ class CompetenciaServiceTest extends GroovyTestCase {
                 new Competencia(1, "Java"),
                 new Competencia(2, "Groovy")
         ]
-        List<Map> competenciasMap = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
+        List<Map> competenciasMap = [[id: 1, nome: "Java"], [id: 2, nome: "Groovy"]]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()

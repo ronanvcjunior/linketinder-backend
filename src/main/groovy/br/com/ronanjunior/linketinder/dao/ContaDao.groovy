@@ -51,7 +51,13 @@ class ContaDao {
 
     private String construirConsultaContaPorEmailSenha() {
         String sSQL = """
-            SELECT * FROM Conta
+            SELECT  
+                id_conta AS id,
+                email,
+                senha,
+                id_candidato,
+                id_empresa
+            FROM Conta
             WHERE email = :email
             AND senha = :senha
         """
@@ -72,7 +78,13 @@ class ContaDao {
 
     private String construirConsultaContaPorEmail() {
         String sSQL = """
-            SELECT * FROM Conta
+            SELECT  
+                id_conta AS id,
+                email,
+                senha,
+                id_candidato,
+                id_empresa
+            FROM Conta
             WHERE email = :email
         """
         return sSQL

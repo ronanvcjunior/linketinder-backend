@@ -46,18 +46,19 @@ class CandidatoServiceTest extends GroovyTestCase {
     void testListarCandidatosParaEmpresa() {
         //given
         List<CandidatoListaDaEmpresaDto> retornoEsperado = [
-                new CandidatoListaDaEmpresaDto(1, "Anônimo", []),
-                new CandidatoListaDaEmpresaDto(2, "Ana Julia", [])
+                new CandidatoListaDaEmpresaDto(1, "Anônimo", [])
         ]
         List<Map> candidatoMap = [
-                [id_candidato: 1, nome_completo: "Anônimo", match: 0],
-                [id_candidato: 2, nome_completo: "Ana Julia", match: 1]
+                [id: 1, nomeCompleto: "Anônimo", match: 0]
         ]
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(candidatoDao.listarCandidatosParaEmpresa(Mockito.any(Integer))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
@@ -90,11 +91,11 @@ class CandidatoServiceTest extends GroovyTestCase {
         //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Map candidatoMap = [
-                id_candidato: 1,
+                id: 1,
                 nome: "Candi",
                 sobrenome: "Dato",
                 cpf: "01234567890",
-                data_nascimento: "1970-01-01",
+                dataNascimento: "1970-01-01",
                 pais: "Brasil",
                 estado: "GO",
                 cep: "12345678",
@@ -117,16 +118,21 @@ class CandidatoServiceTest extends GroovyTestCase {
     @Test
     void testVerificaraExistenciaCandidatoPorCpfNaoEncontrado() {
         //given
-        Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
+        Candidato candidato = new Candidato(null, null, null, "01234567890", null, null, null, null, null, null)
+
+        Candidato candidatoEsperado = new Candidato(null, null, null, null, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(candidatoEsperado)
+
         Mockito.when(candidatoDao.buscarCandidatoPorCpf(Mockito.any(String.class))).thenReturn([:])
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 
         //when
-        Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidatoEsperado.cpf)
+        Boolean encontrado = candidatoService.verificaraExistenciaCandidatoPorCpf(candidato.cpf)
 
         //then
         assertFalse(encontrado)
@@ -137,11 +143,11 @@ class CandidatoServiceTest extends GroovyTestCase {
         //given
         Candidato candidatoEsperado = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Map candidatoMap = [
-                id_candidato: 1,
+                id: 1,
                 nome: "Candi",
                 sobrenome: "Dato",
                 cpf: "01234567890",
-                data_nascimento: "1970-01-01",
+                dataNascimento: "1970-01-01",
                 pais: "Brasil",
                 estado: "GO",
                 cep: "12345678",
@@ -151,6 +157,9 @@ class CandidatoServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(candidatoEsperado)
+
         Mockito.when(candidatoDao.buscarCandidatoPorId(Mockito.any(Integer.class))).thenReturn(candidatoMap)
         Mockito.when(candidatoCompetenciaService.montarListaCompetenciaParaCandidato(Mockito.any(Integer))).thenReturn([])
 

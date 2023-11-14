@@ -325,7 +325,7 @@ class ContaView {
 
         Conta login = autenticacaoController.fazerLogin(email, senha)
 
-        if (!login)
+        if (!login.id)
             println "Senha incorreta"
         else
             println "Login efetuado com sucesso!\n"

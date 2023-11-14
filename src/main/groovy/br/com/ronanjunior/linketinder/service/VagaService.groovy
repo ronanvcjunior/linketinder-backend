@@ -134,8 +134,10 @@ class VagaService {
             List<Map> vagasParaCandidatoMap = vagaDao.listarVagasParaCandidato(idCandidato)
             vagasParaCandidatoMap.forEach { Map vagaMap ->
                 List<Competencia> competencias = this.vagaCompetenciaService
-                        .montarListaCompetenciaParaVaga(vagaMap.get("id_vaga") as Integer)
-                candidatosListaDaEmpresaDto.push(new VagaListaDoCandidatoDto(vagaMap, competencias))
+                        .montarListaCompetenciaParaVaga(vagaMap.get("id") as Integer)
+                VagaListaDoCandidatoDto vaga = mapperUtils.converterMapToObject(vagaMap, VagaListaDoCandidatoDto)
+                vaga.setCompetencias(competencias)
+                candidatosListaDaEmpresaDto.push(vaga)
             }
             return candidatosListaDaEmpresaDto
         } catch (Exception e) {
@@ -150,8 +152,10 @@ class VagaService {
             List<Map> vagasParaEmpresaMap = vagaDao.buscarVagasPorIdEmpresa(idEmpresa)
             vagasParaEmpresaMap.forEach { Map vagaMap ->
                 List<Competencia> competencias = this.vagaCompetenciaService
-                        .montarListaCompetenciaParaVaga(vagaMap.get("id_vaga") as Integer)
-                vagas.push(new Vaga(vagaMap, competencias))
+                        .montarListaCompetenciaParaVaga(vagaMap.get("id") as Integer)
+                Vaga vaga = mapperUtils.converterMapToObject(vagaMap, Vaga)
+                vaga.setCompetencias(competencias)
+                vagas.push(vaga)
             }
             return vagas
         } catch (Exception e) {
@@ -165,7 +169,11 @@ class VagaService {
             List<Competencia> competencias = this.vagaCompetenciaService
                     .montarListaCompetenciaParaVaga(vagaMap.get("id_vaga") as Integer)
 
-            return new Vaga(vagaMap, competencias)
+            Vaga vaga = mapperUtils.converterMapToObject(vagaMap, Vaga)
+
+            vaga.setCompetencias(competencias)
+
+            return vaga
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar buscar vaga por id: ${e.message}", e)
         }

@@ -44,7 +44,7 @@ class CompetenciaService {
 
             List<Map> competenciasMap = competenciaDao.listarTodasCompetencias()
             competenciasMap.forEach { Map competenciaMap ->
-                competencias.push(new Competencia(competenciaMap))
+                competencias.push(mapperUtils.converterMapToObject(competenciaMap, Competencia))
             }
             return competencias
         } catch (Exception e) {

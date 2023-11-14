@@ -120,7 +120,7 @@ class MatchService {
         try {
             Map matchMap = matchDao.buscarMatchPorIdCandidatoIdVaga(icCandidato, idVaga)
 
-            return new MatchComIdVagaEIdCandidatoDto(matchMap)
+            return mapperUtils.converterMapToObject(matchMap, MatchComIdVagaEIdCandidatoDto)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar buscar match por id de candidato e vaga: ${e.message}", e)
         }

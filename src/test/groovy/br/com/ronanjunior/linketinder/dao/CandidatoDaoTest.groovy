@@ -36,31 +36,31 @@ class CandidatoDaoTest extends GroovyTestCase {
         //given
         List<Map> resultadoEsperado = [[id_candidato: 1, nome: "Anônimo", match: 1], [id_candidato: 2, nome: "Maria Roberta", match: 0]]
         String sSQLEsperdao = """
-                SELECT
-                    can.id_candidato,
-                    CASE
-                        WHEN MAX(
-                            CASE 
-                                WHEN data_curtida_candidato IS NOT NULL 
-                                AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
-                        ) = 1 THEN CONCAT(can.nome, ' ', can.sobrenome)
-                        ELSE 'Anônimo'
-                    END AS nome_completo,
-                    MAX(
+            SELECT
+                can.id_candidato AS id,
+                CASE
+                    WHEN MAX(
                         CASE 
                             WHEN data_curtida_candidato IS NOT NULL 
                             AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
-                    ) AS match
-                FROM Candidato can
-                LEFT JOIN (
-                    SELECT * FROM Match WHERE id_vaga IN (
-                        SELECT va.id_vaga FROM Vaga va
-                        RIGHT JOIN Empresa em ON em.id_empresa = va.id_empresa
-                        WHERE em.id_empresa = :idEmpresa
-                    )
-                    ) ma ON ma.id_candidato = can.id_candidato
-                GROUP BY can.id_candidato
-                ORDER BY match DESC, nome_completo ASC, can.id_candidato ASC
+                    ) = 1 THEN CONCAT(can.nome, ' ', can.sobrenome)
+                    ELSE 'Anônimo'
+                END AS nomeCompleto,
+                MAX(
+                    CASE 
+                        WHEN data_curtida_candidato IS NOT NULL 
+                        AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
+                ) AS match
+            FROM Candidato can
+            LEFT JOIN (
+                SELECT * FROM Match WHERE id_vaga IN (
+                    SELECT va.id_vaga FROM Vaga va
+                    RIGHT JOIN Empresa em ON em.id_empresa = va.id_empresa
+                    WHERE em.id_empresa = :idEmpresa
+                )
+            ) ma ON ma.id_candidato = can.id_candidato
+            GROUP BY can.id_candidato
+            ORDER BY match DESC, nomeCompleto ASC, can.id_candidato ASC
         """
 
         List<String> consultaEsperado = sSQLEsperdao.split("\n").collect { it.trim()}
@@ -154,7 +154,17 @@ class CandidatoDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_candidato: 1, nome: "João", sobrenome: "Rezende", cpf: "01234567890", data_nascimento: "1995-02-04", pais: "Brasil", estado: "SP", cep: "69206729", descricao: ""]
         String sSQLEsperdao = """
-            SELECT * FROM Candidato
+            SELECT  
+                id_candidato AS id,
+                nome,
+                sobrenome,
+                cpf,
+                data_nascimento AS dataNascimento,
+                pais,
+                cep,
+                estado,
+                descricao
+            FROM Candidato
             WHERE cpf = :cpf
         """
 
@@ -184,7 +194,17 @@ class CandidatoDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_candidato: 1, nome: "João", sobrenome: "Rezende", cpf: "01234567890", data_nascimento: "1995-02-04", pais: "Brasil", estado: "SP", cep: "69206729", descricao: ""]
         String sSQLEsperdao = """
-            SELECT * FROM Candidato
+            SELECT 
+                id_candidato AS id,
+                nome,
+                sobrenome,
+                cpf,
+                data_nascimento AS dataNascimento,
+                pais,
+                cep,
+                estado,
+                descricao
+            FROM Candidato
             WHERE id_candidato = :idCandidato
         """
 

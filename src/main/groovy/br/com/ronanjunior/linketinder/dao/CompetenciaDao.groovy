@@ -23,7 +23,10 @@ class CompetenciaDao {
 
     private String construirConsultaCompetenicas() {
         String sSQL = """
-            SELECT id_competencia, nome FROM Competencia
+            SELECT 
+                id_competencia id, 
+                nome 
+            FROM Competencia
         """
         return sSQL
     }

@@ -30,7 +30,13 @@ class MatchDao {
 
     private String construirConsultaMatchPorIdCandidatoIdVaga() {
         String sSQL = """
-            SELECT * FROM Match
+            SELECT 
+                id_match AS id,
+                data_curtida_candidato AS dataCurtidaCandidato,
+                data_curtida_vaga AS dataCurtidaVaga,
+                id_candidato AS idCandidato,
+                id_vaga AS idVaga
+            FROM Match
             WHERE id_candidato = :idCandidato
             AND id_vaga = :idVaga
         """

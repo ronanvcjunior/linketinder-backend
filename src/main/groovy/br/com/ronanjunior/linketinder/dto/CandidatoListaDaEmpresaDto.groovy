@@ -9,20 +9,12 @@ class CandidatoListaDaEmpresaDto {
     String nomeCompleto
     List<Competencia> competencias = []
 
+    CandidatoListaDaEmpresaDto() {
+    }
+
     CandidatoListaDaEmpresaDto(Integer id, String nomeCompleto, List<Competencia> competencias) {
         this.id = id
         this.nomeCompleto = nomeCompleto
         this.competencias = competencias
-    }
-
-    CandidatoListaDaEmpresaDto(Map candidatoMap, List<Competencia> competencias) {
-        this.id = candidatoMap.get("id_candidato") as Integer
-        this.nomeCompleto = candidatoMap.get("nome_completo") as String
-        this.competencias = competencias
-    }
-
-    CandidatoListaDaEmpresaDto(Map candidatoMap) {
-        this.id = candidatoMap.get("id_candidato") as Integer
-        this.nomeCompleto = candidatoMap.get("nome_completo") as String
     }
 }

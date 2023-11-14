@@ -28,7 +28,14 @@ class EmpresaDao {
 
     private String construirConsultaEmpresaPorId() {
         String sSQL = """
-            SELECT * FROM Empresa
+            SELECT 
+                id_empresa AS id,
+                nome,
+                cnpj,
+                descricao,
+                pais,
+                cep
+            FROM Empresa
             WHERE id_empresa = :idEmpresa
         """
         return sSQL
@@ -49,7 +56,14 @@ class EmpresaDao {
 
     private String construirConsultaEmpresaPorCnpj() {
         String sSQL = """
-            SELECT * FROM Empresa
+            SELECT 
+                id_empresa,
+                nome,
+                cnpj,
+                descricao,
+                pais,
+                cep
+            FROM Empresa
             WHERE cnpj = :cnpj
         """
         return sSQL

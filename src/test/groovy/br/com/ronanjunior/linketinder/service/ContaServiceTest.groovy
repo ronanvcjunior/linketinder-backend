@@ -43,12 +43,16 @@ class ContaServiceTest extends GroovyTestCase {
     @Test
     void testVerificarExistenciaContaComEmailEncontrado() {
         //given
-        Conta conta = new Conta(null, "teste@gmail.com", "null", null, null)
-        Map contaMap = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
+        Conta conta = new Conta(null, "teste@gmail.com", null, null, null)
+        Map contaMap = [id: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
+        Conta contaEsperado = new Conta(1, "teste@gmail.com", "teste", null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(contaEsperado)
+
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn(contaMap)
 
         //when
@@ -62,10 +66,14 @@ class ContaServiceTest extends GroovyTestCase {
     void testVerificarExistenciaContaComEmailNaoEncontrado() {
         //given
         Conta conta = new Conta(null, "teste@gmail.com", null, null, null)
+        Conta contaEsperado = new Conta(null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(contaEsperado)
+
         Mockito.when(contaDao.buscarContaPorEmail(Mockito.any(String))).thenReturn([:])
 
         //when
@@ -81,7 +89,7 @@ class ContaServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Conta conta = new Conta(1, "teste@gmail.com", "teste", candidato, empresa)
-        Map contaMap = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: 1]
+        Map contaMap = [id: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: 1]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()

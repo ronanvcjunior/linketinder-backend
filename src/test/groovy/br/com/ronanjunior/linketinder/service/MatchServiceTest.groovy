@@ -47,6 +47,9 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
 
         //when
@@ -71,6 +74,9 @@ class MatchServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
@@ -88,10 +94,14 @@ class MatchServiceTest extends GroovyTestCase {
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
         Map matchMap = [id_match: 1, data_curtida_candidato: "2023-11-02", data_curtida_vaga: "", id_candidato: 1, id_vaga: 1]
+        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(1, LocalDate.parse("2023-11-02"), null, 1, 1)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 
@@ -108,10 +118,14 @@ class MatchServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
+        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn([:])
         Mockito.when(matchDao.inserirMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(1)
 
@@ -128,11 +142,15 @@ class MatchServiceTest extends GroovyTestCase {
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
         Vaga vaga = new Vaga(1, "Vaga", "", "GO", "Goiânia", empresa, [])
-        Map matchMap = [id_match: 1, data_curtida_candidato: null, data_curtida_vaga: "2023-11-02", id_candidato: 1, id_vaga: 1]
+        Map matchMap = [id: 1, dataCurtidaCandidato: null, dataCurtidaVaga: "2023-11-02", id_candidato: 1, id_vaga: 1]
+        MatchComIdVagaEIdCandidatoDto retornoEsperado = new MatchComIdVagaEIdCandidatoDto(1, null, LocalDate.parse("2023-11-02"), 1, 1)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(matchDao.buscarMatchPorIdCandidatoIdVaga(Mockito.any(Integer), Mockito.any(Integer))).thenReturn(matchMap)
         Mockito.when(matchDao.atualizarMatch(Mockito.any(MatchComIdVagaEIdCandidatoDto.class))).thenReturn(true)
 

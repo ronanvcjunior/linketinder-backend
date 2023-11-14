@@ -37,7 +37,13 @@ class ContaDaoTest extends GroovyTestCase {
         Conta conta = new Conta(null, "teste@gmail.com", "teste", null, null)
         Map retornoEsperado = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
         String sSQLEsperdao = """
-            SELECT * FROM Conta
+            SELECT  
+                id_conta AS id,
+                email,
+                senha,
+                id_candidato,
+                id_empresa
+            FROM Conta
             WHERE email = :email
             AND senha = :senha
         """
@@ -104,7 +110,13 @@ class ContaDaoTest extends GroovyTestCase {
         //given
         Map resultadoEsperado = [id_conta: 1, email: "teste@gmail.com", senha: "teste", id_candidato: 1, id_empresa: null]
         String sSQLEsperdao = """
-            SELECT * FROM Conta
+            SELECT  
+                id_conta AS id,
+                email,
+                senha,
+                id_candidato,
+                id_empresa
+            FROM Conta
             WHERE email = :email
         """
 

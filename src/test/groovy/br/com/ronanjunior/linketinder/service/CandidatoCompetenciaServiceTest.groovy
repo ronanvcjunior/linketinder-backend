@@ -37,11 +37,14 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
         //given
         Competencia retornoEsperado = new Competencia(1, "Java")
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
-        Map competenciaMap = [id_competencia: 1, nome: "Java"]
+        Map competenciaMap = [id: 1, nome: "Java"]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(candidatoCompetenciaDao.buscarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
         //when
@@ -54,13 +57,16 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
     @Test
     void testListarCompetenciasDoCandidato() {
         //given
-        List<Competencia> retornoEsperado = [new Competencia(1, "Java"), new Competencia(2, "Groovy")]
+        List<Competencia> retornoEsperado = [new Competencia(1, "Java")]
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
-        List<Map> competenciasMap = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
+        List<Map> competenciasMap = [[id: 1, nome: "Java"]]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado[0])
+
         Mockito.when(candidatoCompetenciaDao.listarCompetenciasPorCandidatoID(Mockito.any(Integer.class))).thenReturn(competenciasMap)
 
         //when
@@ -74,14 +80,16 @@ class CandidatoCompetenciaServiceTest extends GroovyTestCase {
     void testInserirCompetenciaParaCandidato() {
         //given
         List<Competencia> competencias = [
-                new Competencia(1, "Java"),
-                new Competencia(2, "Groovy")
+                new Competencia(1, "Java")
         ]
         Candidato candidato = new Candidato(1, null, null, null, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(competencias[0])
+
         Mockito.when(candidatoCompetenciaDao.cadastrarCompetenciaCandidato(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         //when

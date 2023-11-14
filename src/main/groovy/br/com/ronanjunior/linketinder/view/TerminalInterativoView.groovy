@@ -58,7 +58,7 @@ class TerminalInterativoView {
                     break
                 case "login":
                     login = contaView.fazerLogin()
-                    if (login) {
+                    if (login.id) {
                         this.runnigIncial = false
                         this.runnigCandidatoOuEmpresa = true
                     }

@@ -55,7 +55,7 @@ class ContaService {
         try {
             Map contaMap = contaDao.buscarContaPorEmail(emailConta)
 
-            return new Conta(contaMap)
+            return mapperUtils.converterMapToObject(contaMap, Conta)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca conta por email: ${e.message}", e)
         }
@@ -68,16 +68,19 @@ class ContaService {
             Empresa empresa = null
             Map contaMap = contaDao.buscarContaPorEmailSenha(emailConta, senhaConta)
 
-            switch (contaMap.get("id_conta")) {
+            switch (contaMap.get("id")) {
                 case null:
-                    conta = new Conta(contaMap)
+                    conta = mapperUtils.converterMapToObject(contaMap, Conta)
                     break
                 default:
                     if (contaMap.get("id_candidato"))
                         candidato = candidatoService.montarBuscarCandidatoPorId(contaMap.get("id_candidato") as Integer)
                     if (contaMap.get("id_empresa"))
                         empresa = empresaService.montarBuscarEmpresaPorId(contaMap.get("id_empresa") as Integer)
-                    conta = new Conta(contaMap, candidato, empresa)
+
+                    conta = mapperUtils.converterMapToObject(contaMap, Conta)
+                    conta.setCandidato(candidato)
+                    conta.setEmpresa(empresa)
             }
 
             return conta

@@ -7,21 +7,12 @@ import org.postgresql.util.PSQLException
 
 class Conexao implements ConexaoRepository {
     private static Conexao instancia
-    private String url
-    private String usuario
-    private String senha
+    private String url = "jdbc:postgresql://localhost:5432/db_linketinder"
+    private String usuario = "ronan"
+    private String senha = "kubuntu"
     private Sql sql
 
-    private Conexao() {
-        try  {
-            Dotenv dotenv = Dotenv.configure().load()
-            this.url = dotenv.get("URL")
-            this.usuario = dotenv.get("USUARIO")
-            this.senha = dotenv.get("SENHA")
-        } catch (NullPointerException e) {
-            throw new NullPointerException("A variável dotenv não pode ser nula: \n" + e.getMessage())
-        }
-    }
+    private Conexao() {}
 
     static Conexao obterInstancia() {
         if (instancia == null) {
@@ -33,6 +24,7 @@ class Conexao implements ConexaoRepository {
     @Override
     void abrirConexao() {
         try {
+            Class.forName("org.postgresql.Driver")
             this.sql = Sql.newInstance(this.url, this.usuario, this.senha)
             this.sql.getConnection().setAutoCommit(false)
         } catch (ConnectException e) {

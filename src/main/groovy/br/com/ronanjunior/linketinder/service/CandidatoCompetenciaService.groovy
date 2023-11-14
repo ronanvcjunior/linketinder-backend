@@ -97,7 +97,7 @@ class CandidatoCompetenciaService {
         try {
             Map competenciaMap = candidatoCompetenciaDao.buscarCompetenciaCandidato(idCandidato, idCompetencia)
 
-            return new Competencia(competenciaMap)
+            return mapperUtils.converterMapToObject(competenciaMap, Competencia)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca de competência do candidado: ${e.message}", e)
         }
@@ -108,7 +108,7 @@ class CandidatoCompetenciaService {
             List<Competencia> competencias = []
             List<Map> competenciasDoCandidato = candidatoCompetenciaDao.listarCompetenciasPorCandidatoID(idCandidato)
             competenciasDoCandidato.forEach { Map competenciaMap ->
-                competencias.push(new Competencia(competenciaMap))
+                competencias.push(mapperUtils.converterMapToObject(competenciaMap, Competencia))
             }
 
             return competencias;

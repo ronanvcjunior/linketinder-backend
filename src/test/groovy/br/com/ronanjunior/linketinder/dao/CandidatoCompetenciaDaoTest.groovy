@@ -91,7 +91,10 @@ class CandidatoCompetenciaDaoTest extends GroovyTestCase {
         //given
         Map retornoEsperado = [id_candidato_competencia: 1]
         String sSQLEsperdao = """
-            SELECT c.id_competencia, c.nome FROM Candidato_Competencia cc
+            SELECT 
+                c.id_competencia AS id, 
+                c.nome 
+            FROM Candidato_Competencia cc
             INNER JOIN Competencia c ON c.id_competencia = cc.id_competencia
             WHERE cc.id_candidato = :idCandidato
             AND cc.id_competencia = :idCompetencia
@@ -124,8 +127,11 @@ class CandidatoCompetenciaDaoTest extends GroovyTestCase {
         //given
         List<Map> retornoEsperado = [[id_candidato_competencia: 1, nome: "Java"], [id_candidato_competencia: 2, nome: "Groovy"]]
         String sSQLEsperdao = """
-            SELECT con.id_competencia, con.nome FROM Candidato_Competencia cc
-            LEFT JOIN Competencia con ON con.id_competencia = cc.id_competencia
+            SELECT 
+                c.id_competencia AS id, 
+                c.nome 
+            FROM Candidato_Competencia cc
+            LEFT JOIN Competencia c ON c.id_competencia = cc.id_competencia
             WHERE cc.id_candidato = :idCandidato
         """
 

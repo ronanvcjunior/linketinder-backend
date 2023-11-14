@@ -35,11 +35,14 @@ class EmpresaServiceTest extends GroovyTestCase {
     void testBuscarEmpresaPorId() {
         //given
         Empresa retornoEsperado = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
-        Map empresaMap = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
+        Map empresaMap = [id: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(empresaDao.buscarEmpresaPorId(Mockito.any(Integer))).thenReturn(empresaMap)
 
         //when
@@ -53,7 +56,7 @@ class EmpresaServiceTest extends GroovyTestCase {
     void testVerificarExistenciaEmpresaPorCnpjExiste() {
         //given
         Empresa retornoEsperado = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
-        Map empresaMap = [id_empresa: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
+        Map empresaMap = [id: 1, nome: "Empresa", cnpj: "012345678901234", pais: "Brasil", cep: "12345678", descricao: ""]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()

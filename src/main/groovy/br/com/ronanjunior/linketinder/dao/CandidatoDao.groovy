@@ -26,7 +26,7 @@ class CandidatoDao {
     private String construirConsultaCandidatosParaEmpresa() {
         String sSQL = """
             SELECT
-                can.id_candidato,
+                can.id_candidato AS id,
                 CASE
                     WHEN MAX(
                         CASE 
@@ -34,7 +34,7 @@ class CandidatoDao {
                             AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END
                     ) = 1 THEN CONCAT(can.nome, ' ', can.sobrenome)
                     ELSE 'Anônimo'
-                END AS nome_completo,
+                END AS nomeCompleto,
                 MAX(
                     CASE 
                         WHEN data_curtida_candidato IS NOT NULL 
@@ -49,7 +49,7 @@ class CandidatoDao {
                 )
             ) ma ON ma.id_candidato = can.id_candidato
             GROUP BY can.id_candidato
-            ORDER BY match DESC, nome_completo ASC, can.id_candidato ASC
+            ORDER BY match DESC, nomeCompleto ASC, can.id_candidato ASC
         """
         return sSQL
     }
@@ -69,7 +69,17 @@ class CandidatoDao {
 
     private String construirConsultaCandidatoPorId() {
         String sSQL = """
-            SELECT * FROM Candidato
+            SELECT 
+                id_candidato AS id,
+                nome,
+                sobrenome,
+                cpf,
+                data_nascimento AS dataNascimento,
+                pais,
+                cep,
+                estado,
+                descricao
+            FROM Candidato
             WHERE id_candidato = :idCandidato
         """
         return sSQL
@@ -90,7 +100,17 @@ class CandidatoDao {
 
     private String construirConsultaCandidatoPorCpf() {
         String sSQL = """
-            SELECT * FROM Candidato
+            SELECT  
+                id_candidato AS id,
+                nome,
+                sobrenome,
+                cpf,
+                data_nascimento AS dataNascimento,
+                pais,
+                cep,
+                estado,
+                descricao
+            FROM Candidato
             WHERE cpf = :cpf
         """
         return sSQL

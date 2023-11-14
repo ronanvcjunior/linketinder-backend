@@ -131,8 +131,11 @@ class CandidatoService {
             List<Map> candidatosParaEmpresaEmMap = candidatoDao.listarCandidatosParaEmpresa(idEmpresa)
             candidatosParaEmpresaEmMap.forEach { Map candidatoMap ->
                 List<Competencia> competencias = candidatoCompetenciaService
-                        .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-                candidatosListaDaEmpresaDto.push(new CandidatoListaDaEmpresaDto(candidatoMap, competencias))
+                        .montarListaCompetenciaParaCandidato(candidatoMap.get("id") as Integer)
+
+                CandidatoListaDaEmpresaDto candidato = mapperUtils.converterMapToObject(candidatoMap, CandidatoListaDaEmpresaDto)
+                candidato.setCompetencias(competencias)
+                candidatosListaDaEmpresaDto.push(candidato)
             }
             return candidatosListaDaEmpresaDto
         } catch (Exception e) {
@@ -144,8 +147,11 @@ class CandidatoService {
         try {
             Map candidatoMap = candidatoDao.buscarCandidatoPorId(idCandidato)
             List<Competencia> competencias = candidatoCompetenciaService
-                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-            return new Candidato(candidatoMap, competencias)
+                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id") as Integer)
+
+            Candidato candidato = mapperUtils.converterMapToObject(candidatoMap, Candidato)
+            candidato.setCompetencias(competencias)
+            return candidato
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca de candidato por id: ${e.message}", e)
         }
@@ -155,8 +161,11 @@ class CandidatoService {
         try {
             Map candidatoMap = candidatoDao.buscarCandidatoPorCpf(cpf)
             List<Competencia> competencias = candidatoCompetenciaService
-                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id_candidato") as Integer)
-            return new Candidato(candidatoMap, competencias)
+                    .montarListaCompetenciaParaCandidato(candidatoMap.get("id") as Integer)
+
+            Candidato candidato = mapperUtils.converterMapToObject(candidatoMap, CandidatoListaDaEmpresaDto)
+            candidato.setCompetencias(competencias)
+            return candidato
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca de candidato por cpf: ${e.message}", e)
         }

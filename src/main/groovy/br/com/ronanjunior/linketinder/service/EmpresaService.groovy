@@ -107,7 +107,8 @@ class EmpresaService {
     protected Empresa montarBuscarEmpresaPorId(Integer idEmpresa) {
         try {
             Map empresaMap = empresaDao.buscarEmpresaPorId(idEmpresa)
-            return new Empresa(empresaMap)
+            Empresa empresa = mapperUtils.converterMapToObject(empresaMap, Empresa)
+            return empresa
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca empresa por id: ${e.message}", e)
         }
@@ -116,7 +117,7 @@ class EmpresaService {
     protected Empresa montarBuscarEmpresaPorCnpj(String cnpj) {
         try {
             Map empresaMap = empresaDao.buscarEmpresaPorCnpj(cnpj)
-            return new Empresa(empresaMap)
+            return mapperUtils.converterMapToObject(empresaMap, Empresa)
         } catch (Exception e) {
             throw new Exception("Houve um erro ao montar busca empresa por cnpj: ${e.message}", e)
         }

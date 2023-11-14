@@ -129,7 +129,13 @@ class MatchDaoTest extends GroovyTestCase {
         Match match = new Match(null, null, null, candidato, vaga)
         Map retornoEsperado = [id_match: 1, data_curtida_candidato: "2023-11-02", data_curtida_vaga: "2023-11-07", id_candidato: 1, id_vaga: 1]
         String sSQLEsperdao = """
-            SELECT * FROM Match
+            SELECT 
+                id_match AS id,
+                data_curtida_candidato AS dataCurtidaCandidato,
+                data_curtida_vaga AS dataCurtidaVaga,
+                id_candidato AS idCandidato,
+                id_vaga AS idVaga
+            FROM Match
             WHERE id_candidato = :idCandidato
             AND id_vaga = :idVaga
         """

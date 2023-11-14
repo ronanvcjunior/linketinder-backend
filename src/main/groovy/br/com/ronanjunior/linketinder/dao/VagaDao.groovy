@@ -26,13 +26,13 @@ class VagaDao {
     private String construirConsultaVagasParaCandidato() {
         String sSQL = """
                 SELECT
-                    va.id_vaga,
+                    va.id_vaga AS id,
                     va.nome,
                     va.descricao,
                     CASE
                         WHEN MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) = 1 THEN em.nome
                         ELSE 'Anônimo'
-                    END AS empresa,
+                    END AS nomeEmpresa,
                     MAX(CASE WHEN data_curtida_candidato IS NOT NULL AND data_curtida_vaga IS NOT NULL THEN 1 ELSE 0 END) AS match
                 FROM Vaga va
                 LEFT JOIN (
@@ -60,7 +60,14 @@ class VagaDao {
 
     private String construirConsultaVagasPorIdEmpresa() {
         String sSQL = """
-                SELECT * FROM Vaga
+                SELECT 
+                    id_vaga AS id,
+                    nome,
+                    descricao,
+                    estado,
+                    cidade,
+                    id_empresa
+                FROM Vaga
                 WHERE id_empresa = :idEmpresa
             """
         return sSQL
@@ -81,7 +88,14 @@ class VagaDao {
 
     private String construirConsultaCandidatoPorId() {
         String sSQL = """
-            SELECT * FROM Vaga
+            SELECT 
+                    id_vaga AS id,
+                    nome,
+                    descricao,
+                    estado,
+                    cidade,
+                    id_empresa
+                FROM Vaga
             WHERE id_vaga = :idVaga
         """
         return sSQL

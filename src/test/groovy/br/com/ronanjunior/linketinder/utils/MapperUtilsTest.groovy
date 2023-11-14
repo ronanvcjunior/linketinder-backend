@@ -70,4 +70,52 @@ class MapperUtilsTest extends GroovyTestCase {
         assertEquals(resultadoEsperado.toString(), resultado.toString())
     }
 
+    @Test
+    void testConverterMapToObject() {
+        Map dados = [
+                "id": 1,
+                "email": "teste@gmail.com",
+                "senha": "teste",
+                "candidato": [
+                        "id": 1,
+                        "nome": "Candi",
+                        "sobrenome": "Dato",
+                        "cpf": "12345678901",
+                        "datanascimento": "1970-01-02",
+                        "pais": "BR",
+                        "estado": "GO",
+                        "cep": "12522030",
+                        "descricao": "",
+                        "competencias": [
+                                ["id": 1, "nome": "Java"],
+                                ["id": 2, "nome": "Groovy"]
+                        ]
+                ],
+                "empresa": [
+                        "id": 1,
+                        "nome": "empresa",
+                        "cnpj": "01234567890123",
+                        "pais": "BR",
+                        "cep": "13245678",
+                        "descricao": ""
+                ]
+        ]
+
+        Map map = [
+                "id": 1,
+                "email": "teste@gmail.com",
+                "senha": "teste",
+                "candidato": dados["candidato"],
+                "empresa": dados["empresa"]
+        ]
+
+        Candidato candidato = mapperUtils.converterMapToObject(dados["candidato"], Candidato.class)
+        Empresa empresa = mapperUtils.converterMapToObject(dados["empresa"], Empresa.class)
+        Conta conta = new Conta(1, "teste@gmail.com", "teste", candidato, empresa)
+
+        Conta resultado = mapperUtils.converterMapToObject(map, Conta.class)
+
+
+        assertEquals(conta, resultado)
+    }
 }

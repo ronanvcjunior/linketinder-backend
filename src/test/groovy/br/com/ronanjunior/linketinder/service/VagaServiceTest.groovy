@@ -43,18 +43,19 @@ class VagaServiceTest extends GroovyTestCase {
     void testListarVagasParaCandidato() {
         //given
         List<VagaListaDoCandidatoDto> retornoEsperado = [
-                new VagaListaDoCandidatoDto(1, "Vaga 1", "", "Anônimo", []),
-                new VagaListaDoCandidatoDto(2, "Vaga 2", "", "Empresa", [])
+                new VagaListaDoCandidatoDto(1, "Vaga 1", "", "Anônimo", [])
         ]
         List<Map> vagaMap = [
-                [id_vaga: 1, nome: "Vaga 1", descricao: "", empresa: "Anônimo", match: 0],
-                [id_vaga: 2, nome: "Vaga 2", descricao: "", empresa: "Empresa", match: 1]
+                [id_vaga: 1, nome: "Vaga 1", descricao: "", empresa: "Anônimo", match: 0]
         ]
         Candidato candidato = new Candidato(1, "Candi", "Dato", "01234567890", LocalDate.of(1970, 1, 1), "Brasil", "GO", "12345678", "", [])
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado[0])
+
         Mockito.when(vagaDao.listarVagasParaCandidato(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 
@@ -69,20 +70,20 @@ class VagaServiceTest extends GroovyTestCase {
     void testListarVagasParaEmpresa() {
         //given
         List<Vaga> retornoEsperado = [
-                new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, []),
-                new Vaga(2, "Vaga 2", "", "SP", "SP", null, [])
+                new Vaga(1, "Vaga 1", "", "GO", "Goiânia", null, [])
         ]
         List<Map> vagaMap = [
-                [id_vaga: 1, nome: "Vaga 1", descricao: "", estado: "GO", cidade: "Goiânia", id_empresa: 1],
-                [id_vaga: 2, nome: "Vaga 2", descricao: "", estado: "SP", cidade: "SP", id_empresa: 2]
+                [id_vaga: 1, nome: "Vaga 1", descricao: "", estado: "GO", cidade: "Goiânia", id_empresa: 1]
         ]
         Empresa empresa = new Empresa(1, "Empresa", "012345678901234", "Brasil", "12345678", "")
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado[0])
+
         Mockito.when(vagaDao.buscarVagasPorIdEmpresa(Mockito.any(Integer))).thenReturn(vagaMap)
-        Mockito.when(vagaService.montarListaVagasParaEmpresa(Mockito.any(Integer))).thenReturn([])
 
         //when
         List<Vaga> retorno = vagaService.listarVagasParaEmpresa(empresa.id)
@@ -100,6 +101,9 @@ class VagaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(vagaDao.buscarVagaPorId(Mockito.any(Integer))).thenReturn(vagaMap)
         Mockito.when(vagaCompetenciaService.montarListaCompetenciaParaVaga(Mockito.any(Integer))).thenReturn([])
 

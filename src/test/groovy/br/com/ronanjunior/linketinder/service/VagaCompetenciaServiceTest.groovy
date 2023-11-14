@@ -41,6 +41,9 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(retornoEsperado)
+
         Mockito.when(vagaCompetenciaDao.buscarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(competenciaMap)
 
         //when
@@ -55,7 +58,7 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
         //given
         List<Competencia> retornoEsperado = [new Competencia(1, "Java"), new Competencia(2, "Groovy")]
         Vaga vaga = new Vaga(1, null, null, null, null, null, null)
-        List<Map> competenciasMap = [[id_competencia: 1, nome: "Java"], [id_competencia: 2, nome: "Groovy"]]
+        List<Map> competenciasMap = [[id: 1, nome: "Java"], [id: 2, nome: "Groovy"]]
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
@@ -73,14 +76,16 @@ class VagaCompetenciaServiceTest extends GroovyTestCase {
     void testInserirCompetenciasParaVaga() {
         //given
         List<Competencia> competencias = [
-                new Competencia(1, "Java"),
-                new Competencia(2, "Groovy")
+                new Competencia(1, "Java")
         ]
         Vaga vaga = new Vaga(1, null, null, null, null, null, null)
 
         Mockito.doNothing().when(conexao).abrirConexao()
         Mockito.doNothing().when(conexao).fecharConexao()
         Mockito.doNothing().when(conexao).commitTransacao()
+
+        Mockito.when(mapperUtils.converterMapToObject(Mockito.any(Map), Mockito.any(Object))).thenReturn(competencias[0])
+
         Mockito.when(vagaCompetenciaDao.cadastrarCompetenciaVaga(Mockito.any(Integer.class), Mockito.any(Integer.class))).thenReturn(true)
 
         //when
